@@ -42,14 +42,12 @@ public class ChickController : MonoBehaviour {
 
         if( Physics.Raycast( leftRay, 1.0f ) || Physics.Raycast(rightRay, 1.0f ))
         {
-            Debug.Log("Grounded!");
             grounded = true;
             hasAirJump = true;
         }
         else
         {
             grounded = false;
-            Debug.Log("Not Grounded!");
         }
 
         //Horizontal Movement
