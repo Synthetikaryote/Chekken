@@ -17,11 +17,13 @@ public class ChickController : MonoBehaviour {
 
 
     private Rigidbody myBody;
+    private Collider myRenderer;
     
 
     void Start()
     {
         myBody = gameObject.GetComponent<Rigidbody>();
+        myRenderer = gameObject.GetComponent<Collider>();
         grounded = true;
         hasAirJump = true;
     }
@@ -29,6 +31,27 @@ public class ChickController : MonoBehaviour {
 
 	void Update ()
     {
+        //ground Detection
+        Vector3 myPos = gameObject.transform.position;
+        Vector3 modifier = new Vector3(myRenderer.bounds.size.x * 0.5f, -0.2f, 0.0f);
+        Ray leftRay = new Ray(myPos + modifier, Vector3.down);
+        Ray rightRay = new Ray( myPos - modifier, Vector3.down );
+
+        //Debug.DrawRay(leftRay.origin, leftRay.direction);
+        //Debug.DrawRay( rightRay.origin, leftRay.direction );
+
+        if( Physics.Raycast( leftRay, 1.0f ) || Physics.Raycast(rightRay, 1.0f ))
+        {
+            Debug.Log("Grounded!");
+            grounded = true;
+            hasAirJump = true;
+        }
+        else
+        {
+            grounded = false;
+            Debug.Log("Not Grounded!");
+        }
+
         //Horizontal Movement
         if( Input.GetButton( "Horizontal" ) )
         {
@@ -40,8 +63,6 @@ public class ChickController : MonoBehaviour {
                 newSpeed = initSpeed;
             
             newSpeed = Mathf.Min( maxSpeed, newSpeed + (accelFactor * Time.deltaTime) );
-            if( newSpeed == maxSpeed )
-                Debug.Log( "MaxSpeed Reached!" );
             myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );
         }
         else
@@ -65,14 +86,5 @@ public class ChickController : MonoBehaviour {
                 myBody.AddForce(0.0f,doubJumpHeight, 0.0f);
             }
         }
-
-
     }
-
-    void OnCollisionEnter()
-    {
-        grounded = true;
-        hasAirJump = true;
-    }
-
 }
