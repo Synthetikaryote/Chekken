@@ -18,7 +18,8 @@ public class ChickController : MonoBehaviour {
 
     private Rigidbody myBody;
     private Collider myRenderer;
-    
+
+    public ParticleSystem Effect;
 
     void Start()
     {
@@ -72,16 +73,21 @@ public class ChickController : MonoBehaviour {
         //jumping
         if (Input.GetButtonDown("Jump"))
         {
+
             if (grounded)
             {
+                Effect.Play();
                 grounded = false;
                 myBody.AddForce(0.0f, jumpHeight, 0.0f);
+
             }
             else if (hasAirJump)
             {
+                Effect.Play();
                 hasAirJump = false;
                 myBody.velocity = Vector3.zero;
                 myBody.AddForce(0.0f,doubJumpHeight, 0.0f);
+
             }
         }
     }
