@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ChickController : MonoBehaviour {
 
+    
+
     //horizontal movement
     public float accelFactor;
     public float initSpeed;
@@ -63,7 +65,7 @@ public class ChickController : MonoBehaviour {
                 newSpeed = initSpeed;
             
             newSpeed = Mathf.Min( maxSpeed, newSpeed + (accelFactor * Time.deltaTime) );
-            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );
+            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );        
         }
         else
         {
@@ -77,7 +79,6 @@ public class ChickController : MonoBehaviour {
 
             if (grounded)
             {
-                Debug.Log("Jumped From Grounded");
                 Effect.Play();
                 grounded = false;
                 myBody.AddForce(0.0f, jumpHeight, 0.0f);
