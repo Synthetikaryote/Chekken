@@ -4,7 +4,7 @@ using System.Collections;
 public class ChickController : MonoBehaviour
 {
     //player name
-    
+    public string playerName;
 
     //horizontal movement
     public float accelFactor;
@@ -30,6 +30,8 @@ public class ChickController : MonoBehaviour
         myRenderer = gameObject.GetComponent<Collider>();
         grounded = true;
         hasAirJump = true;
+        
+        GetComponentInChildren<TextMesh>().text = playerName;
     }
 
 
