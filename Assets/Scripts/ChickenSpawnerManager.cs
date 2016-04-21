@@ -12,7 +12,7 @@ public class ChickenSpawnerManager : MonoBehaviour
     private List<ChickenSpawner> chickenSpawners;
     // Use this for initialization
 
-    // TODO: add skill support to spawning (Add it in SpawnChickenOnternal)
+    // TODO: add skill support to spawning (Add it in SpawnChickenInternal)
 
     void Awake()
     {
@@ -93,11 +93,21 @@ public class ChickenSpawnerManager : MonoBehaviour
     // fuctions used to manage list of spawners
     public void RegisterSpawner(ref ChickenSpawner spawner)
     {
+        if (spawner == null)
+        {
+            return;
+        }
+
         chickenSpawners.Add(spawner);
     }
 
     public void UnRegisterSpawner(ref ChickenSpawner spawner)
     {
+        if(spawner == null)
+        {
+            return;
+        }
+
         chickenSpawners.Remove(spawner);
     }
 }
