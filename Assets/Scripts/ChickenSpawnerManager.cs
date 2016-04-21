@@ -63,6 +63,24 @@ public class ChickenSpawnerManager : MonoBehaviour
                 GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID]);
 
                 // do the skill support here (using spawned chicken add the nessecary skills to the chicken)
+                switch (skillID)
+                {
+                    case 0:
+                        Debug.Log("Skill 0 attached");
+                        break;
+                    case 1:
+                        Debug.Log("Skill 1 attached");
+                        break;
+                    case 2:
+                        Debug.Log("Skill 2 attached");
+                        break;
+                    case 3:
+                        Debug.Log("Skill 3 attached");
+                        break;
+                    default:
+                        Debug.LogError("Skill not found[id]: " + skillID);
+                        break;
+                }
                 return true;
             }
         }
