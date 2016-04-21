@@ -8,7 +8,7 @@ public class SpawnerTest : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            bool result = ChickenSpawnerManager.Instance.SpawnChicken(0, 1);
+            bool result = ChickenSpawnerManager.Instance.SpawnChicken(0, 1, "test");
             if(result)
             {
                 Debug.Log("Spawning chicken was successful");

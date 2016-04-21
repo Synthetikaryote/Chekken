@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ChickController : MonoBehaviour {
-
+public class ChickController : MonoBehaviour
+{
+    //player name
     
 
     //horizontal movement
@@ -17,7 +18,6 @@ public class ChickController : MonoBehaviour {
 
     private bool grounded;
     private bool hasAirJump;
-
 
     private Rigidbody myBody;
     private Collider myRenderer;

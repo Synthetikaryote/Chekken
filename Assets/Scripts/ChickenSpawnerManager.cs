@@ -24,7 +24,7 @@ public class ChickenSpawnerManager : MonoBehaviour
 
         chickenSpawners = new List<ChickenSpawner>();
     }
-    public bool SpawnChicken(int chickenID, int skillID)
+    public bool SpawnChicken(int chickenID, int skillID, string playerName)
     {
         //TODO : Attach skill id to chicken ID later
         if (chickenID >= myChicken.Length || chickenID < 0)
@@ -36,7 +36,7 @@ public class ChickenSpawnerManager : MonoBehaviour
           only spawning prefab right now
           need to add skill support
          */
-
+        NameManager.instance.AddPlayerName(playerName);
         if(spawnInRandomOrder)
         {
             List<ChickenSpawner> randomList = GetRandomListOfChicken(new List<ChickenSpawner>(chickenSpawners));
@@ -44,7 +44,6 @@ public class ChickenSpawnerManager : MonoBehaviour
             {
                 return false;
             }
-
             return SpawnChickenInternal(ref randomList, chickenID, skillID);
         }
         else

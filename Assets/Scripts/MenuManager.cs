@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MenuManager : MonoBehaviour
@@ -6,6 +7,7 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance { get; protected set; }
 
     public GameObject chickenSelectMenu;
+    public InputField inputMenu;
     string playerName;
     int myChickenID;
     int mySkillID;
@@ -27,6 +29,7 @@ public class MenuManager : MonoBehaviour
         myChickenID = -1;
         mySkillID = -1;
         playerName = "";
+        inputMenu.text = "";
     }
     public void StartGame()
     {
@@ -45,19 +48,28 @@ public class MenuManager : MonoBehaviour
         if (playerName == "")
         {
             Debug.LogError("[Menu Manager]Name field is empty");
+            failed = true;
         }
         if (!failed)
         {
             //check if chicken and id exist
-            if (ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID))
+            if (ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID, playerName))
             {
+                //call name setter here
+                Debug.Log("[Menu Manager] name is : " + playerName);
                 ResetVariable();
                 chickenSelectMenu.SetActive(false);
             }
-
         }
     }
-
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R)
+            && chickenSelectMenu.active == false)
+        {
+            chickenSelectMenu.SetActive(true);
+        }
+    }
     //menu setter
     public void SetName(string name)
     {
