@@ -35,7 +35,7 @@ public class MenuManager : MonoBehaviour
             && mySkillID != -1)
         {
             //check if chicken and id exist
-            if (ChickenSpawner.Instance.SpawnChicken(myChickenID, mySkillID))
+            if (ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID))
             {
                 chickenSelectMenu.SetActive(false);
             }

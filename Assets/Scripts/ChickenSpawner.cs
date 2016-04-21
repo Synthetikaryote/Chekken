@@ -3,37 +3,83 @@ using System.Collections;
 
 public class ChickenSpawner : MonoBehaviour
 {
-    //singleton stuff
-    public static ChickenSpawner Instance { get; protected set; }
-    //game stuff
-    public GameObject[] myChicken;
-    private Vector3 spawnPosition;
-    // Use this for initialization
+    public Vector3 rotation = new Vector3(0.0f, 180.0f, 0.0f);
+    public string playerTag = "Player";
+    public bool deleteRenderer = true; // if set to true the meshRenderer will be delted during Start()
 
-	void Start ()
+    Quaternion spawnRotation = new Quaternion();
+    bool canSpawn;
+    uint numChickensInSpawn = 0;
+    uint secondaryChickencount = 0; /*   secondary chicken count is apart of a hack to make sure that the numChickensInSpawn
+                                    does not become inaccurate due to a chicken being killed while in the spawns trigger*/
+
+    public GameObject SpawnChicken(GameObject preFabToSpawn)
     {
-        Instance = this;
-        if (myChicken.Length == 0)
-        {
-            Debug.Log("[Chicken Spawner] no chicken prefab attached");
-        }
-        spawnPosition = new Vector3();
-	}
-    public bool SpawnChicken(int chickenID, int skillID)
+        spawnRotation = Quaternion.Euler(rotation);
+        return (GameObject)Instantiate(preFabToSpawn, transform.position, spawnRotation);
+    }
+
+    public bool CanSpawn()
     {
-        //TODO : Attach skill id to chicken ID later
-        if (chickenID >= myChicken.Length)
+        return canSpawn;
+    }
+
+    void Start()
+    {
+        if(deleteRenderer)
         {
-            Debug.Log("[Chicken Spawner] id out of bound");
-            return false;
+            MeshRenderer meshRender = GetComponent<MeshRenderer>();
+            if (meshRender != null)
+            {
+                Destroy(meshRender);
+            }
         }
-        /*
-          only spawning prefab right now
-          need to add skill support
-         */
-        Quaternion chickenRotation = new Quaternion();
-        chickenRotation.y = 180;
-        Instantiate(myChicken[chickenID], spawnPosition, chickenRotation);
-        return true;
+        canSpawn = true;
+        ChickenSpawner spawner = gameObject.GetComponent<ChickenSpawner>();
+        ChickenSpawnerManager.Instance.RegisterSpawner(ref spawner);
+    }
+
+    void OnDestroy()
+    {
+        ChickenSpawner spawner = gameObject.GetComponent<ChickenSpawner>();
+        ChickenSpawnerManager.Instance.UnRegisterSpawner(ref spawner);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag(playerTag))
+        {
+            ++numChickensInSpawn;
+            canSpawn = false;
+        }
+    }
+
+    // [Hack - cole ]
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag(playerTag))
+        {
+            ++secondaryChickencount;
+        }
+    }
+
+    // [Hack - cole]
+    void FixedUpdate()
+    {
+        if(secondaryChickencount != numChickensInSpawn)
+        {
+            numChickensInSpawn = secondaryChickencount;
+            canSpawn = numChickensInSpawn == 0;
+        }
+        secondaryChickencount = 0;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(playerTag))
+        {
+            --numChickensInSpawn;
+            canSpawn = numChickensInSpawn == 0;
+        }
     }
 }
