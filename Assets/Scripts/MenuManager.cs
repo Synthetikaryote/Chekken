@@ -51,13 +51,13 @@ public class MenuManager : MonoBehaviour
             //check if chicken and id exist
             if (ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID))
             {
+                //call name setter here
+                Debug.Log("[Menu Manager] name is : " + playerName);
                 ResetVariable();
                 chickenSelectMenu.SetActive(false);
             }
-
         }
     }
-
     //menu setter
     public void SetName(string name)
     {

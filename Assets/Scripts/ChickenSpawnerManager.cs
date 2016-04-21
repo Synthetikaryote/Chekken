@@ -44,7 +44,6 @@ public class ChickenSpawnerManager : MonoBehaviour
             {
                 return false;
             }
-
             return SpawnChickenInternal(ref randomList, chickenID, skillID);
         }
         else
