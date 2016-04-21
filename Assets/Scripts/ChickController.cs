@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ChickController : MonoBehaviour {
 
+    
+
     //horizontal movement
     public float accelFactor;
     public float initSpeed;
@@ -11,6 +13,7 @@ public class ChickController : MonoBehaviour {
     //jumping
     public float jumpHeight;
     public float doubJumpHeight;
+    private const float detectDist = 0.5f;
 
     private bool grounded;
     private bool hasAirJump;
@@ -33,15 +36,15 @@ public class ChickController : MonoBehaviour {
 	void Update ()
     {
         //ground Detection
-        Vector3 myPos = gameObject.transform.position;
-        Vector3 modifier = new Vector3(myRenderer.bounds.size.x * 0.5f, -0.2f, 0.0f);
+        Vector3 myPos = gameObject.transform.position + new Vector3(0.0f, 0.5f, 0.0f);
+        Vector3 modifier = new Vector3(myRenderer.bounds.size.x * 0.5f, 0.0f, 0.0f);
         Ray leftRay = new Ray(myPos + modifier, Vector3.down);
         Ray rightRay = new Ray( myPos - modifier, Vector3.down );
 
-        //Debug.DrawRay(leftRay.origin, leftRay.direction);
-        //Debug.DrawRay( rightRay.origin, leftRay.direction );
+        Debug.DrawRay(leftRay.origin, leftRay.direction, Color.red);
+        Debug.DrawRay( rightRay.origin, leftRay.direction, Color.red );
 
-        if( Physics.Raycast( leftRay, 1.0f ) || Physics.Raycast(rightRay, 1.0f ))
+        if( Physics.Raycast( leftRay, detectDist) || Physics.Raycast(rightRay, detectDist))
         {
             grounded = true;
             hasAirJump = true;
@@ -62,7 +65,7 @@ public class ChickController : MonoBehaviour {
                 newSpeed = initSpeed;
             
             newSpeed = Mathf.Min( maxSpeed, newSpeed + (accelFactor * Time.deltaTime) );
-            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );
+            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );        
         }
         else
         {
