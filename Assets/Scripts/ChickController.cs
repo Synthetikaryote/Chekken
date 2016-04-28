@@ -31,8 +31,6 @@ public class ChickController : MonoBehaviour
     public float mCooldown;
 
     public int AbilityID = -1;
-    public AbilityRangedAttack ARA;
-    public AbilityTeleportScript ATS;
 
     public void AddVelocity(Vector3 vel)
     {
@@ -45,8 +43,6 @@ public class ChickController : MonoBehaviour
         myRenderer = gameObject.GetComponent<Collider>();
         grounded = true;
         hasAirJump = true;
-        ARA = this.GetComponent<AbilityRangedAttack>();
-        ATS = this.GetComponent<AbilityTeleportScript>();
 
     }
 
