@@ -72,6 +72,7 @@ public class ChickenSpawnerManager : MonoBehaviour
             if (spawner.CanSpawn())
             {
                 GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID], skillID, pName);
+<<<<<<< HEAD
                 spawnedChicken.GetComponentInChildren<TextMesh>().text = pName;
                 //Todo add check if it is online or offline
                 /*
@@ -84,6 +85,13 @@ public class ChickenSpawnerManager : MonoBehaviour
                         
                     }
                  */
+=======
+                spawnedChicken.GetComponent<ChickController>().enabled = true;
+                var chickRangedAttack = spawnedChicken.GetComponent<AbilityRangedAttack>();
+                chickRangedAttack.enabled = true;
+
+                //register player or not here
+>>>>>>> origin/master
 
                 if (!isAlive)
                 {
