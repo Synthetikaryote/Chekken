@@ -24,17 +24,14 @@ public class ChickController : MonoBehaviour
 
     public ParticleSystem Effect;
 
-<<<<<<< HEAD
     //Ability Cooldown
     public float mCooldown;
 
     public void AddVelocity(Vector3 vel)
     {
-        additionalVelocity = vel;
+        //additionalVelocity = vel;
     }
 
-=======
->>>>>>> fb61c386073da0f8c92857791ec92a4965f342a4
     void Start()
     {
         myBody = gameObject.GetComponent<Rigidbody>();
