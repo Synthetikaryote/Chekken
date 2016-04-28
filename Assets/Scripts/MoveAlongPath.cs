@@ -34,12 +34,11 @@ public class MoveAlongPath : MonoBehaviour
         transform.position += (dir * speed * Time.deltaTime);
 	}
 
-    void OnCollisionStay(Collision other)
+    void OnCollisionEnter(Collision other)
     {
         if (other.collider.CompareTag(playerTag))
         {
-            ChickController otherChickContorller = other.collider.GetComponent<ChickController>();
-            otherChickContorller.AddVelocity(dir * speed);
+            other.transform.parent = gameObject.transform;
         }
     }
 
@@ -47,8 +46,7 @@ public class MoveAlongPath : MonoBehaviour
     {
         if (other.collider.CompareTag(playerTag))
         {
-            ChickController otherChickContorller = other.collider.GetComponent<ChickController>();
-            otherChickContorller.AddVelocity(Vector3.zero);
+            other.transform.parent = null;
         }
     }
 }

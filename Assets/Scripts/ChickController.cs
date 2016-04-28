@@ -22,10 +22,9 @@ public class ChickController : MonoBehaviour
     private Rigidbody myBody;
     private Collider myRenderer;
 
-    private Vector3 additionalVelocity;
-
     public ParticleSystem Effect;
 
+<<<<<<< HEAD
     //Ability Cooldown
     public float mCooldown;
 
@@ -34,14 +33,14 @@ public class ChickController : MonoBehaviour
         additionalVelocity = vel;
     }
 
+=======
+>>>>>>> fb61c386073da0f8c92857791ec92a4965f342a4
     void Start()
     {
         myBody = gameObject.GetComponent<Rigidbody>();
         myRenderer = gameObject.GetComponent<Collider>();
         grounded = true;
         hasAirJump = true;
-
-        additionalVelocity = new Vector3(0.0f, 0.0f, 0.0f);
 
         GetComponentInChildren<TextMesh>().text = playerName;
     }
@@ -88,11 +87,11 @@ public class ChickController : MonoBehaviour
                 newSpeed = initSpeed;
             
             newSpeed = Mathf.Min( maxSpeed, newSpeed + (accelFactor * Time.deltaTime) );
-            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f ) + additionalVelocity;        
+            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );        
         }
         else
         {
-            myBody.velocity = new Vector3( 0.0f, myBody.velocity.y, 0.0f ) + additionalVelocity;
+            myBody.velocity = new Vector3( 0.0f, myBody.velocity.y, 0.0f );
         }
 
 
