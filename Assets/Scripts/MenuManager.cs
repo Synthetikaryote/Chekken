@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour
 
     public GameObject chickenSelectMenu;
     public InputField inputMenu;
-    string playerName;
+    public string playerName;
     int myChickenID;
     int mySkillID;
     void Awake()

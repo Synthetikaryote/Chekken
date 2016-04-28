@@ -3,8 +3,6 @@ using System.Collections;
 
 public class ChickController : MonoBehaviour
 {
-    //player name
-    public string playerName;
 
     //horizontal movement
     public float accelFactor;
@@ -22,7 +20,22 @@ public class ChickController : MonoBehaviour
     private Rigidbody myBody;
     private Collider myRenderer;
 
+   ////JARED CODE////
+    private MenuManager menuMan;
+
+    //player name
+    private TextMesh playerName;
+   // //END////
+
     public ParticleSystem Effect;
+
+    ////JARED CODE////
+    void Awake()
+    {
+        menuMan = FindObjectOfType<MenuManager>();
+        playerName = GetComponentInChildren<TextMesh>();
+    }
+    ////END////
 
     void Start()
     {
@@ -31,12 +44,26 @@ public class ChickController : MonoBehaviour
         grounded = true;
         hasAirJump = true;
 
-        GetComponentInChildren<TextMesh>().text = playerName;
+        ////JARED CODE////
+        if (!menuMan)
+        {
+            Debug.LogError("[ChickController.cs] Cannot find the menu manager!");
+        }
+        if (!playerName)
+        {
+            Debug.LogError("[ChickController.cs] Cannot find the name text!");
+        }
+
+        playerName.text = menuMan.playerName;
+        ////END////
     }
 
 
 	void Update ()
     {
+        
+        print("Player name: " + playerName.text);
+
         //ground Detection
         Vector3 myPos = gameObject.transform.position + new Vector3(0.0f, 0.5f, 0.0f);
         Vector3 modifier = new Vector3(myRenderer.bounds.size.x * 0.5f, 0.0f, 0.0f);
