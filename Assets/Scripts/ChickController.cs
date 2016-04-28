@@ -8,6 +8,7 @@ public class ChickController : MonoBehaviour
     public float accelFactor;
     public float initSpeed;
     public float maxSpeed;
+    bool IsAlive = false;
 
     //jumping
     public float jumpHeight;
@@ -20,7 +21,11 @@ public class ChickController : MonoBehaviour
     private Rigidbody myBody;
     private Collider myRenderer;
 
+    //public GameObject FeaterExplosion;
     public ParticleSystem Effect;
+    public ParticleSystem ExplosionEffect;
+
+    public AudioSource ExplosionAudio;
 
     //Ability Cooldown
     public float mCooldown;
@@ -106,6 +111,25 @@ public class ChickController : MonoBehaviour
                 myBody.velocity = Vector3.zero;
                 myBody.AddForce(0.0f,doubJumpHeight, 0.0f);
 
+            }
+        }
+
+        //Chicken Dead, Chicken Stop moving, Explosion, Disappear, Dead Audio 
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+
+            ExplosionEffect.Play();
+            ExplosionAudio.Play();
+            IsAlive = true;
+            this.transform.FindChild("Chick").gameObject.SetActive(false);
+            this.GetComponent<BoxCollider>().enabled = false;
+            //anim.SetTrigger(die);
+        }
+        if (IsAlive)
+        {
+            if (!ExplosionEffect.IsAlive())
+            {
+                Destroy(this.gameObject);
             }
         }
     }
