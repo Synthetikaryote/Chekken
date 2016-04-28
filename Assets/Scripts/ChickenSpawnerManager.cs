@@ -15,11 +15,17 @@ public class ChickenSpawnerManager : MonoBehaviour
     // Use this for initialization
     public AbilityRangedAttack ARA;
     public AbilityTeleportScript ATS;
+    private bool isAlive;
+
 
     // TODO: add skill support to spawning (Add it in SpawnChickenInternal)
-
+    public void ChickenIsDead()
+    {
+        isAlive = false;
+    }
     void Awake()
     {
+        isAlive = false;
         Instance = this;
         if (myChicken.Length == 0)
         {
@@ -66,16 +72,55 @@ public class ChickenSpawnerManager : MonoBehaviour
             if (spawner.CanSpawn())
             {
                 GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID], skillID, pName);
-                spawnedChicken.GetComponent<ChickController>().enabled = true;
-                //register player or not here
+                spawnedChicken.GetComponentInChildren<TextMesh>().text = pName;
+                //Todo add check if it is online or offline
+                /*
+                    if online
+                    {
+                        
+                    }
+                    else
+                    {
+                        
+                    }
+                 */
 
+                if (!isAlive)
+                {
+                    SpawnChicken(spawnedChicken, skillID);
+                    isAlive = true;
+                }
                 // do the skill support here (using spawned chicken add the nessecary skills to the chicken)
                 return true;
             }
         }
         return false;
     }
-
+    void SpawnChicken(GameObject spawnedChicken, int skillID)
+    {
+        spawnedChicken.GetComponent<ChickController>().enabled = true;
+        spawnedChicken.GetComponent<ChickController>().gameObject.SetActive(true);
+        switch (skillID)
+        {
+            case 0:
+                Debug.Log("AbilityRangedAttack attached");
+                spawnedChicken.GetComponent<AbilityRangedAttack>().enabled = true;
+                break;
+            case 1:
+                Debug.Log("AbilityTeleportScipt attached");
+                spawnedChicken.GetComponent<AbilityTeleportScript>().enabled = true;
+                break;
+            case 2:
+                Debug.Log("Skill 2 attached");
+                break;
+            case 3:
+                Debug.Log("Skill 3 attached");
+                break;
+            default:
+                Debug.LogError("Skill not found[id]: " + skillID);
+                break;
+        }
+    }
     List<ChickenSpawner> GetRandomListOfChicken(List<ChickenSpawner> startingList)
     {
         if(startingList.Count == 0)
