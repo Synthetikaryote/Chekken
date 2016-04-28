@@ -67,6 +67,9 @@ public class ChickenSpawnerManager : MonoBehaviour
             {
                 GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID], skillID, pName);
                 spawnedChicken.GetComponent<ChickController>().enabled = true;
+                var chickRangedAttack = spawnedChicken.GetComponent<AbilityRangedAttack>();
+                chickRangedAttack.enabled = true;
+
                 //register player or not here
 
                 // do the skill support here (using spawned chicken add the nessecary skills to the chicken)
