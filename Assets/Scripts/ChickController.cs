@@ -22,14 +22,7 @@ public class ChickController : MonoBehaviour
     private Rigidbody myBody;
     private Collider myRenderer;
 
-    private Vector3 additionalVelocity;
-
     public ParticleSystem Effect;
-
-    public void AddVelocity(Vector3 vel)
-    {
-        additionalVelocity = vel;
-    }
 
     void Start()
     {
@@ -37,8 +30,6 @@ public class ChickController : MonoBehaviour
         myRenderer = gameObject.GetComponent<Collider>();
         grounded = true;
         hasAirJump = true;
-
-        additionalVelocity = new Vector3(0.0f, 0.0f, 0.0f);
 
         GetComponentInChildren<TextMesh>().text = playerName;
     }
@@ -76,11 +67,11 @@ public class ChickController : MonoBehaviour
                 newSpeed = initSpeed;
             
             newSpeed = Mathf.Min( maxSpeed, newSpeed + (accelFactor * Time.deltaTime) );
-            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f ) + additionalVelocity;        
+            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );        
         }
         else
         {
-            myBody.velocity = new Vector3( 0.0f, myBody.velocity.y, 0.0f ) + additionalVelocity;
+            myBody.velocity = new Vector3( 0.0f, myBody.velocity.y, 0.0f );
         }
 
 
