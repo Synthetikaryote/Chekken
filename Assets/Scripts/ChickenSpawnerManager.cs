@@ -65,33 +65,11 @@ public class ChickenSpawnerManager : MonoBehaviour
             ChickenSpawner spawner = spawnerList[i];
             if (spawner.CanSpawn())
             {
-                GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID], pName);
+                GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID], skillID, pName);
                 spawnedChicken.GetComponent<ChickController>().enabled = true;
-                spawnedChicken.GetComponent<HealthSystem>().enabled = true;
+                //register player or not here
+
                 // do the skill support here (using spawned chicken add the nessecary skills to the chicken)
-
-                switch (skillID)
-                {
-                    case 0:
-                        Debug.Log("AbilityRangedAttack attached");
-                        spawnedChicken.GetComponent<AbilityRangedAttack>().enabled = true;
-                        break;
-                    case 1:
-                        Debug.Log("AbilityTeleportScipt attached");
-                        spawnedChicken.GetComponent<AbilityTeleportScript>().enabled = true;
-                        break;
-                    case 2:
-                        Debug.Log("Skill 2 attached");
-                        break;
-                    case 3:
-                        Debug.Log("Skill 3 attached");
-                        break;
-                    default:
-                        Debug.LogError("Skill not found[id]: " + skillID);
-                        break;
-                }
-
-
                 return true;
             }
         }
