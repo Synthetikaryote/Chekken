@@ -11,6 +11,8 @@ public class ChickenSpawnerManager : MonoBehaviour
     public bool spawnInRandomOrder = false;
     private List<ChickenSpawner> chickenSpawners;
     // Use this for initialization
+    public AbilityRangedAttack ARA;
+    public AbilityTeleportScript ATS;
 
     // TODO: add skill support to spawning (Add it in SpawnChickenInternal)
 
@@ -23,6 +25,8 @@ public class ChickenSpawnerManager : MonoBehaviour
         }
 
         chickenSpawners = new List<ChickenSpawner>();
+        ARA = GetComponent<AbilityRangedAttack>();
+        ATS = GetComponent<AbilityTeleportScript>(); 
     }
     public bool SpawnChicken(int chickenID, int skillID, string playerName)
     {
