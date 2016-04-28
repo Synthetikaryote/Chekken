@@ -44,22 +44,22 @@ public class ChickenSpawnerManager : MonoBehaviour
             {
                 return false;
             }
-            return SpawnChickenInternal(ref randomList, chickenID, skillID);
+            return SpawnChickenInternal(ref randomList, chickenID, skillID, playerName);
         }
         else
         {
-            return SpawnChickenInternal(ref chickenSpawners, chickenID, skillID);
+            return SpawnChickenInternal(ref chickenSpawners, chickenID, skillID, playerName);
         }
     }
 
-    bool SpawnChickenInternal(ref List<ChickenSpawner> spawnerList, int chickenID, int skillID)
+    bool SpawnChickenInternal(ref List<ChickenSpawner> spawnerList, int chickenID, int skillID, string pName)
     {
         for (int i = 0; i < spawnerList.Count; ++i)
         {
             ChickenSpawner spawner = spawnerList[i];
             if (spawner.CanSpawn())
             {
-                GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID]);
+                GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID], pName);
 
                 // do the skill support here (using spawned chicken add the nessecary skills to the chicken)
                 switch (skillID)

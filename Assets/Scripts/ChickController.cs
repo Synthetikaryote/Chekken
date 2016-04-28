@@ -20,24 +20,8 @@ public class ChickController : MonoBehaviour
     private Rigidbody myBody;
     private Collider myRenderer;
 
-   ////JARED CODE////
-    private MenuManager menuMan;
-
-    //player name
-    private TextMesh playerName;
-   // //END////
-
     public ParticleSystem Effect;
 
-<<<<<<< HEAD
-    ////JARED CODE////
-    void Awake()
-    {
-        menuMan = FindObjectOfType<MenuManager>();
-        playerName = GetComponentInChildren<TextMesh>();
-    }
-    ////END////
-=======
     //Ability Cooldown
     public float mCooldown;
 
@@ -45,7 +29,6 @@ public class ChickController : MonoBehaviour
     {
         //additionalVelocity = vel;
     }
->>>>>>> origin/master
 
     void Start()
     {
@@ -53,28 +36,11 @@ public class ChickController : MonoBehaviour
         myRenderer = gameObject.GetComponent<Collider>();
         grounded = true;
         hasAirJump = true;
-
-        ////JARED CODE////
-        if (!menuMan)
-        {
-            Debug.LogError("[ChickController.cs] Cannot find the menu manager!");
-        }
-        if (!playerName)
-        {
-            Debug.LogError("[ChickController.cs] Cannot find the name text!");
-        }
-
-        playerName.text = menuMan.playerName;
-        ////END////
     }
 
 
 	void Update ()
     {
-<<<<<<< HEAD
-        
-        print("Player name: " + playerName.text);
-=======
         //Cooldown Timer: It takes a cooldown value from an Ability script, and subtracts it until it reaches zero. The ability script cannot fire off again until it reaches zero.
         #region Cooldown
         if (mCooldown > 0.0f)
@@ -83,7 +49,6 @@ public class ChickController : MonoBehaviour
         }
         //Debug.Log(mCooldown);
         #endregion
->>>>>>> origin/master
 
         //ground Detection
         Vector3 myPos = gameObject.transform.position + new Vector3(0.0f, 0.5f, 0.0f);

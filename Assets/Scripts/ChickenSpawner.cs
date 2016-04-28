@@ -13,10 +13,12 @@ public class ChickenSpawner : MonoBehaviour
     uint secondaryChickencount = 0; /*   secondary chicken count is apart of a hack to make sure that the numChickensInSpawn
                                     does not become inaccurate due to a chicken being killed while in the spawns trigger*/
 
-    public GameObject SpawnChicken(GameObject preFabToSpawn)
+    public GameObject SpawnChicken(GameObject preFabToSpawn, string pName)
     {
         spawnRotation = Quaternion.Euler(rotation);
-        return (GameObject)Instantiate(preFabToSpawn, transform.position, spawnRotation);
+        GameObject chickenClone = (GameObject)Instantiate(preFabToSpawn, transform.position, spawnRotation);
+        chickenClone.GetComponentInChildren<TextMesh>().text = pName;
+        return chickenClone;
     }
 
     public bool CanSpawn()
