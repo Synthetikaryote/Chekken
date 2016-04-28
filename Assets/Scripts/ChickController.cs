@@ -9,6 +9,10 @@ public class ChickController : MonoBehaviour
     public float maxSpeed;
     bool IsAlive = false;
 
+    //attacking
+    public float baseAttackRate;
+    private float damage;
+
     //jumping
     public float jumpHeight;
     public float doubJumpHeight;
@@ -85,13 +89,14 @@ public class ChickController : MonoBehaviour
                 newSpeed = initSpeed;
             
             newSpeed = Mathf.Min( maxSpeed, newSpeed + (accelFactor * Time.deltaTime) );
-            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );        
+            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );
         }
         else
         {
             myBody.velocity = new Vector3( 0.0f, myBody.velocity.y, 0.0f );
         }
-
+        
+        damage = (baseAttackRate * Mathf.Abs(myBody.velocity.x));
 
         //jumping
         if (Input.GetButtonDown("Jump"))
@@ -132,6 +137,22 @@ public class ChickController : MonoBehaviour
             if (!ExplosionEffect.IsAlive())
             {
                 Destroy(this.gameObject);
+            }
+        }
+    }
+
+    void OnCollisionEnter(Collision obj)
+    {
+        if(obj.gameObject.tag == "Player")
+        {
+            if (myBody.velocity.x > obj.gameObject.GetComponent<Rigidbody>().velocity.x)
+            {
+                //apply the damage to the other player
+                obj.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
+            }
+            else if (myBody.velocity.x == obj.gameObject.GetComponent<Rigidbody>().velocity.x)
+            {
+                //just knock each other back
             }
         }
     }
