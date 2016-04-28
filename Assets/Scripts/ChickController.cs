@@ -22,9 +22,10 @@ public class ChickController : MonoBehaviour
     private Collider myRenderer;
 
     //public GameObject FeaterExplosion;
-    public ParticleSystem Effect;
+    public ParticleSystem JumpEffect;
     public ParticleSystem ExplosionEffect;
 
+    public AudioSource JumpAudio;
     public AudioSource ExplosionAudio;
 
     //Ability Cooldown
@@ -99,14 +100,16 @@ public class ChickController : MonoBehaviour
 
             if (grounded)
             {
-                Effect.Play();
+                JumpEffect.Play();
+                JumpAudio.Play();
                 grounded = false;
                 myBody.AddForce(0.0f, jumpHeight, 0.0f);
 
             }
             else if (hasAirJump)
             {
-                Effect.Play();
+                JumpEffect.Play();
+                JumpAudio.Play();
                 hasAirJump = false;
                 myBody.velocity = Vector3.zero;
                 myBody.AddForce(0.0f,doubJumpHeight, 0.0f);
