@@ -35,24 +35,7 @@ public class NameManager : MonoBehaviour
             playerDictionary[playerName].Add(0);
         }
     }
-    //    if (playerNameList.Contains(playerName))
-    //    {
-    //        if (!nameDuplicateIndex.ContainsKey(playerName))
-    //        {
-    //            nameDuplicateIndex[playerName] = new List<int>();
-    //            nameDuplicateIndex[playerName].Add(0);
-    //        }
-    //        else
-    //        {
-    //            int temporaryIndex = nameDuplicateIndex[playerName].Count;
-    //            nameDuplicateIndex[playerName].Add(temporaryIndex);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        //playerNameList.Add(playerName);
-    //    }
-    //}
+
 
 
 }

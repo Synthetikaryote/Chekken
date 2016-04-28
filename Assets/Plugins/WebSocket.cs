@@ -10,6 +10,9 @@ using System.Runtime.InteropServices;
 
 public class WebSocket
 {
+    public delegate void OnErrorDelegate(string message);
+    public OnErrorDelegate OnError;
+
 	private Uri mUrl;
 
 	public WebSocket(Uri url)
@@ -110,7 +113,10 @@ public class WebSocket
 		m_Socket = new WebSocketSharp.WebSocket(mUrl.ToString());
 		m_Socket.OnMessage += (sender, e) => m_Messages.Enqueue (e.RawData);
 		m_Socket.OnOpen += (sender, e) => m_IsConnected = true;
-		m_Socket.OnError += (sender, e) => m_Error = e.Message;
+        m_Socket.OnError += (sender, e) => {
+            m_Error = e.Message;
+            OnError(e.Message);
+        };
 		m_Socket.ConnectAsync();
 		while (!m_IsConnected && m_Error == null)
 			yield return 0;
@@ -133,11 +139,17 @@ public class WebSocket
 		m_Socket.Close();
 	}
 
-	public string error
+	public string lastError
 	{
 		get {
 			return m_Error;
 		}
 	}
+
+    public bool isConnected {
+        get {
+            return m_IsConnected;
+        }
+    }
 #endif 
 }

@@ -52,6 +52,7 @@ public class MenuManager : MonoBehaviour
         }
         if (!failed)
         {
+
             //check if chicken and id exist
             if (ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID, playerName))
             {
@@ -60,6 +61,8 @@ public class MenuManager : MonoBehaviour
                 ResetVariable();
                 chickenSelectMenu.SetActive(false);
             }
+     
+
         }
     }
     void Update()

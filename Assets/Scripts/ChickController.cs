@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ChickController : MonoBehaviour
 {
-
     //horizontal movement
     public float accelFactor;
     public float initSpeed;
@@ -43,7 +42,6 @@ public class ChickController : MonoBehaviour
         grounded = true;
         hasAirJump = true;
     }
-
 
 	void Update ()
     {
@@ -86,7 +84,8 @@ public class ChickController : MonoBehaviour
                 newSpeed = initSpeed;
             
             newSpeed = Mathf.Min( maxSpeed, newSpeed + (accelFactor * Time.deltaTime) );
-            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );        
+            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );
+            AnimateCharacter("move");
         }
         else
         {
@@ -97,14 +96,13 @@ public class ChickController : MonoBehaviour
         //jumping
         if (Input.GetButtonDown("Jump"))
         {
-
             if (grounded)
             {
                 JumpEffect.Play();
                 JumpAudio.Play();
                 grounded = false;
                 myBody.AddForce(0.0f, jumpHeight, 0.0f);
-
+                AnimateCharacter("jump");
             }
             else if (hasAirJump)
             {
@@ -113,7 +111,7 @@ public class ChickController : MonoBehaviour
                 hasAirJump = false;
                 myBody.velocity = Vector3.zero;
                 myBody.AddForce(0.0f,doubJumpHeight, 0.0f);
-
+                AnimateCharacter("jump");
             }
         }
 
@@ -126,14 +124,39 @@ public class ChickController : MonoBehaviour
             IsAlive = true;
             this.transform.FindChild("Chick").gameObject.SetActive(false);
             this.GetComponent<BoxCollider>().enabled = false;
+            AnimateCharacter("dead");
             //anim.SetTrigger(die);
         }
         if (IsAlive)
         {
             if (!ExplosionEffect.IsAlive())
             {
+                ChickenSpawnerManager.Instance.ChickenIsDead();
                 Destroy(this.gameObject);
             }
+        }
+    }
+
+    void AnimateCharacter(string animState)
+    {
+        string passedString = "animation";
+        switch (animState.ToLower())
+        {
+            case "idle":
+                passedString += "1";
+                break;
+            case "move":
+                passedString += "2";
+                break;
+            case "attack":
+                passedString += "3";
+                break;
+            case "damage":
+                passedString += "4";
+                break;
+            case "die":
+                passedString += "5";
+                break;
         }
     }
 }
