@@ -29,6 +29,7 @@ public class ChickController : MonoBehaviour
 
     public ParticleSystem Effect;
 
+<<<<<<< HEAD
     ////JARED CODE////
     void Awake()
     {
@@ -36,6 +37,15 @@ public class ChickController : MonoBehaviour
         playerName = GetComponentInChildren<TextMesh>();
     }
     ////END////
+=======
+    //Ability Cooldown
+    public float mCooldown;
+
+    public void AddVelocity(Vector3 vel)
+    {
+        //additionalVelocity = vel;
+    }
+>>>>>>> origin/master
 
     void Start()
     {
@@ -61,8 +71,19 @@ public class ChickController : MonoBehaviour
 
 	void Update ()
     {
+<<<<<<< HEAD
         
         print("Player name: " + playerName.text);
+=======
+        //Cooldown Timer: It takes a cooldown value from an Ability script, and subtracts it until it reaches zero. The ability script cannot fire off again until it reaches zero.
+        #region Cooldown
+        if (mCooldown > 0.0f)
+        {
+            mCooldown = mCooldown - 1.0f;
+        }
+        //Debug.Log(mCooldown);
+        #endregion
+>>>>>>> origin/master
 
         //ground Detection
         Vector3 myPos = gameObject.transform.position + new Vector3(0.0f, 0.5f, 0.0f);
