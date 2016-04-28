@@ -34,6 +34,10 @@ public class ChickController : MonoBehaviour
     //Ability Cooldown
     public float mCooldown;
 
+    public int AbilityID = -1;
+    public AbilityRangedAttack ARA;
+    public AbilityTeleportScript ATS;
+
     public void AddVelocity(Vector3 vel)
     {
         //additionalVelocity = vel;
@@ -45,8 +49,10 @@ public class ChickController : MonoBehaviour
         myRenderer = gameObject.GetComponent<Collider>();
         grounded = true;
         hasAirJump = true;
-    }
+        ARA = this.GetComponent<AbilityRangedAttack>();
+        ATS = this.GetComponent<AbilityTeleportScript>();
 
+    }
 
 	void Update ()
     {
@@ -60,6 +66,7 @@ public class ChickController : MonoBehaviour
         #endregion
 
         //ground Detection
+        #region ground Detection
         Vector3 myPos = gameObject.transform.position + new Vector3(0.0f, 0.5f, 0.0f);
         Vector3 modifier = new Vector3(myRenderer.bounds.size.x * 0.5f, 0.0f, 0.0f);
         Ray leftRay = new Ray(myPos + modifier, Vector3.down);
@@ -77,9 +84,10 @@ public class ChickController : MonoBehaviour
         {
             grounded = false;
         }
+        #endregion
 
         //Horizontal Movement
-        if( Input.GetButton( "Horizontal" ) )
+        if ( Input.GetButton( "Horizontal" ) )
         {
             float newSpeed;
             //this tests if the the player is still pressing the button in the same direction. 
@@ -101,7 +109,6 @@ public class ChickController : MonoBehaviour
         //jumping
         if (Input.GetButtonDown("Jump"))
         {
-
             if (grounded)
             {
                 JumpEffect.Play();
@@ -141,6 +148,7 @@ public class ChickController : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     void OnCollisionEnter(Collision obj)
     {
         if(obj.gameObject.tag == "Player")
@@ -156,4 +164,6 @@ public class ChickController : MonoBehaviour
             }
         }
     }
+=======
+>>>>>>> origin/master
 }
