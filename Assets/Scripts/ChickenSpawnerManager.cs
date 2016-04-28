@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
 public class ChickenSpawnerManager : MonoBehaviour
 {
+    Input input;
     //singleton stuff
     public static ChickenSpawnerManager Instance { get; protected set; }
     //game stuff
@@ -64,12 +66,13 @@ public class ChickenSpawnerManager : MonoBehaviour
             if (spawner.CanSpawn())
             {
                 GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID], pName);
-
                 // do the skill support here (using spawned chicken add the nessecary skills to the chicken)
+
                 switch (skillID)
                 {
                     case 0:
                         Debug.Log("Skill 0 attached");
+                        
                         break;
                     case 1:
                         Debug.Log("Skill 1 attached");
@@ -84,6 +87,8 @@ public class ChickenSpawnerManager : MonoBehaviour
                         Debug.LogError("Skill not found[id]: " + skillID);
                         break;
                 }
+
+
                 return true;
             }
         }

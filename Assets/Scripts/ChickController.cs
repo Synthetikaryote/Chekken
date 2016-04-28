@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ChickController : MonoBehaviour
 {
-
     //horizontal movement
     public float accelFactor;
     public float initSpeed;

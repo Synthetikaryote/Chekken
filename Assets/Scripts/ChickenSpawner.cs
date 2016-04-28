@@ -18,6 +18,10 @@ public class ChickenSpawner : MonoBehaviour
         spawnRotation = Quaternion.Euler(rotation);
         GameObject chickenClone = (GameObject)Instantiate(preFabToSpawn, transform.position, spawnRotation);
         chickenClone.GetComponentInChildren<TextMesh>().text = pName;
+        if (!GetComponent<NetworkView>().isMine)
+        {
+            chickenClone.GetComponent<ChickController>().gameObject.SetActive(false);
+        }
         return chickenClone;
     }
 
@@ -28,7 +32,7 @@ public class ChickenSpawner : MonoBehaviour
 
     void Start()
     {
-        if(deleteRenderer)
+        if (deleteRenderer)
         {
             MeshRenderer meshRender = GetComponent<MeshRenderer>();
             if (meshRender != null)
@@ -49,7 +53,7 @@ public class ChickenSpawner : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag(playerTag))
+        if (other.CompareTag(playerTag))
         {
             ++numChickensInSpawn;
             canSpawn = false;
@@ -68,7 +72,7 @@ public class ChickenSpawner : MonoBehaviour
     // [Hack - cole]
     void FixedUpdate()
     {
-        if(secondaryChickencount != numChickensInSpawn)
+        if (secondaryChickencount != numChickensInSpawn)
         {
             numChickensInSpawn = secondaryChickencount;
             canSpawn = numChickensInSpawn == 0;
