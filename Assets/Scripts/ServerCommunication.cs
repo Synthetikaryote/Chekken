@@ -6,9 +6,15 @@ public class ServerCommunication : MonoBehaviour {
 
 	// Use this for initialization
 	IEnumerator Start () {
-		WebSocket w = new WebSocket(new Uri("ws://ec2-54-187-163-147.us-west-2.compute.amazonaws.com"));
-		yield return StartCoroutine(w.Connect());
-		w.SendString("Hi there");
+		WebSocket w = new WebSocket(new Uri("ws://ec2-54-187-163-147.us-west-2.compute.amazonaws.com:8080"));
+        w.OnError += OnError;
+        Debug.Log("Trying to connect");
+        yield return StartCoroutine(w.Connect());
+        Debug.Log(w.isConnected ? "Connected!" : "Couldn't connect");
+        if (w.isConnected) {
+            Debug.Log("Sending \"Hi there\"");
+            w.SendString("Hi there");
+        }
 		int i=0;
 		while (true)
 		{
@@ -18,13 +24,16 @@ public class ServerCommunication : MonoBehaviour {
 				Debug.Log ("Received: "+reply);
 				w.SendString("Hi there"+i++);
 			}
-			if (w.error != null)
+			if (w.lastError != null)
 			{
-				Debug.LogError ("Error: "+w.error);
 				break;
 			}
 			yield return 0;
 		}
 		w.Close();
 	}
+
+    void OnError(string message) {
+        Debug.LogWarning("WebSocket error: " + message);
+    }
 }
