@@ -7,14 +7,13 @@ public class CooldownBar : MonoBehaviour
     public Color barColour;
     public Vector3 offset;
 
-    public float testCD;
-
     //Private members
     private Renderer barRenderer;
     private ChickController chickControl;
     private TextMesh cdTimer;
 
     private float curCD;
+    private float maxCD;
 
     void Awake()
     {
@@ -39,23 +38,23 @@ public class CooldownBar : MonoBehaviour
             Debug.LogError("[CooldownBar.cs] Cannot find the cooldown text!");
         }
 
-        curCD = testCD;
+        curCD = chickControl.mCooldown;
+        //maxCD = chickControl.ABILITY.CD;    <--- chosen ability needs to be implemented first
+        maxCD = 5.0f;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        curCD -= Time.deltaTime;
-
         barRenderer.material.SetColor("_Color", barColour);
       
         if ((/*chickControl.mCooldown*/ curCD >= 0.0f))
         {
             cdTimer.gameObject.SetActive(true);
-            transform.localScale = new Vector3(Mathf.Abs((curCD / testCD) - 1.0f), 1.0f, Mathf.Abs((curCD / testCD) - 1.0f));
+            transform.localScale = new Vector3(Mathf.Abs((curCD / maxCD) - 1.0f), 1.0f, Mathf.Abs((curCD / maxCD) - 1.0f));
             if(curCD >= 1.0f)
             {
-                cdTimer.text = /*chickControl.mCooldown.ToString();*/ curCD.ToString("F0");
+                cdTimer.text =  curCD.ToString("F0");
             }
         }
         else

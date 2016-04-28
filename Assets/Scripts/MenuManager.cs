@@ -65,7 +65,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R)
-            && chickenSelectMenu.active == false)
+            && chickenSelectMenu.activeSelf == false)
         {
             chickenSelectMenu.SetActive(true);
         }
