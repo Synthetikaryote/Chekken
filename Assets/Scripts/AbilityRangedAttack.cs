@@ -13,7 +13,7 @@ public class AbilityRangedAttack : MonoBehaviour {
     private Vector3 mForceVector;
 
     // Use this for initialization
-    public void Intialize()
+    public void Initialize()
     {
         mCC = GetComponent<ChickController>();
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
