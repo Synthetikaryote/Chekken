@@ -9,7 +9,7 @@ public class ChickController : MonoBehaviour
     public float maxSpeed;
     bool IsAlive = false;
 
-    public float rotationSpeedMultipier;
+    public float rotationSpeedMultipier = 6.0f;
     float radLerpValue;
     float tExample = 0.0f;
 
