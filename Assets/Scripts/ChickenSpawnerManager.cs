@@ -31,7 +31,6 @@ public class ChickenSpawnerManager : MonoBehaviour
         {
             Debug.Log("[Chicken Spawner] no chicken prefab attached");
         }
-
         chickenSpawners = new List<ChickenSpawner>();
         ARA = GetComponent<AbilityRangedAttack>();
         ATS = GetComponent<AbilityTeleportScript>(); 
