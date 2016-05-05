@@ -5,6 +5,8 @@ public class CooldownBar : MonoBehaviour
 {
     //Public members
     public Color barColour;
+    public ScriptableObject ability; //?
+
     public Vector3 offset;
 
     //Private members
@@ -18,7 +20,7 @@ public class CooldownBar : MonoBehaviour
     void Awake()
     {
         barRenderer = GetComponent<Renderer>();
-        chickControl = GetComponentInParent<ChickController>();
+        chickControl = GetComponentInParent<ChickUI>().target.GetComponent<ChickController>();
         cdTimer = FindObjectOfType<TextMesh>();
     }
 
