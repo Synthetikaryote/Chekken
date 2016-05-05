@@ -12,9 +12,10 @@ public class AbilityTeleportScript : MonoBehaviour
     private ChickController mCC;
 
     // Use this for initialization
-    void Start()
+    public void Initialize()
     {
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
+        mPlayer = gameObject;
         mPos = mPlayer.transform.position;
         mCC = GetComponent<ChickController>();
         mCDown = 90.0f;
@@ -23,14 +24,14 @@ public class AbilityTeleportScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.X) && mCC.mCooldown == 0.0f)
+        if (Input.GetKeyUp(KeyCode.X) && mCC.mCooldown <= 0.0f)
         {
             //OnDrawGizmosSelected();
             mPos = mPos + mTeleport;
             mPlayer.transform.position = mPos;
             mCC.mCooldown = mCDown;
         }
-        mPos = mPlayer.transform.position;
+        mPos = transform.position;
     }
 
     //public void OnDrawGizmosSelected()

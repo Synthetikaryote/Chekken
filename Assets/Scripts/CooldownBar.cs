@@ -5,6 +5,7 @@ public class CooldownBar : MonoBehaviour
 {
     //Public members
     public Color barColour;
+
     public Vector3 offset;
 
     //Private members
@@ -18,7 +19,7 @@ public class CooldownBar : MonoBehaviour
     void Awake()
     {
         barRenderer = GetComponent<Renderer>();
-        chickControl = GetComponentInParent<ChickController>();
+        chickControl = GetComponentInParent<ChickUI>().target.GetComponent<ChickController>();
         cdTimer = FindObjectOfType<TextMesh>();
     }
 
@@ -38,23 +39,30 @@ public class CooldownBar : MonoBehaviour
             Debug.LogError("[CooldownBar.cs] Cannot find the cooldown text!");
         }
 
-        curCD = chickControl.mCooldown;
-        //maxCD = chickControl.ABILITY.CD;    <--- chosen ability needs to be implemented first
-        maxCD = 5.0f;
+        maxCD = 1.0f;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        curCD = chickControl.mCooldown;
+
+        if(curCD > maxCD)
+        {
+            maxCD = curCD;
+        }
+        
         barRenderer.material.SetColor("_Color", barColour);
+
+        print("Max CD: " + maxCD.ToString());
       
-        if ((/*chickControl.mCooldown*/ curCD >= 0.0f))
+        if (( curCD >= 0.0f))
         {
             cdTimer.gameObject.SetActive(true);
             transform.localScale = new Vector3(Mathf.Abs((curCD / maxCD) - 1.0f), 1.0f, Mathf.Abs((curCD / maxCD) - 1.0f));
             if(curCD >= 1.0f)
             {
-                cdTimer.text =  curCD.ToString("F0");
+                cdTimer.text = curCD.ToString("F0");
             }
         }
         else
