@@ -5,7 +5,6 @@ public class CooldownBar : MonoBehaviour
 {
     //Public members
     public Color barColour;
-    public ScriptableObject ability; //?
 
     public Vector3 offset;
 
@@ -56,7 +55,7 @@ public class CooldownBar : MonoBehaviour
             transform.localScale = new Vector3(Mathf.Abs((curCD / maxCD) - 1.0f), 1.0f, Mathf.Abs((curCD / maxCD) - 1.0f));
             if(curCD >= 1.0f)
             {
-                cdTimer.text =  curCD.ToString("F0");
+                cdTimer.text = chickControl.mCooldown.ToString("F0");
             }
         }
         else

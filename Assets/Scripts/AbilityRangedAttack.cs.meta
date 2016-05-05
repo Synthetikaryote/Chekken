@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: 2617ac02b74c3214395680c8044e6217
-timeCreated: 1461258121
+timeCreated: 1462473203
 licenseType: Pro
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mProjectile: {fileID: 184320, guid: 37fba9e14fee7e440ae6b13b5cac9c1f, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

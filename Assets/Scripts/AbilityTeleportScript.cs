@@ -15,7 +15,7 @@ public class AbilityTeleportScript : MonoBehaviour
     public void Initialize()
     {
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
-        mPlayer = this.GetComponent<GameObject>();
+        mPlayer = gameObject;
         mPos = mPlayer.transform.position;
         mCC = GetComponent<ChickController>();
         mCDown = 90.0f;
@@ -24,7 +24,7 @@ public class AbilityTeleportScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.X) && mCC.mCooldown == 0.0f)
+        if (Input.GetKeyUp(KeyCode.X) && mCC.mCooldown <= 0.0f)
         {
             //OnDrawGizmosSelected();
             mPos = mPos + mTeleport;
