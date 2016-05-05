@@ -6,7 +6,6 @@ public class HealthBar : MonoBehaviour
     //Public members
     public Color fullHealthColour;
     public Color lowHealthColour;
-    public Vector3 offset;
 
     //Private member
     private HealthSystem chickHealth;
@@ -15,7 +14,8 @@ public class HealthBar : MonoBehaviour
 
     void Awake()
     {
-        chickHealth = GetComponentInParent<HealthSystem>();
+        //chickHealth = GetComponentInParent<HealthSystem>();
+        chickHealth = GetComponentInParent<ChickUI>().target.GetComponent<HealthSystem>();
         barRenderer = GetComponent<Renderer>();
         chickTransform = GetComponentInParent<Transform>();
     }
@@ -35,8 +35,6 @@ public class HealthBar : MonoBehaviour
         {
             Debug.LogError("[HealthBar.cs] Cannot find the chick's transform!");
         }
-
-        transform.localPosition += offset;
     }
 	
 	// Update is called once per frame

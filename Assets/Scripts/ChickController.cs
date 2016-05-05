@@ -9,6 +9,10 @@ public class ChickController : MonoBehaviour
     public float maxSpeed;
     bool IsAlive = false;
 
+    public float rotationSpeedMultipier = 6.0f;
+    float radLerpValue;
+    float tExample = 0.0f;
+
     //jumping
     public float jumpHeight;
     public float doubJumpHeight;
@@ -30,6 +34,8 @@ public class ChickController : MonoBehaviour
     //Ability Cooldown
     public float mCooldown;
 
+ 
+
     public void AddVelocity(Vector3 vel)
     {
         //additionalVelocity = vel;
@@ -49,7 +55,7 @@ public class ChickController : MonoBehaviour
         #region Cooldown
         if (mCooldown > 0.0f)
         {
-            mCooldown = mCooldown - 1.0f;
+            mCooldown = mCooldown - Time.deltaTime;
         }
         //Debug.Log(mCooldown);
         #endregion
@@ -78,18 +84,31 @@ public class ChickController : MonoBehaviour
         {
             float newSpeed;
             //this tests if the the player is still pressing the button in the same direction. 
-            if( Input.GetAxisRaw( "Horizontal" ) * myBody.velocity.x > 0 )
+            if (Input.GetAxisRaw("Horizontal") * myBody.velocity.x > 0)
+            {
                 newSpeed = Mathf.Max( initSpeed, Mathf.Abs( myBody.velocity.x ) );
+            }
             else
+            {
                 newSpeed = initSpeed;
-            
+                tExample = 0.0f;
+            }
+
             newSpeed = Mathf.Min( maxSpeed, newSpeed + (accelFactor * Time.deltaTime) );
-            myBody.velocity = new Vector3( newSpeed * Input.GetAxisRaw( "Horizontal" ), myBody.velocity.y, 0.0f );
+            myBody.velocity = new Vector3(newSpeed * Input.GetAxisRaw("Horizontal"), myBody.velocity.y, 0.0f);
+
+            //rotation
+            tExample += Time.deltaTime;
+            radLerpValue = Mathf.Lerp(0.0f, Mathf.PI * 0.15f, tExample * rotationSpeedMultipier) * Input.GetAxisRaw("Horizontal");
+            this.transform.rotation = new Quaternion(0.0f, 1.0f, 0.0f, radLerpValue);
+
             AnimateCharacter("move");
         }
         else
         {
             myBody.velocity = new Vector3( 0.0f, myBody.velocity.y, 0.0f );
+            this.transform.rotation = new Quaternion(0,1,0,0);
+            radLerpValue = 0.0f;
         }
 
 

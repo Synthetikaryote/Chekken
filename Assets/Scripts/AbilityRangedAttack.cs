@@ -4,7 +4,7 @@ using System.Collections;
 public class AbilityRangedAttack : MonoBehaviour {
 
     public float mCDown;
-    public GameObject mPlayer;
+    //public GameObject mPlayer;
     private Vector3 mPos;
     public GameObject mProjectile;
     public Vector3 mOffset;
@@ -21,21 +21,27 @@ public class AbilityRangedAttack : MonoBehaviour {
     public AudioSource AttackAudio;
     public AudioSource DamageAudio;
     // Use this for initialization
-    void Start()
+    public void Intialize()
     {
         mCC = GetComponent<ChickController>();
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
-        mPos = mPlayer.transform.position;
+        mPos = transform.position;
+        mOffset = new Vector3(5.0f, 0.0f, 0.0f);
+        mForce = 5000.0f;
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
         mCDown = 200.0f;
         mAnimator = GetComponent<Animator>();
     }
-
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         mPos = mPlayer.transform.position + mOffset;
         if (Input.GetKeyDown(KeyCode.Z) && mCC.mCooldown == 0.0f)
+=======
+        mPos =transform.position + mOffset;
+        if (Input.GetKeyUp(KeyCode.Z) && mCC.mCooldown <= 0.0f)
+>>>>>>> origin/master
         {
             mAnimator.SetTrigger(attack);
             AttackAudio.Play();
