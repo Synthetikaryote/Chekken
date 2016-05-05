@@ -31,7 +31,7 @@ public class AbilityTeleportScript : MonoBehaviour
             mPlayer.transform.position = mPos;
             mCC.mCooldown = mCDown;
         }
-        mPos = mPlayer.transform.position;
+        mPos = transform.position;
     }
 
     //public void OnDrawGizmosSelected()
