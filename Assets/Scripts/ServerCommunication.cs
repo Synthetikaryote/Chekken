@@ -1,35 +1,115 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Text;
+using System.IO;
 
 public class ServerCommunication : MonoBehaviour {
+    const uint
+        // from server
+        specIDAssign = 1,
+        specDisconnect = 2,
+        // client only
+        specAnnounceConnect = 500,
+        specUpdatePosition = 501,
+        specMessage = 502;
 
-	// Use this for initialization
-	IEnumerator Start () {
-        
-		WebSocket w = new WebSocket(new Uri("ws://ec2-54-187-163-147.us-west-2.compute.amazonaws.com:8080"));
+    public class Player
+    {
+        public uint id = uint.MaxValue;
+        public string name = null;
+        public Vector3 pos = Vector3.zero;
+    }
+
+    public const int nameLength = 255;
+    public Player player = new Player();
+    public Dictionary<uint, Player> otherPlayers = new Dictionary<uint, Player>();
+    WebSocket w;
+    public bool isConnected { get { return w != null && w.isConnected; } }
+
+    // Use this for initialization
+    IEnumerator Start () {
+		w = new WebSocket(new Uri("ws://ec2-54-187-163-147.us-west-2.compute.amazonaws.com:8080"));
         w.OnError += OnError;
         w.OnLogMessage += OnLogMessage;
         Debug.Log("Trying to connect");
         yield return StartCoroutine(w.Connect());
         Debug.Log(w.isConnected ? "Connected!" : "Couldn't connect");
-        if (w.isConnected) {
-            Debug.Log("Sending \"Hi there\"");
-            
-            w.Send(Encoding.ASCII.GetBytes("Hi There"));
-        }
-		int i=0;
-		while (true)
-		{
-			string reply = w.RecvString();
-			if (reply != null)
-			{
-				Debug.Log ("Received: "+reply);
-				w.SendString("Hi there"+i++);
-			}
-			if (w.lastError != null)
-			{
+		while (true) {
+			var reply = w.Recv();
+            if (reply != null) {
+                uint spec = BitConverter.ToUInt32(reply, 0);
+                switch (spec) {
+                    case specIDAssign:
+                        {
+                            uint id = BitConverter.ToUInt32(reply, 4);
+                            Debug.Log("Received ID: " + id);
+                            player.id = id;
+                            break;
+                        }
+                    case specDisconnect:
+                        {
+                            uint id = BitConverter.ToUInt32(reply, 4);
+                            Player other = null;
+                            if (otherPlayers.TryGetValue(id, out other))
+                                Debug.Log(other.name + " disconnected.");
+                            else
+                                Debug.Log("player" + id + " disconnected.");
+                            otherPlayers.Remove(id);
+                            break;
+                        }
+                    case specAnnounceConnect:
+                        {
+                            uint id = BitConverter.ToUInt32(reply, 4);
+                            if (id == player.id)
+                                break;
+                            Player other = new Player();
+                            other.id = id;
+                            other.name = Encoding.Unicode.GetString(reply, 8, nameLength);
+                            float x = BitConverter.ToSingle(reply, 8 + nameLength);
+                            float y = BitConverter.ToSingle(reply, 12 + nameLength);
+                            float z = BitConverter.ToSingle(reply, 16 + nameLength);
+                            other.pos = new Vector3(x, y, z);
+                            otherPlayers[id] = other;
+                            Debug.Log(other.name + " has connected (id " + other.id + ", pos " + other.pos + ")");
+                            break;
+                        }
+                    case specUpdatePosition:
+                        {
+                            uint id = BitConverter.ToUInt32(reply, 4);
+                            float x = BitConverter.ToSingle(reply, 8);
+                            float y = BitConverter.ToSingle(reply, 12);
+                            float z = BitConverter.ToSingle(reply, 16);
+                            var pos = new Vector3(x, y, z);
+                            Player other = null;
+                            if (otherPlayers.TryGetValue(id, out other))
+                                Debug.Log(other.name + " is now at position " + pos);
+                            else
+                                Debug.Log("player" + id + " is now at position " + pos);
+                            break;
+                        }
+                    case specMessage:
+                        {
+                            uint id = BitConverter.ToUInt32(reply, 4);
+                            string message = Encoding.Unicode.GetString(reply, 8, reply.Length - 8);
+                            string name = null;
+                            if (id == player.id)
+                                name = player.name;
+                            if (name == null) {
+                                Player other = null;
+                                if (otherPlayers.TryGetValue(id, out other))
+                                    name = other.name;
+                            }
+                            if (name != null)
+                                Debug.Log(name + ": " + message);
+                            else
+                                Debug.Log("player" + id + ": " + message);
+                            break;
+                        }
+                }
+            }
+			if (w.lastError != null) {
 				break;
 			}
 			yield return 0;
@@ -43,5 +123,58 @@ public class ServerCommunication : MonoBehaviour {
 
     void OnError(string message) {
         Debug.LogWarning("WebSocket error: " + message);
+    }
+
+    bool Validate(string prefix)
+    {
+        if (!isConnected)
+        {
+            Debug.LogWarning(prefix + ": Need to connect to the server first");
+            return false;
+        }
+        if (player.id == uint.MaxValue)
+        {
+            Debug.LogWarning(prefix + ": Need an id from the server first");
+            return false;
+        }
+        return true;
+    }
+
+    public void EnterGame(string name, Vector3 position) {
+        player.name = name;
+        player.pos = position;
+        if (!Validate("EnterGame")) return;
+        var stream = new MemoryStream(16 + nameLength);
+        stream.Write(BitConverter.GetBytes(specAnnounceConnect), 0, 4);
+        stream.Write(BitConverter.GetBytes(player.id), 0, 4);
+        var paddedName = new byte[nameLength];
+        var nameBytes = Encoding.Unicode.GetBytes(player.name);
+        Buffer.BlockCopy(nameBytes, 0, paddedName, 0, nameBytes.Length);
+        stream.Write(paddedName, 0, nameLength);
+        stream.Write(BitConverter.GetBytes(player.pos.x), 0, 4);
+        stream.Write(BitConverter.GetBytes(player.pos.y), 0, 4);
+        stream.Write(BitConverter.GetBytes(player.pos.z), 0, 4);
+        w.Send(stream.ToArray());
+    }
+
+    public void UpdatePosition(Vector3 pos) {
+        if (!Validate("UpdatePosition")) return;
+        var stream = new MemoryStream(16);
+        stream.Write(BitConverter.GetBytes(specUpdatePosition), 0, 4);
+        stream.Write(BitConverter.GetBytes(player.id), 0, 4);
+        stream.Write(BitConverter.GetBytes(pos.x), 0, 4);
+        stream.Write(BitConverter.GetBytes(pos.y), 0, 4);
+        stream.Write(BitConverter.GetBytes(pos.z), 0, 4);
+        w.Send(stream.ToArray());
+    }
+
+    public void SendChat(string message) {
+        if (!Validate("SendChat")) return;
+        var stream = new MemoryStream();
+        stream.Write(BitConverter.GetBytes(specMessage), 0, 4);
+        stream.Write(BitConverter.GetBytes(player.id), 0, 4);
+        var messageBytes = Encoding.Unicode.GetBytes(message);
+        stream.Write(messageBytes, 0, messageBytes.Length);
+        w.Send(stream.ToArray());
     }
 }
