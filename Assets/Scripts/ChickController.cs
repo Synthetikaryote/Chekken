@@ -49,7 +49,7 @@ public class ChickController : MonoBehaviour
         #region Cooldown
         if (mCooldown > 0.0f)
         {
-            mCooldown = mCooldown - 1.0f;
+            mCooldown = mCooldown - Time.deltaTime;
         }
         //Debug.Log(mCooldown);
         #endregion
