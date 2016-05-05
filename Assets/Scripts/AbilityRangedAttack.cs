@@ -12,6 +12,14 @@ public class AbilityRangedAttack : MonoBehaviour {
     public float mForce;
     private Vector3 mForceVector;
 
+    //Chicken Animator 
+    Animator mAnimator;
+    int attack = Animator.StringToHash("Attack");
+    int damage = Animator.StringToHash("Damage");
+
+    //Chicken Attack Audio
+    public AudioSource AttackAudio;
+    public AudioSource DamageAudio;
     // Use this for initialization
     void Start()
     {
@@ -20,14 +28,17 @@ public class AbilityRangedAttack : MonoBehaviour {
         mPos = mPlayer.transform.position;
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
         mCDown = 200.0f;
+        mAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         mPos = mPlayer.transform.position + mOffset;
-        if (Input.GetKeyUp(KeyCode.Z) && mCC.mCooldown == 0.0f)
+        if (Input.GetKeyDown(KeyCode.Z) && mCC.mCooldown == 0.0f)
         {
+            mAnimator.SetTrigger(attack);
+            AttackAudio.Play();
             Vector3 firePosition = transform.position + mOffset;//transform.forward + mOffset;
             GameObject b = GameObject.Instantiate(mProjectile, firePosition, transform.rotation) as GameObject;
             //mProjectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -41,11 +52,17 @@ public class AbilityRangedAttack : MonoBehaviour {
             }
 
             mCC.mCooldown = mCDown;
-            
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            mAnimator.SetTrigger(damage);
+            DamageAudio.Play();
+
         }
         //mRB = mProjectile.GetComponent<Rigidbody>();
         //mRB.AddForce(mForce);
-        if(Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             DestroyImmediate(mProjectile);
 

@@ -10,7 +10,6 @@ public class AbilityTeleportScript : MonoBehaviour
     private GameObject mMarker;
     public float mCDown;
     private ChickController mCC;
-
     // Use this for initialization
     void Start()
     {
@@ -23,13 +22,14 @@ public class AbilityTeleportScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.X) && mCC.mCooldown == 0.0f)
+        if (Input.GetKeyDown(KeyCode.X) && mCC.mCooldown == 0.0f)
         {
             //OnDrawGizmosSelected();
             mPos = mPos + mTeleport;
             mPlayer.transform.position = mPos;
             mCC.mCooldown = mCDown;
         }
+
         mPos = mPlayer.transform.position;
     }
 
