@@ -13,7 +13,7 @@ public class AbilityRangedAttack : MonoBehaviour {
     private Vector3 mForceVector;
 
     // Use this for initialization
-    void Start()
+    public void Intialize()
     {
         mCC = GetComponent<ChickController>();
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
@@ -21,7 +21,6 @@ public class AbilityRangedAttack : MonoBehaviour {
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
         mCDown = 200.0f;
     }
-
     // Update is called once per frame
     void Update()
     {

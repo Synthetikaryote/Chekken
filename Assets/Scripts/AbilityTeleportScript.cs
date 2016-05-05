@@ -12,9 +12,10 @@ public class AbilityTeleportScript : MonoBehaviour
     private ChickController mCC;
 
     // Use this for initialization
-    void Start()
+    public void Initialize()
     {
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
+        mPlayer = this.GetComponent<GameObject>();
         mPos = mPlayer.transform.position;
         mCC = GetComponent<ChickController>();
         mCDown = 90.0f;

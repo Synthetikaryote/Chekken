@@ -12,9 +12,6 @@ public class ChickenSpawnerManager : MonoBehaviour
     public GameObject[] myChicken;
     public bool spawnInRandomOrder = false;
     private List<ChickenSpawner> chickenSpawners;
-    // Use this for initialization
-    public AbilityRangedAttack ARA;
-    public AbilityTeleportScript ATS;
     private bool isAlive;
 
 
@@ -32,8 +29,6 @@ public class ChickenSpawnerManager : MonoBehaviour
             Debug.Log("[Chicken Spawner] no chicken prefab attached");
         }
         chickenSpawners = new List<ChickenSpawner>();
-        ARA = GetComponent<AbilityRangedAttack>();
-        ATS = GetComponent<AbilityTeleportScript>(); 
     }
     public bool SpawnChicken(int chickenID, int skillID, string playerName)
     {
@@ -90,17 +85,21 @@ public class ChickenSpawnerManager : MonoBehaviour
         switch (skillID)
         {
             case 0:
-                Debug.Log("For the Debug!");
-                spawnedChicken.GetComponent<AbilityRangedAttack>().enabled = true;
-                spawnedChicken.GetComponent<AbilityTeleportScript>().enabled = true;
+                Debug.Log("All skill attached!");
+                spawnedChicken.AddComponent<AbilityTeleportScript>().Initialize();
+                spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
+                spawnedChicken.AddComponent<AbilityRangedAttack>().Intialize();
+                spawnedChicken.GetComponent<AbilityRangedAttack>().Intialize();
                 break;
             case 1:
                 Debug.Log("AbilityTeleportScipt attached");
-                spawnedChicken.GetComponent<AbilityTeleportScript>().enabled = true;
+                spawnedChicken.AddComponent<AbilityTeleportScript>();
+                spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
                 break;
             case 2:
                 Debug.Log("AbilityRangedAttack attached");
-                spawnedChicken.GetComponent<AbilityRangedAttack>().enabled = true;
+                spawnedChicken.AddComponent<AbilityRangedAttack>();
+                spawnedChicken.GetComponent<AbilityRangedAttack>().Intialize();
                 break;
             case 3:
                 Debug.Log("Skill 3 attached");
