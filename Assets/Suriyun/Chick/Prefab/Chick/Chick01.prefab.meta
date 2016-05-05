@@ -1,7 +1,6 @@
 fileFormatVersion: 2
 guid: 2b64aed458c2f0b43a4e4186682db2d4
 labels:
-- Chick
 - Vegebi
 - toy
 - dog
@@ -14,7 +13,6 @@ labels:
 - lowpoly
 - SD
 - Akane
-- Ami
 - toon
 - SDRPGPack5
 - SDRPGPack4
@@ -22,6 +20,10 @@ labels:
 - SDRPGPack2
 - SDRPGPack1
 - dragon
+- Cute
+- Chick
+- Cat
+- Ami
 timeCreated: 1455532028
 licenseType: Store
 NativeFormatImporter:
