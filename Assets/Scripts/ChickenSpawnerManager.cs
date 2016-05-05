@@ -91,15 +91,17 @@ public class ChickenSpawnerManager : MonoBehaviour
         switch (skillID)
         {
             case 0:
-                Debug.Log("AbilityRangedAttack attached");
+                Debug.Log("For the Debug!");
                 spawnedChicken.GetComponent<AbilityRangedAttack>().enabled = true;
+                spawnedChicken.GetComponent<AbilityTeleportScript>().enabled = true;
                 break;
             case 1:
                 Debug.Log("AbilityTeleportScipt attached");
                 spawnedChicken.GetComponent<AbilityTeleportScript>().enabled = true;
                 break;
             case 2:
-                Debug.Log("Skill 2 attached");
+                Debug.Log("AbilityRangedAttack attached");
+                spawnedChicken.GetComponent<AbilityRangedAttack>().enabled = true;
                 break;
             case 3:
                 Debug.Log("Skill 3 attached");

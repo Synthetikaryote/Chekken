@@ -19,6 +19,7 @@ public class AbilityRangedAttack : MonoBehaviour {
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
         mPos = mPlayer.transform.position;
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
+        mCDown = 200.0f;
     }
 
     // Update is called once per frame
@@ -46,7 +47,7 @@ public class AbilityRangedAttack : MonoBehaviour {
         //mRB.AddForce(mForce);
         if(Input.GetKeyUp(KeyCode.Q))
         {
-            Destroy(mProjectile);
+            DestroyImmediate(mProjectile);
 
         }
     }
