@@ -21,7 +21,7 @@ public class AbilityRangedAttack : MonoBehaviour {
     public AudioSource AttackAudio;
     public AudioSource DamageAudio;
     // Use this for initialization
-    public void Intialize()
+    public void Initialize()
     {
         mCC = GetComponent<ChickController>();
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
