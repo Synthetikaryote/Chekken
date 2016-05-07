@@ -35,13 +35,8 @@ public class AbilityRangedAttack : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
-        mPos = mPlayer.transform.position + mOffset;
-        if (Input.GetKeyDown(KeyCode.Z) && mCC.mCooldown == 0.0f)
-=======
         mPos =transform.position + mOffset;
         if (Input.GetKeyUp(KeyCode.Z) && mCC.mCooldown <= 0.0f)
->>>>>>> origin/master
         {
             mAnimator.SetTrigger(attack);
             AttackAudio.Play();
