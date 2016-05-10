@@ -12,6 +12,8 @@ public class WebSocket
 {
     public delegate void OnErrorDelegate(string message);
     public OnErrorDelegate OnError;
+    public delegate void OnLogMessageDelegate(WebSocketSharp.LogData logData, string message);
+    public OnLogMessageDelegate OnLogMessage;
 
 	private Uri mUrl;
 
@@ -111,6 +113,7 @@ public class WebSocket
 	public IEnumerator Connect()
 	{
 		m_Socket = new WebSocketSharp.WebSocket(mUrl.ToString());
+        m_Socket.Log.Output += (logData, message) => { OnLogMessage(logData, message); };
 		m_Socket.OnMessage += (sender, e) => m_Messages.Enqueue (e.RawData);
 		m_Socket.OnOpen += (sender, e) => m_IsConnected = true;
         m_Socket.OnError += (sender, e) => {
