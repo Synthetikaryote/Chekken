@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Text;
 
 public class ServerCommunication : MonoBehaviour {
 
@@ -15,7 +16,8 @@ public class ServerCommunication : MonoBehaviour {
         Debug.Log(w.isConnected ? "Connected!" : "Couldn't connect");
         if (w.isConnected) {
             Debug.Log("Sending \"Hi there\"");
-            w.SendString("Hi there");
+            
+            w.Send(Encoding.ASCII.GetBytes("Hi There"));
         }
 		int i=0;
 		while (true)
