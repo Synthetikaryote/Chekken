@@ -10,7 +10,6 @@ public class AbilityTeleportScript : MonoBehaviour
     private GameObject mMarker;
     public float mCDown;
     private ChickController mCC;
-
     // Use this for initialization
     public void Initialize()
     {
@@ -31,7 +30,7 @@ public class AbilityTeleportScript : MonoBehaviour
             mPlayer.transform.position = mPos;
             mCC.mCooldown = mCDown;
         }
-        mPos = mPlayer.transform.position;
+        mPos = transform.position;
     }
 
     //public void OnDrawGizmosSelected()
