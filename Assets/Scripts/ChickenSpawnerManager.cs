@@ -89,18 +89,20 @@ public class ChickenSpawnerManager : MonoBehaviour
         {
             case 0:
                 Debug.Log("All skill attached!");
-                spawnedChicken.AddComponent<AbilityTeleportScript>().Initialize();
-                spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
-                spawnedChicken.GetComponent<AbilityRangedAttack>().mProjectile = projectile;
+                spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
+                //spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
+                
+                spawnedChicken.GetComponent<AbilityRangedAttack>().Initialize();
+                //spawnedChicken.GetComponent<AbilityRangedAttack>().mProjectile = projectile;
                 break;
             case 1:
                 Debug.Log("AbilityTeleportScipt attached");
-                spawnedChicken.AddComponent<AbilityTeleportScript>().Initialize();
+                spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
                 break;
             case 2:
                 Debug.Log("AbilityRangedAttack attached");
-                spawnedChicken.AddComponent<AbilityRangedAttack>();
-                spawnedChicken.GetComponent<AbilityRangedAttack>().mProjectile = projectile;
+                spawnedChicken.GetComponent<AbilityRangedAttack>();
+                //spawnedChicken.GetComponent<AbilityRangedAttack>().mProjectile = projectile;
                 break;
             case 3:
                 Debug.Log("Skill 3 attached");
