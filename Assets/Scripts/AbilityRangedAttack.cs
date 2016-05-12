@@ -29,14 +29,14 @@ public class AbilityRangedAttack : MonoBehaviour {
         mOffset = new Vector3(5.0f, 0.0f, 0.0f);
         mForce = 5000.0f;
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
-        mCDown = 200.0f;
+        mCDown = 5.0f;
         mAnimator = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
     {
         mPos =transform.position + mOffset;
-        if (Input.GetKeyUp(KeyCode.Z) && mCC.mCooldown <= 0.0f)
+        if (Input.GetKeyDown(KeyCode.Z) && mCC.mCooldown <= 0.0f)
         {
             mAnimator.SetTrigger(attack);
             AttackAudio.Play();

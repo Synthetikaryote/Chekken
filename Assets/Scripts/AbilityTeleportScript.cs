@@ -17,7 +17,7 @@ public class AbilityTeleportScript : MonoBehaviour
         mPlayer = gameObject;
         mPos = mPlayer.transform.position;
         mCC = GetComponent<ChickController>();
-        mCDown = 90.0f;
+        mCDown = 5.0f;
     }
 
     // Update is called once per frame

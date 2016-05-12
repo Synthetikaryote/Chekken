@@ -34,8 +34,6 @@ public class ChickController : MonoBehaviour
     //Ability Cooldown
     public float mCooldown;
 
- 
-
     public void AddVelocity(Vector3 vel)
     {
         //additionalVelocity = vel;
