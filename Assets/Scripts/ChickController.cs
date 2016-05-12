@@ -33,13 +33,10 @@ public class ChickController : MonoBehaviour
 
     //Ability Cooldown
     public float mCooldown;
-
-<<<<<<< HEAD
+    
     //Chicken Direction
     public char mDir; //Direction of the player, it is 'L' for Left, or 'R' for Right
-
-=======
->>>>>>> origin/master
+    
     public void AddVelocity(Vector3 vel)
     {
         //additionalVelocity = vel;
