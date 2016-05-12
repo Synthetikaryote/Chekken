@@ -34,7 +34,8 @@ public class ChickController : MonoBehaviour
     //Ability Cooldown
     public float mCooldown;
 
- 
+    //Chicken Direction
+    public char mDir; //Direction of the player, it is 'L' for Left, or 'R' for Right
 
     public void AddVelocity(Vector3 vel)
     {
@@ -100,18 +101,26 @@ public class ChickController : MonoBehaviour
             //rotation
             tExample += Time.deltaTime;
             radLerpValue = Mathf.Lerp(0.0f, Mathf.PI * 0.15f, tExample * rotationSpeedMultipier) * Input.GetAxisRaw("Horizontal");
-            this.transform.rotation = new Quaternion(0.0f, 1.0f, 0.0f, radLerpValue);
+            this.transform.rotation = new Quaternion(this.transform.rotation.x, 1.0f, 0.0f, radLerpValue);
 
             AnimateCharacter("move");
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                mDir = 'L';
+            }
+            else if(Input.GetKey(KeyCode.D))
+            {
+                mDir = 'R';
+            }
         }
         else
         {
             myBody.velocity = new Vector3( 0.0f, myBody.velocity.y, 0.0f );
-            this.transform.rotation = new Quaternion(0,1,0,0);
+            //this.transform.rotation = new Quaternion(0, 1, 0, radLerpValue);
             radLerpValue = 0.0f;
         }
-
-
+        
         //jumping
         if (Input.GetButtonDown("Jump"))
         {
