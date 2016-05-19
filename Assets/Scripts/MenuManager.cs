@@ -84,10 +84,17 @@ public class MenuManager : MonoBehaviour
             chickenSelectMenu.SetActive(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && !chickenSelectMenu.activeInHierarchy)
         {
-            chatMenuOn = !chatMenuOn;
-            chatMenu.MenuToggle(chatMenuOn);
+            if (!chatMenu.HasText())
+            {
+                chatMenuOn = !chatMenuOn;
+                chatMenu.MenuToggle(chatMenuOn);
+            }
+            else
+            {
+                chatMenu.UpdateField(name);
+            }
         }
     }
     //menu setter
@@ -104,12 +111,5 @@ public class MenuManager : MonoBehaviour
         mySkillID = skillID;
     }
 
-    public void SendChat(string chat)
-    {
-        if (chat.Length > 0)
-        {
-            chatMenu.AddChat(name, chat);
-        }
-    }
 }
  
