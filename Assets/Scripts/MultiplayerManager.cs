@@ -17,7 +17,7 @@ public class MultiplayerManager : MonoBehaviour {
     //OnPlayerDisconnected
 
 
-    void GameStart ()
+    public void GameStart ()
     {
 
         chickenDic = new Dictionary<uint, GameObject>();

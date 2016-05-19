@@ -71,6 +71,7 @@ public class MenuManager : MonoBehaviour
                 Debug.Log("[Menu Manager] name is : " + playerName);
                 ResetVariable();
                 chickenSelectMenu.SetActive(false);
+                GetComponent<MultiplayerManager>().GameStart();
             }
      
 
