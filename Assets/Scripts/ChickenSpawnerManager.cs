@@ -33,13 +33,13 @@ public class ChickenSpawnerManager : MonoBehaviour
         }
         chickenSpawners = new List<ChickenSpawner>();
     }
-    public bool SpawnChicken(int chickenID, int skillID, string playerName)
+    public GameObject SpawnChicken(int chickenID, int skillID, string playerName)
     {
         //TODO : Attach skill id to chicken ID later
         if (chickenID >= myChicken.Length || chickenID < 0)
         {
             Debug.Log("[Chicken Spawner] id out of bound");
-            return false;
+            return null;
         }
         /*
           only spawning prefab right now
@@ -51,7 +51,7 @@ public class ChickenSpawnerManager : MonoBehaviour
             List<ChickenSpawner> randomList = GetRandomListOfChicken(new List<ChickenSpawner>(chickenSpawners));
             if(randomList == null)
             {
-                return false;
+                return null;
             }
             return SpawnChickenInternal(ref randomList, chickenID, skillID, playerName);
         }
@@ -61,7 +61,7 @@ public class ChickenSpawnerManager : MonoBehaviour
         }
     }
 
-    bool SpawnChickenInternal(ref List<ChickenSpawner> spawnerList, int chickenID, int skillID, string pName)
+    GameObject SpawnChickenInternal(ref List<ChickenSpawner> spawnerList, int chickenID, int skillID, string pName)
     {
         for (int i = 0; i < spawnerList.Count; ++i)
         {
@@ -76,10 +76,10 @@ public class ChickenSpawnerManager : MonoBehaviour
                     isAlive = true;
                 }
                 // do the skill support here (using spawned chicken add the nessecary skills to the chicken)
-                return true;
+                return spawnedChicken;
             }
         }
-        return false;
+        return null;
     }
     void SpawnChicken(GameObject spawnedChicken, int skillID)
     {
@@ -89,17 +89,24 @@ public class ChickenSpawnerManager : MonoBehaviour
         {
             case 0://Remember to have spawnedChicken.GetComponent<AbilityNameScript>().Initialize();
                 Debug.Log("All skill attached!");
+<<<<<<< HEAD
                 spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
                 spawnedChicken.GetComponent<AbilityRangedAttack>().Initialize();
                 spawnedChicken.GetComponent<AbilityTornadoScript>().Initialize();
+=======
+                spawnedChicken.AddComponent<AbilityTeleportScript>().Initialize();
+                spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
+                //spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
+                //spawnedChicken.GetComponent<AbilityRangedAttack>().Initialize();
+>>>>>>> origin/master
                 break;
             case 1:
                 Debug.Log("AbilityTeleportScipt attached");
-                spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
+                spawnedChicken.AddComponent<AbilityTeleportScript>().Initialize();
                 break;
             case 2:
                 Debug.Log("AbilityRangedAttack attached");
-                spawnedChicken.GetComponent<AbilityRangedAttack>().Initialize();
+                spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
                 break;
             case 3:
                 Debug.Log("Skill 3 attached");
