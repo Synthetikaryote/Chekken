@@ -70,11 +70,11 @@ public class MenuManager : MonoBehaviour
             {
                 //call name setter here
                 Debug.Log("[Menu Manager] name is : " + playerName);
-                ResetVariable();
                 chickenSelectMenu.SetActive(false);
                 GetComponent<MultiplayerManager>().GameStart(chicken, playerName);
+                ResetVariable();
             }
-     
+
 
         }
     }
