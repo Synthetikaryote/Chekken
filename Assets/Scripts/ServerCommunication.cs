@@ -27,6 +27,15 @@ public class ServerCommunication : MonoBehaviour {
     public Dictionary<uint, Player> otherPlayers = new Dictionary<uint, Player>();
     WebSocket w;
     public bool isConnected { get { return w != null && w.isConnected; } }
+    public delegate void PlayerConnected(Player player);
+    public PlayerConnected onPlayerConnected;
+    public delegate void PlayerDisconnected(Player player);
+    public PlayerDisconnected onPlayerDisconnected;
+    public delegate void PlayerMoved(Player player);
+    public PlayerMoved onPlayerMoved;
+    public delegate void PlayerMessage(Player player, string message);
+    public PlayerMessage onPlayerMessage;
+
 
     // Use this for initialization
     IEnumerator Start () {
@@ -53,8 +62,11 @@ public class ServerCommunication : MonoBehaviour {
                             uint id = BitConverter.ToUInt32(reply, 4);
                             Player other = null;
                             if (otherPlayers.TryGetValue(id, out other))
+                            {
                                 Debug.Log(other.name + " disconnected.");
-                            else
+                                if (onPlayerDisconnected != null)
+                                    onPlayerDisconnected(other);
+                            } else
                                 Debug.Log("player" + id + " disconnected.");
                             otherPlayers.Remove(id);
                             break;
@@ -73,6 +85,8 @@ public class ServerCommunication : MonoBehaviour {
                             other.pos = new Vector3(x, y, z);
                             otherPlayers[id] = other;
                             Debug.Log(other.name + " has connected (id " + other.id + ", pos " + other.pos + ")");
+                            if (onPlayerConnected != null)
+                                onPlayerConnected(other);
                             break;
                         }
                     case specUpdatePosition:
@@ -83,9 +97,11 @@ public class ServerCommunication : MonoBehaviour {
                             float z = BitConverter.ToSingle(reply, 16);
                             var pos = new Vector3(x, y, z);
                             Player other = null;
-                            if (otherPlayers.TryGetValue(id, out other))
+                            if (otherPlayers.TryGetValue(id, out other)) {
                                 Debug.Log(other.name + " is now at position " + pos);
-                            else
+                                if (onPlayerMoved != null)
+                                    onPlayerMoved(other);
+                            } else
                                 Debug.Log("player" + id + " is now at position " + pos);
                             break;
                         }
@@ -98,8 +114,11 @@ public class ServerCommunication : MonoBehaviour {
                                 name = player.name;
                             if (name == null) {
                                 Player other = null;
-                                if (otherPlayers.TryGetValue(id, out other))
+                                if (otherPlayers.TryGetValue(id, out other)) {
                                     name = other.name;
+                                    if (onPlayerMessage != null)
+                                        onPlayerMessage(player, message);
+                                }
                             }
                             if (name != null)
                                 Debug.Log(name + ": " + message);
