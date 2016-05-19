@@ -71,6 +71,7 @@ public class MultiplayerManager : MonoBehaviour {
         {
             int addtoend = newPlayer - PlayerChickens.Count;
             for (int i = 0; i < addtoend; ++i)
+            { }
                 //PlayerChickens.Add(new Chicken);
         }
         //PlayerChickens[player].enable();
