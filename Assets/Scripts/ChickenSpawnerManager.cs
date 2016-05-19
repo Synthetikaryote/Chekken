@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,83 +9,35 @@ public class ChickenSpawnerManager : MonoBehaviour
     Input input;
     //singleton stuff
     public static ChickenSpawnerManager Instance { get; protected set; }
+    
     //game stuff
-    public GameObject[] myChicken;
-
-    public GameObject projectile;
-
+    public GameObject[] chickenPrefabs;
     public bool spawnInRandomOrder = false;
     private List<ChickenSpawner> chickenSpawners;
-    private bool isAlive;
 
-
-    // TODO: add skill support to spawning (Add it in SpawnChickenInternal)
-    public void ChickenIsDead()
-    {
-        isAlive = false;
-    }
     void Awake()
     {
-        isAlive = false;
         Instance = this;
-        if (myChicken.Length == 0)
-        {
-            Debug.Log("[Chicken Spawner] no chicken prefab attached");
-        }
+        Assert.IsFalse(chickenPrefabs.Length == 0, "[Chicken Spawner] no chicken prefab attached");
         chickenSpawners = new List<ChickenSpawner>();
     }
-    public GameObject SpawnChicken(int chickenID, int skillID, string playerName)
+    public GameObject SpawnChicken(int prefabID, int skillID, string playerName)
     {
-        //TODO : Attach skill id to chicken ID later
-        if (chickenID >= myChicken.Length || chickenID < 0)
-        {
-            Debug.Log("[Chicken Spawner] id out of bound");
-            return null;
-        }
-        /*
-          only spawning prefab right now
-          need to add skill support
-         */
+        Assert.IsFalse(prefabID >= chickenPrefabs.Length || prefabID < 0, "[Chicken Spawner] id out of bound");
         NameManager.instance.AddPlayerName(playerName);
+        int spawnerId = 0;
         if(spawnInRandomOrder)
         {
-            List<ChickenSpawner> randomList = GetRandomListOfChicken(new List<ChickenSpawner>(chickenSpawners));
-            if(randomList == null)
-            {
-                return null;
-            }
-            return SpawnChickenInternal(ref randomList, chickenID, skillID, playerName);
+            spawnerId = GetRandomChickenSpawner(new List<ChickenSpawner>(chickenSpawners));
         }
         else
         {
-            return SpawnChickenInternal(ref chickenSpawners, chickenID, skillID, playerName);
+            spawnerId = GetSequencedChickenSpawner();
         }
-    }
 
-    GameObject SpawnChickenInternal(ref List<ChickenSpawner> spawnerList, int chickenID, int skillID, string pName)
-    {
-        for (int i = 0; i < spawnerList.Count; ++i)
-        {
-            ChickenSpawner spawner = spawnerList[i];
-            if (spawner.CanSpawn())
-            {
-                GameObject spawnedChicken = spawner.SpawnChicken(myChicken[chickenID], skillID, pName);
-                spawnedChicken.GetComponentInChildren<TextMesh>().text = pName;
-                if (!isAlive)
-                {
-                    SpawnChicken(spawnedChicken, skillID);
-                    isAlive = true;
-                }
-                // do the skill support here (using spawned chicken add the nessecary skills to the chicken)
-                return spawnedChicken;
-            }
-        }
-        return null;
-    }
-    void SpawnChicken(GameObject spawnedChicken, int skillID)
-    {
-        spawnedChicken.GetComponent<ChickController>().enabled = true;
-        spawnedChicken.GetComponent<ChickController>().gameObject.SetActive(true);
+        GameObject spawnedChicken = chickenSpawners[spawnerId].SpawnChicken(chickenPrefabs[prefabID], skillID, playerName);
+        spawnedChicken.AddComponent<ChickLocal>();
+
         switch (skillID)
         {
             case 0://Remember to have spawnedChicken.GetComponent<AbilityNameScript>().Initialize();
@@ -108,26 +61,74 @@ public class ChickenSpawnerManager : MonoBehaviour
                 Debug.LogError("Skill not found[id]: " + skillID);
                 break;
         }
+
+        return spawnedChicken;
     }
-    List<ChickenSpawner> GetRandomListOfChicken(List<ChickenSpawner> startingList)
+
+    public GameObject SpawnChickenAt(Vector3 posToSpawn, int prefabID, int skillID, string playerName)
+    {
+        Quaternion spawnRotation = Quaternion.Euler(new Vector3(0.0f, 180.0f , 0.0f));
+        GameObject spawnedChicken = (GameObject)Instantiate(chickenPrefabs[prefabID], transform.position, spawnRotation);
+        NameManager.instance.AddPlayerName(playerName);
+        spawnedChicken.AddComponent<ChickDummy>();
+
+        switch (skillID)
+        {
+            case 0://Remember to have spawnedChicken.GetComponent<AbilityNameScript>().Initialize();
+                Debug.Log("All skill attached!");
+                spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
+                spawnedChicken.GetComponent<AbilityRangedAttack>().Initialize();
+                spawnedChicken.GetComponent<AbilityTornadoScript>().Initialize();
+                break;
+            case 1:
+                Debug.Log("AbilityTeleportScipt attached");
+                spawnedChicken.AddComponent<AbilityTeleportScript>().Initialize();
+                break;
+            case 2:
+                Debug.Log("AbilityRangedAttack attached");
+                spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
+                break;
+            case 3:
+                Debug.Log("Skill 3 attached");
+                break;
+            default:
+                Debug.LogError("Skill not found[id]: " + skillID);
+                break;
+        }
+
+        return spawnedChicken;
+    }
+
+    int GetSequencedChickenSpawner()
+    {
+        for(int i = 0; i < chickenSpawners.Count; ++i)
+        {
+            if(chickenSpawners[i].CanSpawn())
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    int GetRandomChickenSpawner(List<ChickenSpawner> startingList)
     {
         if(startingList.Count == 0)
         {
             Debug.Log("No spawners to randomize");
-            return null;
+            return -1;
         }
 
-        List<ChickenSpawner> returnList = new List<ChickenSpawner>();
-
-        while(startingList.Count > 1)
+        while(startingList.Count > 0)
         {
             int nextIndex = Random.Range(0, startingList.Count);
-            returnList.Add(startingList[nextIndex]);
-            startingList.RemoveAt(nextIndex);
+            if (startingList[nextIndex].CanSpawn())
+                return nextIndex;
+            else
+                startingList.RemoveAt(nextIndex);
         }
-        returnList.Add(startingList[0]);
-
-        return returnList;
+        Debug.Log("No Places to spawn");
+        return -1;
     }
 
     // fuctions used to manage list of spawners

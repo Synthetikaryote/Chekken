@@ -128,7 +128,7 @@ public class ChickLocal : ChickController
         {
             if (!ExplosionEffect.IsAlive())
             {
-                ChickenSpawnerManager.Instance.ChickenIsDead();
+                //ChickenSpawnerManager.Instance.ChickenIsDead();
                 Destroy(this.gameObject);
             }
         }

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class MultiplayerManager : MonoBehaviour {
 
     private ServerCommunication serverComms;
-    public Object[] chickPrefab;
     public uint localPlayer;
     private Dictionary<uint, GameObject> chickenDic;
     private const float updateTime = 0.1f;
@@ -60,7 +59,7 @@ public class MultiplayerManager : MonoBehaviour {
 
     void AddNewPlayer(ServerCommunication.Player newPlayer)
     {
-        GameObject newChick = (GameObject)Instantiate(chickPrefab[0], newPlayer.pos, Quaternion.identity);
+        GameObject newChick = ChickenSpawnerManager.Instance.SpawnChickenAt(newPlayer.pos, 0, 0, newPlayer.name);
         chickenDic.Add(newPlayer.id, newChick);
     }
 
