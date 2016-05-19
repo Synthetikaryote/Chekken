@@ -16,21 +16,25 @@ public class MultiplayerManager : MonoBehaviour {
     //OnPlayerMoved
     //OnPlayerDisconnected
 
+    void Awake()
+    {
+        serverComms = gameObject.GetComponent<ServerCommunication>();
+
+        serverComms.onPlayerConnected += AddNewPlayer;
+        serverComms.onPlayerDisconnected += RemovePlayer;
+        serverComms.onGameInfoReceived += InitPlayers;
+    }
+
 
     public void GameStart (GameObject chicken, string name)
     {
 
         chickenDic = new Dictionary<uint, GameObject>();
-        serverComms = gameObject.GetComponent<ServerCommunication>();
-        serverComms.onPlayerConnected += AddNewPlayer;
-        serverComms.onPlayerDisconnected += RemovePlayer;
-        serverComms.onGameInfoReceived += InitPlayers;
-        serverComms.EnterGame(name, chicken.transform.position);
 
         //Add our Player(s) to the game returns which number we are in the list. 
         //for(numLocalPlayers)
         //localPlayers.Add(Server.AddPlayer())
-
+        serverComms.EnterGame(name, chicken.transform.position);
     }
 
     void InitPlayers(uint id, Dictionary<uint, ServerCommunication.Player> otherPlayers)
