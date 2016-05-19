@@ -11,9 +11,16 @@ public class MenuManager : MonoBehaviour
     public string playerName;
     int myChickenID;
     int mySkillID;
+    public bool chatMenuOn { private set; get; }
+
+    ChatMenu chatMenu;
+    public Text UIText;
+    public Image UITextBackground;
+    public InputField UIInputField;
     void Awake()
     {
         Instance = this;
+        chatMenu = new ChatMenu();
         if (chickenSelectMenu == null)
         {
             Debug.Log("[Menu Manager] no UI_CharacteMenu");
@@ -23,6 +30,9 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         ResetVariable();
+        chatMenuOn = false;
+        chatMenu.MenuToggle(chatMenuOn);
+        chatMenu.Intialize(UIText, UITextBackground, UIInputField);
     }
     void ResetVariable()
     {
@@ -30,6 +40,7 @@ public class MenuManager : MonoBehaviour
         mySkillID = -1;
         playerName = "";
         inputMenu.text = "";
+        
     }
     public void StartGame()
     {
@@ -72,6 +83,12 @@ public class MenuManager : MonoBehaviour
         {
             chickenSelectMenu.SetActive(true);
         }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            chatMenuOn = !chatMenuOn;
+            chatMenu.MenuToggle(chatMenuOn);
+        }
     }
     //menu setter
     public void SetName(string name)
@@ -85,6 +102,14 @@ public class MenuManager : MonoBehaviour
     public void SetSkillID(int skillID)
     {
         mySkillID = skillID;
+    }
+
+    public void SendChat(string chat)
+    {
+        if (chat.Length > 0)
+        {
+            chatMenu.AddChat(name, chat);
+        }
     }
 }
  
