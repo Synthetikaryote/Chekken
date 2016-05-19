@@ -38,7 +38,7 @@ public class AbilityTornadoScript : MonoBehaviour {
                 //tExample += Time.deltaTime;
                 //radLerpValue = Mathf.Lerp(0.0f, Mathf.PI * 0.15f, tExample * rotationSpeedMultipier) * Input.GetAxisRaw("Horizontal");
                 this.transform.Rotate(Vector3.up, 10f * Time.deltaTime);// 0, 180, 0);
-                mDuration = mDuration - 1.0f * Time.deltaTime;
+                mDuration = mDuration - 1.0f;
             }
             
         }
