@@ -6,7 +6,7 @@ public class MultiplayerManager : MonoBehaviour {
 
     private ServerCommunication serverComms;
     public Object[] chickPrefab;
-    public int[] localPlayers;
+    public uint localPlayer;
     private Dictionary<uint, GameObject> chickenDic;
     private const float updateTime = 0.1f;
     private float currtime = 0.0f;
@@ -17,14 +17,15 @@ public class MultiplayerManager : MonoBehaviour {
     //OnPlayerDisconnected
 
 
-    void GameStart ()
+    public void GameStart (GameObject chicken, string name)
     {
 
-        
+        chickenDic = new Dictionary<uint, GameObject>();
         serverComms = gameObject.GetComponent<ServerCommunication>();
-        serverComms.onPlayerConnected = AddNewPlayer;
-        serverComms.onPlayerDisconnected = RemovePlayer;
-        serverComms.onGameInfoReceived = InitPlayers;
+        serverComms.onPlayerConnected += AddNewPlayer;
+        serverComms.onPlayerDisconnected += RemovePlayer;
+        serverComms.onGameInfoReceived += InitPlayers;
+        serverComms.EnterGame(name, chicken.transform.position);
 
         //Add our Player(s) to the game returns which number we are in the list. 
         //for(numLocalPlayers)
@@ -38,16 +39,14 @@ public class MultiplayerManager : MonoBehaviour {
         {
             AddNewPlayer(entry.Value);
         }
+        localPlayer = id;
     }
 	
 	void Update ()
     {
         //update the local players every frame 
-        for (int i = 0; i < localPlayers.Length; ++i)
-        {
             //update the local chickens
             //PlayerChickens[localPlayer[i]].updateChick();
-        }
 	}
 
     void DealDamage(int recievingPlayer)
@@ -58,7 +57,6 @@ public class MultiplayerManager : MonoBehaviour {
     void AddNewPlayer(ServerCommunication.Player newPlayer)
     {
         GameObject newChick = (GameObject)Instantiate(chickPrefab[0], newPlayer.pos, Quaternion.identity);
-        
         chickenDic.Add(newPlayer.id, newChick);
     }
 

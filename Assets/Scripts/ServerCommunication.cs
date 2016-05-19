@@ -22,7 +22,7 @@ public class ServerCommunication : MonoBehaviour {
         public Vector3 pos = Vector3.zero;
     }
 
-    public const int nameLength = 255;
+    public const int nameLength = 16;
     public Player player = new Player();
     public Dictionary<uint, Player> otherPlayers = new Dictionary<uint, Player>();
     WebSocket w;
@@ -57,7 +57,20 @@ public class ServerCommunication : MonoBehaviour {
                             uint id = BitConverter.ToUInt32(reply, 4);
                             Debug.Log("Received ID: " + id);
                             player.id = id;
-                            // todo: get all the other players
+                            uint otherPlayerCount = BitConverter.ToUInt32(reply, 8);
+                            int byteIndex = 12;
+                            for (int i = 0; i < otherPlayerCount; ++i)
+                            {
+                                var other = new Player();
+                                other.id = BitConverter.ToUInt32(reply, byteIndex);
+                                other.name = Encoding.Unicode.GetString(reply, byteIndex + 4, nameLength);
+                                float x = BitConverter.ToSingle(reply, byteIndex + nameLength + 4);
+                                float y = BitConverter.ToSingle(reply, byteIndex + nameLength + 8);
+                                float z = BitConverter.ToSingle(reply, byteIndex + nameLength + 12);
+                                other.pos = new Vector3(x, y, z);
+                                otherPlayers[other.id] = other;
+                                byteIndex += 4 + nameLength + 12;
+                            }
                             if (onGameInfoReceived != null)
                                 onGameInfoReceived(id, otherPlayers);
                             break;
