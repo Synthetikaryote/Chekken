@@ -17,11 +17,11 @@ public class MultiplayerManager : MonoBehaviour {
     //OnPlayerDisconnected
 
 
-    void Start ()
+    void GameStart ()
     {
 
-        GameObject Uber = GameObject.Find("Uber");
-        serverComms = Uber.GetComponent<ServerCommunication>();
+        
+        serverComms = gameObject.GetComponent<ServerCommunication>();
         serverComms.onPlayerConnected = AddNewPlayer;
         serverComms.onPlayerDisconnected = RemovePlayer;
         serverComms.onGameInfoReceived = InitPlayers;
