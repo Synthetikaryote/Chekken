@@ -64,9 +64,9 @@ public class ServerCommunication : MonoBehaviour {
                                 var other = new Player();
                                 other.id = BitConverter.ToUInt32(reply, byteIndex);
                                 other.name = Encoding.Unicode.GetString(reply, byteIndex + 4, nameLength);
-                                float x = BitConverter.ToSingle(reply, byteIndex + nameLength + 8);
-                                float y = BitConverter.ToSingle(reply, byteIndex + nameLength + 12);
-                                float z = BitConverter.ToSingle(reply, byteIndex + nameLength + 16);
+                                float x = BitConverter.ToSingle(reply, byteIndex + nameLength + 4);
+                                float y = BitConverter.ToSingle(reply, byteIndex + nameLength + 8);
+                                float z = BitConverter.ToSingle(reply, byteIndex + nameLength + 12);
                                 other.pos = new Vector3(x, y, z);
                                 otherPlayers[other.id] = other;
                                 byteIndex += 4 + nameLength + 12;
