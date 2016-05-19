@@ -4,9 +4,9 @@ using System.Collections;
 public class ChickLocal : ChickController
 {
     //horizontal movement
-    public float accelFactor;
-    public float initSpeed;
-    public float maxSpeed;
+    public float accelFactor = 12.0f;
+    public float initSpeed = 45.0f;
+    public float maxSpeed = 100.0f;
 
     //for roatation
     float tExample = 0.0f;
@@ -19,14 +19,14 @@ public class ChickLocal : ChickController
     private bool hasAirJump;
 
 
-    void Start()
+    protected override void Start() 
     {
         base.Start();
         grounded = true;
         hasAirJump = true;
     }
 
-    void Update()
+    protected override void Update()
     {
         base.Update();
         //ground Detection

@@ -17,6 +17,8 @@ public class MultiplayerManager : MonoBehaviour {
 
     void Awake()
     {
+        chickenDic = new Dictionary<uint, GameObject>();
+
         serverComms = gameObject.GetComponent<ServerCommunication>();
 
         serverComms.onPlayerConnected += AddNewPlayer;
@@ -27,9 +29,6 @@ public class MultiplayerManager : MonoBehaviour {
 
     public void GameStart (GameObject chicken, string name)
     {
-
-        chickenDic = new Dictionary<uint, GameObject>();
-
         //Add our Player(s) to the game returns which number we are in the list. 
         //for(numLocalPlayers)
         //localPlayers.Add(Server.AddPlayer())

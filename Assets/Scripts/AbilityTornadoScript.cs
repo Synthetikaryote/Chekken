@@ -4,7 +4,6 @@ using System.Collections;
 public class AbilityTornadoScript : MonoBehaviour {
 
     private ChickController mCC;
-    public GameObject mPlayer;
     public Vector3 mForce;
     Animator mAnimator;
     public float mCDown;
@@ -19,7 +18,7 @@ public class AbilityTornadoScript : MonoBehaviour {
         //mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
         mCDown = 5.0f;
         mAnimator = GetComponent<Animator>();
-        mPlayRigidBody = mPlayer.GetComponent<Rigidbody>();
+        mPlayRigidBody = GetComponent<Rigidbody>();
         mActive = false;
         mDuration = 100.0f;
     }

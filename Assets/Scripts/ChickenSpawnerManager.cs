@@ -6,6 +6,14 @@ using System.Collections.Generic;
 
 public class ChickenSpawnerManager : MonoBehaviour
 {
+
+    //Audio and particle effects to dynamically add
+    public GameObject JumpEffect;
+    public GameObject ExplosionEffect;
+    public GameObject JumpAudio;
+    public GameObject ExplosionAudio;
+
+
     Input input;
     //singleton stuff
     public static ChickenSpawnerManager Instance { get; protected set; }
@@ -76,9 +84,9 @@ public class ChickenSpawnerManager : MonoBehaviour
         {
             case 0://Remember to have spawnedChicken.GetComponent<AbilityNameScript>().Initialize();
                 Debug.Log("All skill attached!");
-                spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
-                spawnedChicken.GetComponent<AbilityRangedAttack>().Initialize();
-                spawnedChicken.GetComponent<AbilityTornadoScript>().Initialize();
+                spawnedChicken.AddComponent<AbilityTeleportScript>().Initialize();
+                spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
+                spawnedChicken.AddComponent<AbilityTornadoScript>().Initialize();
                 break;
             case 1:
                 Debug.Log("AbilityTeleportScipt attached");

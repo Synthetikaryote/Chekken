@@ -7,11 +7,11 @@ public class ChickController : MonoBehaviour
     protected bool IsAlive = false;
 
     public float rotationSpeedMultipier = 6.0f;
-    protected float radLerpValue;
+    protected float radLerpValue = 6.0f;
 
     //jumping
-    public float jumpHeight;
-    public float doubJumpHeight;
+    public float jumpHeight = 1500.0f;
+    public float doubJumpHeight = 500.0f;
 
     protected Rigidbody myBody;
     protected Collider myRenderer;
@@ -36,13 +36,32 @@ public class ChickController : MonoBehaviour
         //additionalVelocity = vel;
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         myBody = gameObject.GetComponent<Rigidbody>();
         myRenderer = gameObject.GetComponent<Collider>();
+
+        #region killmenow
+        //kill me now
+        GameObject jumpEffectGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.JumpEffect, gameObject.transform.position, transform.rotation);
+        jumpEffectGO.transform.parent = transform;
+        JumpEffect = jumpEffectGO.GetComponent<ParticleSystem>();
+
+        GameObject ExplosionEffectGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.ExplosionEffect, gameObject.transform.position, transform.rotation);
+        ExplosionEffectGO.transform.parent = transform;
+        ExplosionEffect = ExplosionEffectGO.GetComponent<ParticleSystem>();
+
+        GameObject JumpAudioGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.JumpAudio, gameObject.transform.position, transform.rotation);
+        JumpAudioGO.transform.parent = transform;
+        JumpAudio = JumpAudioGO.GetComponent<AudioSource>();
+
+        GameObject ExplosionAudioGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.ExplosionAudio, gameObject.transform.position, transform.rotation);
+        ExplosionAudioGO.transform.parent = transform;
+        ExplosionAudio = ExplosionAudioGO.GetComponent<AudioSource>();
+        #endregion
     }
 
-    protected void Update ()
+    protected virtual void Update ()
     {
         //Cooldown Timer: It takes a cooldown value from an Ability script, and subtracts it until it reaches zero. The ability script cannot fire off again until it reaches zero.
         #region Cooldown

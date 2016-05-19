@@ -8,26 +8,26 @@ public class ScreenResizer : MonoBehaviour
 
     public float threshold = 0.5f;
 
-    Camera camera;
+    Camera targetCamera;
 
 	// Use this for initialization
 	void Start ()
     {
-        camera = GetComponent<Camera>();
+        targetCamera = GetComponent<Camera>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        float currentWidth = camera.orthographicSize * 2.0f * Screen.width / Screen.height;
-        float currentHeight = camera.orthographicSize * 2.0f;
+        float currentWidth = targetCamera.orthographicSize * 2.0f * Screen.width / Screen.height;
+        float currentHeight = targetCamera.orthographicSize * 2.0f;
         if (currentWidth < desiredWidth)
         {
-            camera.orthographicSize = desiredWidth * Screen.height / Screen.width * 0.5f;
+            targetCamera.orthographicSize = desiredWidth * Screen.height / Screen.width * 0.5f;
         }
         else if(currentWidth - threshold > desiredWidth && currentHeight >  desiredHeight)
         {
-            camera.orthographicSize = desiredHeight * 0.5f;
+            targetCamera.orthographicSize = desiredHeight * 0.5f;
         }
 	}
 }

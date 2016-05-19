@@ -19,13 +19,16 @@ public class CooldownBar : MonoBehaviour
     void Awake()
     {
         barRenderer = GetComponent<Renderer>();
-        chickControl = GetComponentInParent<ChickUI>().target.GetComponent<ChickController>();
+
         cdTimer = FindObjectOfType<TextMesh>();
     }
 
 	// Use this for initialization
 	void Start ()
     {
+        chickControl = GetComponentInParent<ChickUI>().target.GetComponent<ChickController>();
+
+
         if (!barRenderer)
         {
             Debug.LogError("[CooldownBar.cs] Cannot find the cooldown bar's renderer!");

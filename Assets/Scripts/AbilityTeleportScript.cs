@@ -3,8 +3,6 @@ using System.Collections;
 
 public class AbilityTeleportScript : MonoBehaviour
 {
-
-    public GameObject mPlayer;
     private Vector3 mTeleport;
     private Vector3 mPos;
     private GameObject mMarker;
@@ -16,8 +14,7 @@ public class AbilityTeleportScript : MonoBehaviour
     public void Initialize()
     {
         mTeleport = new Vector3(15.0f, 0.0f, 0.0f);
-        mPlayer = gameObject;
-        mPos = mPlayer.transform.position;
+        mPos = transform.position;
         mCC = GetComponent<ChickController>();
         mCDown = 5.0f;//90.0f;
         mTeleportR = mTeleport;
@@ -36,12 +33,12 @@ public class AbilityTeleportScript : MonoBehaviour
             {
                 case 'R':
                     mPos = mPos + mTeleportR;
-                    mPlayer.transform.position = mPos;
+                    transform.position = mPos;
                     mCC.mCooldown = mCDown;
                     break;
                 case 'L':
                     mPos = mPos + mTeleportL;
-                    mPlayer.transform.position = mPos;
+                    transform.position = mPos;
                     mCC.mCooldown = mCDown;
                     break;
             }
