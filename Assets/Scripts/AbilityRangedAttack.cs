@@ -5,7 +5,6 @@ public class AbilityRangedAttack : MonoBehaviour {
 
     public float mCDown;
     //public GameObject mPlayer;
-    private Vector3 mPos;
     public GameObject mProjectile;
     public Vector3 mOffset;
     private ChickController mCC;
@@ -25,32 +24,49 @@ public class AbilityRangedAttack : MonoBehaviour {
     {
         mCC = GetComponent<ChickController>();
         //mChicken = GameObject.FindGameObjectWithTag("Chick03");
-        mPos = transform.position;
-        mOffset = new Vector3(5.0f, 0.0f, 0.0f);
+        
         mForce = 5000.0f;
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
-        mCDown = 200.0f;
+        mCDown = 5.0f;//200.0f;
         mAnimator = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
     {
-        mPos =transform.position + mOffset;
-        if (Input.GetKeyUp(KeyCode.Z) && mCC.mCooldown <= 0.0f)
+        if (Input.GetKeyDown(KeyCode.Z) && mCC.mCooldown <= 0.0f)
         {
             mAnimator.SetTrigger(attack);
             AttackAudio.Play();
-            Vector3 firePosition = transform.position + mOffset;//transform.forward + mOffset;
-            GameObject b = GameObject.Instantiate(mProjectile, firePosition, transform.rotation) as GameObject;
+            switch (mCC.mDir)
+            {
+                case 'R':
+                    mOffset = new Vector3(3.0f, 1.5f, 0.0f);
+                    Vector3 firePositionR = transform.position + mOffset;//transform.forward + mOffset;
+                    GameObject bR = GameObject.Instantiate(mProjectile, firePositionR, transform.rotation) as GameObject;
+                    if (bR != null)
+                    {
+                        Rigidbody rb = bR.GetComponent<Rigidbody>();
+                        Vector3 force = mForceVector * mForce;
+                        rb.AddForce(force);
+                    }
+                    break;
+                case 'L':
+                    mOffset = new Vector3(-3.5f, 1.5f, 0.0f);
+                    Vector3 firePositionL = transform.position + mOffset;//transform.forward + mOffset;
+                    GameObject bL = GameObject.Instantiate(mProjectile, firePositionL, transform.rotation) as GameObject;
+                    if (bL != null)
+                    {
+                        Rigidbody rb = bL.GetComponent<Rigidbody>();
+                        Vector3 force = mForceVector * -mForce;
+                        rb.AddForce(force);
+                    }
+                    break;
+            }
+            #region Teleport Marker Attempt
             //mProjectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             //mProjectile.transform.position = mPos;
             //mProjectile.AddComponent<Rigidbody>();
-            if (b != null)
-            {
-                Rigidbody rb = b.GetComponent<Rigidbody>();
-                Vector3 force = mForceVector * mForce;
-                rb.AddForce(force);
-            }
+            #endregion
 
             mCC.mCooldown = mCDown;
         }

@@ -53,8 +53,6 @@ public class CooldownBar : MonoBehaviour
         }
         
         barRenderer.material.SetColor("_Color", barColour);
-
-        print("Max CD: " + maxCD.ToString());
       
         if (( curCD >= 0.0f))
         {

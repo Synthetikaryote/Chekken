@@ -5,19 +5,24 @@ public class AbilityTeleportScript : MonoBehaviour
 {
 
     public GameObject mPlayer;
-    public Vector3 mTeleport;
+    private Vector3 mTeleport;
     private Vector3 mPos;
     private GameObject mMarker;
     public float mCDown;
     private ChickController mCC;
+    private Vector3 mTeleportR;
+    private Vector3 mTeleportL;
     // Use this for initialization
     public void Initialize()
     {
-        //mChicken = GameObject.FindGameObjectWithTag("Chick03");
+        mTeleport = new Vector3(15.0f, 0.0f, 0.0f);
         mPlayer = gameObject;
         mPos = mPlayer.transform.position;
         mCC = GetComponent<ChickController>();
-        mCDown = 90.0f;
+        mCDown = 5.0f;//90.0f;
+        mTeleportR = mTeleport;
+        mTeleportL = -mTeleport;
+        mCDown = 5.0f;
     }
 
     // Update is called once per frame
@@ -26,9 +31,20 @@ public class AbilityTeleportScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.X) && mCC.mCooldown <= 0.0f)
         {
             //OnDrawGizmosSelected();
-            mPos = mPos + mTeleport;
-            mPlayer.transform.position = mPos;
-            mCC.mCooldown = mCDown;
+
+            switch(mCC.mDir)
+            {
+                case 'R':
+                    mPos = mPos + mTeleportR;
+                    mPlayer.transform.position = mPos;
+                    mCC.mCooldown = mCDown;
+                    break;
+                case 'L':
+                    mPos = mPos + mTeleportL;
+                    mPlayer.transform.position = mPos;
+                    mCC.mCooldown = mCDown;
+                    break;
+            }
         }
         mPos = transform.position;
     }
