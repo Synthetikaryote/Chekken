@@ -22,7 +22,7 @@ public class ServerCommunication : MonoBehaviour {
         public Vector3 pos = Vector3.zero;
     }
 
-    public const int nameLength = 255;
+    public const int nameLength = 16;
     public Player player = new Player();
     public Dictionary<uint, Player> otherPlayers = new Dictionary<uint, Player>();
     WebSocket w;

@@ -65,13 +65,14 @@ public class MenuManager : MonoBehaviour
         {
 
             //check if chicken and id exist
-            if (ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID, playerName))
+            var chicken = ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID, playerName);
+            if (chicken != null)
             {
                 //call name setter here
                 Debug.Log("[Menu Manager] name is : " + playerName);
                 ResetVariable();
                 chickenSelectMenu.SetActive(false);
-                GetComponent<MultiplayerManager>().GameStart();
+                GetComponent<MultiplayerManager>().GameStart(chicken, playerName);
             }
      
 
