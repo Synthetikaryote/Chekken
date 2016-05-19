@@ -31,8 +31,8 @@ public class MenuManager : MonoBehaviour
     {
         ResetVariable();
         chatMenuOn = false;
-        chatMenu.MenuToggle(chatMenuOn);
         chatMenu.Intialize(UIText, UITextBackground, UIInputField);
+        chatMenu.MenuToggle(chatMenuOn);
     }
     void ResetVariable()
     {
