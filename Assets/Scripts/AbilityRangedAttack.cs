@@ -40,7 +40,7 @@ public class AbilityRangedAttack : MonoBehaviour {
             switch (mCC.mDir)
             {
                 case 'R':
-                    mOffset = new Vector3(3.0f, 1.5f, 0.0f);
+                    mOffset = new Vector3(3.5f, 1.5f, 0.0f);
                     Vector3 firePositionR = transform.position + mOffset;//transform.forward + mOffset;
                     GameObject bR = GameObject.Instantiate(mProjectile, firePositionR, transform.rotation) as GameObject;
                     if (bR != null)

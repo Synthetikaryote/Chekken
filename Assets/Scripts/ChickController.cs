@@ -117,7 +117,8 @@ public class ChickController : MonoBehaviour
         else
         {
             myBody.velocity = new Vector3( 0.0f, myBody.velocity.y, 0.0f );
-            //this.transform.rotation = new Quaternion(0, 1, 0, radLerpValue);
+            //this.transform.rotation = new Quaternion(0, 1, 0, radLerpValue); //Commented out so that chick movement looks more natural, 
+                                                                                //it turns from it's previous position instead of from a fixed position
             radLerpValue = 0.0f;
         }
         
