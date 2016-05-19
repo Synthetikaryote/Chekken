@@ -8,11 +8,11 @@ using System.IO;
 public class ServerCommunication : MonoBehaviour {
     const uint
         // from server
-        specIDAssign = 1,
+        specInitialize = 1,
         specDisconnect = 2,
+        specAnnounceConnect = 3,
+        specUpdatePosition = 4,
         // client only
-        specAnnounceConnect = 500,
-        specUpdatePosition = 501,
         specMessage = 502;
 
     public class Player
@@ -27,6 +27,8 @@ public class ServerCommunication : MonoBehaviour {
     public Dictionary<uint, Player> otherPlayers = new Dictionary<uint, Player>();
     WebSocket w;
     public bool isConnected { get { return w != null && w.isConnected; } }
+    public delegate void GameInfoReceived(uint id, Dictionary<uint, Player> otherPlayers);
+    public GameInfoReceived onGameInfoReceived;
     public delegate void PlayerConnected(Player player);
     public PlayerConnected onPlayerConnected;
     public delegate void PlayerDisconnected(Player player);
@@ -50,11 +52,14 @@ public class ServerCommunication : MonoBehaviour {
             if (reply != null) {
                 uint spec = BitConverter.ToUInt32(reply, 0);
                 switch (spec) {
-                    case specIDAssign:
+                    case specInitialize:
                         {
                             uint id = BitConverter.ToUInt32(reply, 4);
                             Debug.Log("Received ID: " + id);
                             player.id = id;
+                            // todo: get all the other players
+                            if (onGameInfoReceived != null)
+                                onGameInfoReceived(id, otherPlayers);
                             break;
                         }
                     case specDisconnect:
