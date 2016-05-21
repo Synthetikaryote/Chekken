@@ -7,13 +7,6 @@ public class MultiplayerManager : MonoBehaviour {
     private ServerCommunication serverComms;
     public uint localPlayer;
     private Dictionary<uint, GameObject> chickenDic;
-    private const float updateTime = 0.1f;
-    private float currtime = 0.0f;
-    private float downtime = 0.0f;
-
-    //OnPlayerConnected
-    //OnPlayerMoved
-    //OnPlayerDisconnected
 
     void Awake()
     {
@@ -24,6 +17,7 @@ public class MultiplayerManager : MonoBehaviour {
         serverComms.onPlayerConnected += AddNewPlayer;
         serverComms.onPlayerDisconnected += RemovePlayer;
         serverComms.onGameInfoReceived += InitPlayers;
+        serverComms.onPlayerMoved += PlayerMoved;
     }
 
 
@@ -33,6 +27,7 @@ public class MultiplayerManager : MonoBehaviour {
         //for(numLocalPlayers)
         //localPlayers.Add(Server.AddPlayer())
         serverComms.EnterGame(name, chicken.transform.position);
+        
     }
 
     void InitPlayers(uint id, Dictionary<uint, ServerCommunication.Player> otherPlayers)
@@ -43,13 +38,6 @@ public class MultiplayerManager : MonoBehaviour {
         }
         localPlayer = id;
     }
-	
-	void Update ()
-    {
-        //update the local players every frame 
-            //update the local chickens
-            //PlayerChickens[localPlayer[i]].updateChick();
-	}
 
     void DealDamage(int recievingPlayer)
     {
@@ -65,6 +53,11 @@ public class MultiplayerManager : MonoBehaviour {
     void RemovePlayer(ServerCommunication.Player newPlayer)
     {
         chickenDic.Remove(newPlayer.id);
+    }
+
+    void PlayerMoved(ServerCommunication.Player player)
+    {
+        chickenDic[player.id].GetComponent<ChickDummy>().UpdatePosition(player.pos);
     }
 
 
