@@ -25,7 +25,7 @@ public class AbilityTornadoScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKeyDown(KeyCode.C) && mCC.mCooldown <= 0.0f)
+        if (Input.GetKeyDown(KeyCode.C) && mCC.GetCoolDown() <= 0.0f)
         {
             mCC.JumpEffect.Play();
             mCC.JumpAudio.Play();

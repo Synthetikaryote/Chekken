@@ -4,9 +4,9 @@ using System.Collections;
 public class ChickLocal : ChickController
 {
     //horizontal movement
-    public float accelFactor = 12.0f;
-    public float initSpeed = 45.0f;
-    public float maxSpeed = 100.0f;
+    public float accelFactor = 20.0f;
+    public float initSpeed = 15.0f;
+    public float maxSpeed = 30.0f;
 
     //for roatation
     float tExample = 0.0f;
@@ -48,6 +48,7 @@ public class ChickLocal : ChickController
             grounded = false;
         }
 
+
         //Horizontal Movement
         if (Input.GetButton("Horizontal"))
         {
@@ -73,14 +74,6 @@ public class ChickLocal : ChickController
 
             AnimateCharacter("move");
 
-            if (Input.GetKey(KeyCode.A))
-            {
-                mDir = 'L';
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                mDir = 'R';
-            }
         }
         else
         {

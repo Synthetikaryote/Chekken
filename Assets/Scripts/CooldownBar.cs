@@ -48,7 +48,7 @@ public class CooldownBar : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        curCD = chickControl.mCooldown;
+        curCD = chickControl.GetCoolDown();
 
         if(curCD > maxCD)
         {

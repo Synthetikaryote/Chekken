@@ -33,11 +33,11 @@ public class AbilityRangedAttack : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && mCC.mCooldown <= 0.0f)
+        if (Input.GetKeyDown(KeyCode.Z) && mCC.GetCoolDown() <= 0.0f)
         {
             mAnimator.SetTrigger(attack);
             AttackAudio.Play();
-            switch (mCC.mDir)
+            switch (mCC.GetDir())
             {
                 case 'R':
                     mOffset = new Vector3(3.5f, 1.5f, 0.0f);
@@ -68,7 +68,7 @@ public class AbilityRangedAttack : MonoBehaviour {
             //mProjectile.AddComponent<Rigidbody>();
             #endregion
 
-            mCC.mCooldown = mCDown;
+            mCC.SetCoolDown(mCDown);
         }
 
         if (Input.GetKeyDown(KeyCode.F2))

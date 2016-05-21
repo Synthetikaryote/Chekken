@@ -3,15 +3,15 @@ using System.Collections;
 
 public class ChickController : MonoBehaviour
 {
-    
+
     protected bool IsAlive = false;
 
-    public float rotationSpeedMultipier = 6.0f;
+    protected float rotationSpeedMultipier = 3.0f;
     protected float radLerpValue = 6.0f;
 
     //jumping
-    public float jumpHeight = 1500.0f;
-    public float doubJumpHeight = 500.0f;
+    protected float jumpHeight = 1500.0f;
+    protected float doubJumpHeight = 500.0f;
 
     protected Rigidbody myBody;
     protected Collider myRenderer;
@@ -26,11 +26,15 @@ public class ChickController : MonoBehaviour
     public AudioSource ExplosionAudio;
 
     //Ability Cooldown
-    public float mCooldown;
-    
+    protected float mCooldown;
+    public float GetCoolDown() { return mCooldown; }
+    public void SetCoolDown(float cooldown) { mCooldown = cooldown;  }
+
     //Chicken Direction
-    public char mDir; //Direction of the player, it is 'L' for Left, or 'R' for Right
-    
+    //Direction of the player, it is 'L' for Left, or 'R' for Right
+    public char GetDir()
+    { return gameObject.transform.rotation.w >= 0 ? 'R' : 'L'; }
+
     public void AddVelocity(Vector3 vel)
     {
         //additionalVelocity = vel;
@@ -41,8 +45,8 @@ public class ChickController : MonoBehaviour
         myBody = gameObject.GetComponent<Rigidbody>();
         myRenderer = gameObject.GetComponent<Collider>();
 
-        #region killmenow
-        //kill me now
+        #region InstatiateEffectsAndAudio
+        //these should be done in a for loop in a vector. 
         GameObject jumpEffectGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.JumpEffect, gameObject.transform.position, transform.rotation);
         jumpEffectGO.transform.parent = transform;
         JumpEffect = jumpEffectGO.GetComponent<ParticleSystem>();

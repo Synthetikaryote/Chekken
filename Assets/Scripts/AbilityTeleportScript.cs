@@ -25,21 +25,21 @@ public class AbilityTeleportScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.X) && mCC.mCooldown <= 0.0f)
+        if (Input.GetKeyUp(KeyCode.X) && mCC.GetCoolDown() <= 0.0f)
         {
             //OnDrawGizmosSelected();
 
-            switch(mCC.mDir)
+            switch(mCC.GetDir())
             {
                 case 'R':
                     mPos = mPos + mTeleportR;
                     transform.position = mPos;
-                    mCC.mCooldown = mCDown;
+                    mCC.SetCoolDown(mCDown);
                     break;
                 case 'L':
                     mPos = mPos + mTeleportL;
                     transform.position = mPos;
-                    mCC.mCooldown = mCDown;
+                    mCC.SetCoolDown(mCDown);
                     break;
             }
         }
