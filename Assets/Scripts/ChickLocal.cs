@@ -149,4 +149,6 @@ public class ChickLocal : ChickController
         //save the position at the end of the frame
         oldPos = transform.position;
     }
+
+
 }
