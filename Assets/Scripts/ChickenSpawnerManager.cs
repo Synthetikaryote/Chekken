@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class ChickenSpawnerManager : MonoBehaviour
 {
 
+    public float damageRateMultiplier;
     //Audio and particle effects to dynamically add
     public GameObject JumpEffect;
     public GameObject ExplosionEffect;
@@ -46,7 +47,8 @@ public class ChickenSpawnerManager : MonoBehaviour
         }
 
         GameObject spawnedChicken = chickenSpawners[spawnerId].SpawnChicken(chickenPrefabs[prefabID], skillID, playerName);
-        spawnedChicken.AddComponent<ChickLocal>();
+        spawnedChicken.AddComponent<ChickLocal>().damageRate = damageRateMultiplier;
+
 
         switch (skillID)
         {
@@ -67,7 +69,8 @@ public class ChickenSpawnerManager : MonoBehaviour
 
                 break;
             case 3:
-                Debug.Log("Skill 3 attached");
+                Debug.Log("AbilityTornadoScript attached");
+                spawnedChicken.AddComponent<AbilityTornadoScript>().Initialize();
                 break;
             default:
                 Debug.LogError("Skill not found[id]: " + skillID);
