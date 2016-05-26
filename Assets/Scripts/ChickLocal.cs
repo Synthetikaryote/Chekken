@@ -18,12 +18,27 @@ public class ChickLocal : ChickController
     private bool grounded;
     private bool hasAirJump;
 
+    //server communications
+    private ServerCommunication serverComms;
+    private Vector3 oldPos;
+
+    public void Awake()
+    {
+        serverComms = FindObjectOfType<ServerCommunication>();
+    }
 
     protected override void Start() 
     {
         base.Start();
         grounded = true;
         hasAirJump = true;
+
+        oldPos = Vector3.zero;
+
+        if(!serverComms)
+        {
+            Debug.LogError("[ChickLocal.cs] Cannot find the server communication script!");
+        }
     }
 
     protected override void Update()
@@ -48,6 +63,12 @@ public class ChickLocal : ChickController
             grounded = false;
         }
 
+        //check if the position differs from frame before
+        if (transform.position != oldPos)
+        {
+            Debug.Log("Sending position: " + transform.position.ToString());
+            serverComms.UpdatePosition(transform.position);
+        }
 
         //Horizontal Movement
         if (Input.GetButton("Horizontal"))
@@ -71,9 +92,8 @@ public class ChickLocal : ChickController
             tExample += Time.deltaTime;
             radLerpValue = Mathf.Lerp(0.0f, Mathf.PI * 0.15f, tExample * rotationSpeedMultipier) * Input.GetAxisRaw("Horizontal");
             this.transform.rotation = new Quaternion(this.transform.rotation.x, 1.0f, 0.0f, radLerpValue);
-
+            
             AnimateCharacter("move");
-
         }
         else
         {
@@ -81,6 +101,7 @@ public class ChickLocal : ChickController
             //this.transform.rotation = new Quaternion(0, 1, 0, radLerpValue);
             radLerpValue = 0.0f;
         }
+            
 
         //jumping
         if (Input.GetButtonDown("Jump"))
@@ -104,7 +125,6 @@ public class ChickLocal : ChickController
             }
         }
 
-
         //Chicken Dead, Chicken Stop moving, Explosion, Disappear, Dead Audio 
         if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -126,5 +146,7 @@ public class ChickLocal : ChickController
             }
         }
 
+        //save the position at the end of the frame
+        oldPos = transform.position;
     }
 }
