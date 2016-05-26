@@ -17,7 +17,7 @@ public class ChickenSpawner : MonoBehaviour
     {
         spawnRotation = Quaternion.Euler(rotation);
         GameObject chickenClone = (GameObject)Instantiate(preFabToSpawn, transform.position, spawnRotation);
-        
+        chickenClone.GetComponentInChildren<ChickUI>().GetComponentInChildren<TextMesh>().text = pName;
         
         return chickenClone;
     }

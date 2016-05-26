@@ -8,13 +8,15 @@ public class MenuManager : MonoBehaviour
 
     public GameObject chickenSelectMenu;
     public InputField inputMenu;
-    public string playerName;
+    public string playerNameTemp;
+    string chatDisplayName;
     int myChickenID;
     int mySkillID;
     public bool chatMenuOn { private set; get; }
 
     ChatMenu chatMenu;
     public Text UIText;
+
     public Image UITextBackground;
     public InputField UIInputField;
     void Awake()
@@ -38,7 +40,7 @@ public class MenuManager : MonoBehaviour
     {
         myChickenID = -1;
         mySkillID = -1;
-        playerName = "";
+        playerNameTemp = "";
         inputMenu.text = "";
         
     }
@@ -56,7 +58,7 @@ public class MenuManager : MonoBehaviour
             Debug.LogError("[Menu Manager]No skill selected");
             failed = true;
         }
-        if (playerName == "")
+        if (playerNameTemp == "")
         {
             Debug.LogError("[Menu Manager]Name field is empty");
             failed = true;
@@ -65,13 +67,14 @@ public class MenuManager : MonoBehaviour
         {
 
             //check if chicken and id exist
-            var chicken = ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID, playerName);
+            Debug.Log(playerNameTemp);
+            chatDisplayName = playerNameTemp;
+            var chicken = ChickenSpawnerManager.Instance.SpawnChicken(myChickenID, mySkillID, chatDisplayName);
             if (chicken != null)
             {
                 //call name setter here
-                Debug.Log("[Menu Manager] name is : " + playerName);
                 chickenSelectMenu.SetActive(false);
-                GetComponent<MultiplayerManager>().GameStart(chicken, playerName);
+                GetComponent<MultiplayerManager>().GameStart(chicken, playerNameTemp);
                 ResetVariable();
             }
 
@@ -95,14 +98,14 @@ public class MenuManager : MonoBehaviour
             }
             else
             {
-                chatMenu.UpdateField(name);
+                chatMenu.UpdateField(chatDisplayName);
             }
         }
     }
     //menu setter
     public void SetName(string name)
     {
-        playerName = name;
+        playerNameTemp  = name;
     }
     public void SetChickenID(int chickID)
     {
@@ -112,6 +115,5 @@ public class MenuManager : MonoBehaviour
     {
         mySkillID = skillID;
     }
-
 }
  
