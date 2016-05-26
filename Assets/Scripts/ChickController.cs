@@ -117,15 +117,18 @@ public class ChickController : MonoBehaviour
 
     protected void OnCollisionEnter(Collision col)
     {
-        //Check if velocities are matching
-        if (myBody.velocity == col.rigidbody.velocity)
+        if(col.gameObject.tag == "Player")
         {
-            //Deflect each other
-        }
+            //Check if velocities are matching
+            if (myBody.velocity == col.gameObject.GetComponent<Rigidbody>().velocity)
+            {
+                //Deflect each other
+            }
 
-        //Calculate damage based on velocity
-        float damage = Mathf.Abs(damageRate * myBody.velocity.x);
-        //Apply damage to other chick
-        col.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
+            //Calculate damage based on velocity
+            float damage = Mathf.Abs(damageRate * myBody.velocity.x);
+            //Apply damage to other chick
+            col.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
+        }
     }
 }
