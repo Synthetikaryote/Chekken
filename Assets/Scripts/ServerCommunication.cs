@@ -50,12 +50,21 @@ public class ServerCommunication : MonoBehaviour {
 		while (true) {
 			var reply = w.Recv();
             if (reply != null) {
+                //var stringData = "[";
+                //for (var i = 0; i < reply.Length; ++i)
+                //{
+                //    if (i % 4 == 0)
+                //        stringData += "\n";
+                //    var c = reply[i];
+                //    stringData += " " + c.ToString("000");
+                //}
+                //stringData += " ]";
+                //Debug.Log("Received from the server: " + stringData);
                 uint spec = BitConverter.ToUInt32(reply, 0);
                 switch (spec) {
                     case specInitialize:
                         {
                             uint id = BitConverter.ToUInt32(reply, 4);
-                            Debug.Log("Received ID: " + id);
                             player.id = id;
                             uint otherPlayerCount = BitConverter.ToUInt32(reply, 8);
                             int byteIndex = 12;
@@ -71,6 +80,7 @@ public class ServerCommunication : MonoBehaviour {
                                 otherPlayers[other.id] = other;
                                 byteIndex += 4 + nameLength + 12;
                             }
+                            Debug.Log("Received ID: " + id + " and game start info.  There are " + otherPlayerCount + " other players.");
                             if (onGameInfoReceived != null)
                                 onGameInfoReceived(id, otherPlayers);
                             break;
