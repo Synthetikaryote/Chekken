@@ -16,7 +16,7 @@ public class MenuManager : MonoBehaviour
 
     ChatMenu chatMenu;
     public Text UIText;
-
+    public GameObject UITextMask;
     public Image UITextBackground;
     public InputField UIInputField;
     void Awake()
@@ -33,7 +33,7 @@ public class MenuManager : MonoBehaviour
     {
         ResetVariable();
         chatMenuOn = false;
-        chatMenu.Intialize(UIText, UITextBackground, UIInputField);
+        chatMenu.Intialize(UIText, UITextBackground, UIInputField, UITextMask);
         chatMenu.MenuToggle(chatMenuOn);
     }
     void ResetVariable()

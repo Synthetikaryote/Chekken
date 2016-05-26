@@ -101,7 +101,8 @@ public class ChickenSpawnerManager : MonoBehaviour
                 spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
                 break;
             case 3:
-                Debug.Log("Skill 3 attached");
+                Debug.Log("AbilityTornadoScript attached");
+                spawnedChicken.AddComponent<AbilityTornadoScript>().Initialize();
                 break;
             default:
                 Debug.LogError("Skill not found[id]: " + skillID);

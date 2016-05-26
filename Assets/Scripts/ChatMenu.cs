@@ -13,20 +13,21 @@ public class ChatMenu : MonoBehaviour
     /*
      Add more row if the word count more than 24
      */
-    int limit = 21;
+    int limit = 25;
     private Text uIText;
     private Image uITextBackground;
     private InputField uIInputField;
+    private GameObject uIMask;
     float windowHeight;
     //for resetting later?
     private List<string> textData;
 
-    public void Intialize(Text text, Image img, InputField input)
+    public void Intialize(Text text, Image img, InputField input, GameObject mask)
     {
         uIText = text;
         Debug.Assert(uIText != null, "[chat menu] failed to get text object");
         windowHeight = text.rectTransform.rect.height;
-
+        uIMask = mask;
         uITextBackground = img;
         Debug.Assert(uITextBackground != null, "[chat menu] failed to get Image object");
         uIInputField = input;
@@ -42,6 +43,7 @@ public class ChatMenu : MonoBehaviour
         uIText.gameObject.SetActive(active);
         uITextBackground.gameObject.SetActive(active);
         uIInputField.gameObject.SetActive(active);
+        uIMask.SetActive(active);
     }
 
     public void AddChat(string name, string chat)
@@ -72,9 +74,10 @@ public class ChatMenu : MonoBehaviour
         {
             int resizedWindowMultiplier = 1;
             int textLength = textData[chatCount].Length;
-            if (textLength > 24)
+            Vector3 posPrev = uIText.transform.position;
+            if (textLength > limit)
             {
-                resizedWindowMultiplier = Mathf.CeilToInt(textLength / 24);
+                resizedWindowMultiplier = Mathf.CeilToInt(textLength / limit);
                 Vector2 sizeDelta = uIText.rectTransform.sizeDelta;
                 Debug.Log("<color=yellow>" + "size delta : " + sizeDelta + "</color>");
                 float height = uIText.rectTransform.rect.height;
@@ -82,8 +85,7 @@ public class ChatMenu : MonoBehaviour
                 Debug.Log("<color=yellow>" + "new height : " + height + "</color>");
                 Debug.Break();
                 uIText.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, height);
-                //uIText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-                //uIText.rectTransform.rect.Set(pos.x, pos.y, width, height);
+                uIText.transform.position = posPrev;
             }
             Debug.Log("resize by : " + resizedWindowMultiplier);
             uIText.text += textData[chatCount];
