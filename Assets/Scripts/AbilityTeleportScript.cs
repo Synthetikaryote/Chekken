@@ -25,14 +25,13 @@ public class AbilityTeleportScript : AbilityBaseClass
     {
         if (Input.GetKeyUp(KeyCode.X) && mCC.GetCoolDown() <= 0.0f)
         {
-            //OnDrawGizmosSelected();
 
             switch(mCC.GetDir())
             {
                 case 'R':
                     Vector3 right = new Vector3(1, 0, 0);
 
-                    if (Physics.Raycast(transform.position, right, 15))
+                    if (Physics.Raycast(transform.position, right, 15)) 
                     {
                         print("There is something in front of the object!");
                     }
@@ -63,9 +62,4 @@ public class AbilityTeleportScript : AbilityBaseClass
         mPos = transform.position;
     }
 
-    //public void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawSphere(transform.position, 1);
-    //}
 }

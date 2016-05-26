@@ -9,6 +9,8 @@ public class AbilityTornadoScript : AbilityBaseClass {
     private Rigidbody mPlayRigidBody;
     public float mDuration;
 
+    public Vector3 spin = Vector3.zero;
+
     public void Initialize()
     {
         mCC = GetComponent<ChickController>();
@@ -23,12 +25,15 @@ public class AbilityTornadoScript : AbilityBaseClass {
 
     // Update is called once per frame
     void Update () {
+
         if (Input.GetKeyDown(KeyCode.C) && mCC.GetCoolDown() <= 0.0f)
         {
             mCC.JumpEffect.Play();
             mCC.JumpAudio.Play();
             mPlayRigidBody.AddForce(0.0f, 2000.0f, 0.0f);
-            
+
+            this.transform.Rotate(spin * 5000.0f);
+
             while (mDuration > 0.0f)
             {
                 //mPlayer.transform.Rotate(0, 1, 0);
