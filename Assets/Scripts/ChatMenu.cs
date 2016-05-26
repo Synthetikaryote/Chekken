@@ -23,9 +23,10 @@ public class ChatMenu : MonoBehaviour
     //for resetting later?
     private List<string> textData;
 
-    public void Intialize(Text text, Image img, InputField input, GameObject mask)
+    public void Intialize(Text text, Image img, InputField input, GameObject mask, ServerCommunication sC)
     {
-        serverCom = gameObject.GetComponent<ServerCommunication>();
+        serverCom = sC;
+        serverCom.onPlayerMessage += Test;
         uIText = text;
         Debug.Assert(uIText != null, "[chat menu] failed to get text object");
         windowHeight = text.rectTransform.rect.height;
@@ -87,5 +88,9 @@ public class ChatMenu : MonoBehaviour
             uIText.text += textData[chatCount];
             chatCount++;
         }
+    }
+    void Test(ServerCommunication.Player play, string msg)
+    {
+
     }
 }

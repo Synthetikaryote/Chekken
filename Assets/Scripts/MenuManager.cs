@@ -13,8 +13,9 @@ public class MenuManager : MonoBehaviour
     int myChickenID;
     int mySkillID;
     public bool chatMenuOn { private set; get; }
-
+    private ServerCommunication servCom;
     ChatMenu chatMenu;
+
     public Text UIText;
     public GameObject UITextMask;
     public Image UITextBackground;
@@ -33,7 +34,8 @@ public class MenuManager : MonoBehaviour
     {
         ResetVariable();
         chatMenuOn = false;
-        chatMenu.Intialize(UIText, UITextBackground, UIInputField, UITextMask);
+        servCom = gameObject.GetComponent<ServerCommunication>();
+        chatMenu.Intialize(UIText, UITextBackground, UIInputField, UITextMask, servCom);
         chatMenu.MenuToggle(chatMenuOn);
     }
     void ResetVariable()
