@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AbilityRangedAttack : MonoBehaviour {
-
-    public float mCDown;
+public class AbilityRangedAttack : AbilityBaseClass {
+    
     //public GameObject mPlayer;
     public GameObject mProjectile;
     public Vector3 mOffset;
-    private ChickController mCC;
     public float mForce;
     private Vector3 mForceVector;
 

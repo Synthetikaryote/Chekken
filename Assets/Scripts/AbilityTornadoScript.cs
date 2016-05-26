@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AbilityTornadoScript : MonoBehaviour {
-
-    private ChickController mCC;
+public class AbilityTornadoScript : AbilityBaseClass {
+    
     public Vector3 mForce;
     Animator mAnimator;
-    public float mCDown;
     private bool mActive;
     private Rigidbody mPlayRigidBody;
     public float mDuration;

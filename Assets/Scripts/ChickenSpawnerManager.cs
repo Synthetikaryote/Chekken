@@ -48,11 +48,11 @@ public class ChickenSpawnerManager : MonoBehaviour
 
         switch (skillID)
         {
-            case 0://Remember to have spawnedChicken.GetComponent<AbilityNameScript>().Initialize();
+            case 0://Remember to watch for GetComponent<AbilityNameScript>().Initialize() or AddComponent...
                 Debug.Log("All skill attached!");
-                spawnedChicken.GetComponent<AbilityTeleportScript>().Initialize();
-                spawnedChicken.GetComponent<AbilityRangedAttack>().Initialize();
-                spawnedChicken.GetComponent<AbilityTornadoScript>().Initialize();
+                spawnedChicken.AddComponent<AbilityTeleportScript>().Initialize();
+                spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
+                spawnedChicken.AddComponent<AbilityTornadoScript>().Initialize();
                 break;
             case 1:
                 Debug.Log("AbilityTeleportScipt attached");
