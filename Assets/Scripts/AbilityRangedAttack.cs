@@ -4,7 +4,7 @@ using System.Collections;
 public class AbilityRangedAttack : AbilityBaseClass {
     
     //public GameObject mPlayer;
-    public GameObject mProjectile;
+    GameObject mProjectile;
     public Vector3 mOffset;
     public float mForce;
     private Vector3 mForceVector;
@@ -15,9 +15,11 @@ public class AbilityRangedAttack : AbilityBaseClass {
     int damage = Animator.StringToHash("Damage");
 
     //Chicken Attack Audio
-    public AudioSource AttackAudio;
-    public AudioSource DamageAudio;
+    AudioSource AttackAudio;
+    AudioSource DamageAudio;
     // Use this for initialization
+
+
     public void Initialize()
     {
         mCC = GetComponent<ChickController>();
@@ -27,6 +29,17 @@ public class AbilityRangedAttack : AbilityBaseClass {
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
         mCDown = 5.0f;//200.0f;
         mAnimator = GetComponent<Animator>();
+
+        //set mProjectile
+        mProjectile = ChickenSpawnerManager.Instance.mProjectile;
+
+        GameObject AttackAudioGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.AttackAudio, gameObject.transform.position, transform.rotation);
+        AttackAudioGO.transform.parent = transform;
+        AttackAudio = AttackAudioGO.GetComponent<AudioSource>();
+
+        GameObject DamageAudioGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.DamageAudio, gameObject.transform.position, transform.rotation);
+        DamageAudioGO.transform.parent = transform;
+        DamageAudio = DamageAudioGO.GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update()

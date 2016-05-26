@@ -12,7 +12,9 @@ public class ChickenSpawnerManager : MonoBehaviour
     public GameObject ExplosionEffect;
     public GameObject JumpAudio;
     public GameObject ExplosionAudio;
-
+    public GameObject AttackAudio;
+    public GameObject DamageAudio;
+    public GameObject mProjectile;
 
     Input input;
     //singleton stuff
@@ -61,6 +63,8 @@ public class ChickenSpawnerManager : MonoBehaviour
             case 2:
                 Debug.Log("AbilityRangedAttack attached");
                 spawnedChicken.AddComponent<AbilityRangedAttack>().Initialize();
+
+
                 break;
             case 3:
                 Debug.Log("Skill 3 attached");

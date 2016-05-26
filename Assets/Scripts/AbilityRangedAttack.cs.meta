@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 2617ac02b74c3214395680c8044e6217
-timeCreated: 1462473203
+timeCreated: 1464279138
 licenseType: Pro
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - mProjectile: {fileID: 184320, guid: 37fba9e14fee7e440ae6b13b5cac9c1f, type: 2}
+  - AttackAudio: {fileID: 8280114, guid: 0c88b4648357aa54f8c6e01aef3cafc9, type: 2}
+  - DamageAudio: {fileID: 8261206, guid: 27dd52464992f4e4c8029e885aa1a2df, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
