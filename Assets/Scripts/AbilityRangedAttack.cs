@@ -73,11 +73,6 @@ public class AbilityRangedAttack : AbilityBaseClass {
                     }
                     break;
             }
-            #region Teleport Marker Attempt
-            //mProjectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            //mProjectile.transform.position = mPos;
-            //mProjectile.AddComponent<Rigidbody>();
-            #endregion
 
             mCC.SetCoolDown(mCDown);
         }
