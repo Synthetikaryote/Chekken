@@ -75,7 +75,7 @@ public class ChatMenu : MonoBehaviour
             Vector3 posPrev = uIText.transform.position;
             if (textLength > limit)
             {
-                resizedWindowMultiplier = Mathf.CeilToInt(textLength / limit);
+                resizedWindowMultiplier = Mathf.FloorToInt(textLength / limit);
                 Vector2 sizeDelta = uIText.rectTransform.sizeDelta;
                 Debug.Log("<color=yellow>" + "size delta : " + sizeDelta + "</color>");
                 float height = uIText.rectTransform.rect.height;
