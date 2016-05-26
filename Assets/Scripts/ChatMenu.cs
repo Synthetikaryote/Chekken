@@ -13,6 +13,7 @@ public class ChatMenu : MonoBehaviour
     /*
      Add more row if the word count more than 24
      */
+    private ServerCommunication serverCom;
     int limit = 25;
     private Text uIText;
     private Image uITextBackground;
@@ -24,6 +25,7 @@ public class ChatMenu : MonoBehaviour
 
     public void Intialize(Text text, Image img, InputField input, GameObject mask)
     {
+        serverCom = gameObject.GetComponent<ServerCommunication>();
         uIText = text;
         Debug.Assert(uIText != null, "[chat menu] failed to get text object");
         windowHeight = text.rectTransform.rect.height;
@@ -46,19 +48,14 @@ public class ChatMenu : MonoBehaviour
         uIMask.SetActive(active);
     }
 
-    public void AddChat(string name, string chat)
-    {
-        string chatData = "<b>" + name + "</b>" + " : " + chat + "\n";
-        textData.Add(chat);
-        UpdateTextDisplay();
-    }
-
     public void UpdateField(string name)
     {
         if (HasText())
         {
             string chatData = "<b>" + name + "</b>" + " : " + uIInputField.text + "\n";
             textData.Add(chatData);
+
+            serverCom.SendChat(chatData);
             UpdateTextDisplay();
             uIInputField.text = "";
         }
@@ -82,8 +79,7 @@ public class ChatMenu : MonoBehaviour
                 Debug.Log("<color=yellow>" + "size delta : " + sizeDelta + "</color>");
                 float height = uIText.rectTransform.rect.height;
                 height += (windowHeight * resizedWindowMultiplier);
-                Debug.Log("<color=yellow>" + "new height : " + height + "</color>");
-                Debug.Break();
+                Debug.Log("<color=yellow>" + "new height : " + height + "</color>"); 
                 uIText.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, height);
                 uIText.transform.position = posPrev;
             }
