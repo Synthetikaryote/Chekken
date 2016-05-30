@@ -3,7 +3,6 @@ using System.Collections;
 
 public class AbilityRangedAttack : AbilityBaseClass {
     
-    //public GameObject mPlayer;
     GameObject mProjectile;
     public Vector3 mOffset;
     public float mForce;
@@ -20,10 +19,9 @@ public class AbilityRangedAttack : AbilityBaseClass {
     // Use this for initialization
 
 
-    public void Initialize()
+    public override void Initialize() 
     {
         mCC = GetComponent<ChickController>();
-        //mChicken = GameObject.FindGameObjectWithTag("Chick03");
         
         mForce = 5000.0f;
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
@@ -41,55 +39,37 @@ public class AbilityRangedAttack : AbilityBaseClass {
         DamageAudioGO.transform.parent = transform;
         DamageAudio = DamageAudioGO.GetComponent<AudioSource>();
     }
-    // Update is called once per frame
-    void Update()
+
+    public override void ActivateAbility()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && mCC.GetCoolDown() <= 0.0f)
+        mAnimator.SetTrigger(attack);
+        AttackAudio.Play();
+        switch (mCC.GetDir())
         {
-            mAnimator.SetTrigger(attack);
-            AttackAudio.Play();
-            switch (mCC.GetDir())
-            {
-                case 'R':
-                    mOffset = new Vector3(3.5f, 1.5f, 0.0f);
-                    Vector3 firePositionR = transform.position + mOffset;//transform.forward + mOffset;
-                    GameObject bR = GameObject.Instantiate(mProjectile, firePositionR, transform.rotation) as GameObject;
-                    if (bR != null)
-                    {
-                        Rigidbody rb = bR.GetComponent<Rigidbody>();
-                        Vector3 force = mForceVector * mForce;
-                        rb.AddForce(force);
-                    }
-                    break;
-                case 'L':
-                    mOffset = new Vector3(-3.5f, 1.5f, 0.0f);
-                    Vector3 firePositionL = transform.position + mOffset;//transform.forward + mOffset;
-                    GameObject bL = GameObject.Instantiate(mProjectile, firePositionL, transform.rotation) as GameObject;
-                    if (bL != null)
-                    {
-                        Rigidbody rb = bL.GetComponent<Rigidbody>();
-                        Vector3 force = mForceVector * -mForce;
-                        rb.AddForce(force);
-                    }
-                    break;
-            }
-
-            mCC.SetCoolDown(mCDown);
+            case 'R':
+                mOffset = new Vector3(3.5f, 1.5f, 0.0f);
+                Vector3 firePositionR = transform.position + mOffset;//transform.forward + mOffset;
+                GameObject bR = GameObject.Instantiate(mProjectile, firePositionR, transform.rotation) as GameObject;
+                if (bR != null)
+                {
+                    Rigidbody rb = bR.GetComponent<Rigidbody>();
+                    Vector3 force = mForceVector * mForce;
+                    rb.AddForce(force);
+                }
+                break;
+            case 'L':
+                mOffset = new Vector3(-3.5f, 1.5f, 0.0f);
+                Vector3 firePositionL = transform.position + mOffset;//transform.forward + mOffset;
+                GameObject bL = GameObject.Instantiate(mProjectile, firePositionL, transform.rotation) as GameObject;
+                if (bL != null)
+                {
+                    Rigidbody rb = bL.GetComponent<Rigidbody>();
+                    Vector3 force = mForceVector * -mForce;
+                    rb.AddForce(force);
+                }
+                break;
         }
 
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            mAnimator.SetTrigger(damage);
-            DamageAudio.Play();
-
-        }
-        //mRB = mProjectile.GetComponent<Rigidbody>();
-        //mRB.AddForce(mForce);
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            DestroyImmediate(mProjectile);
-
-        }
+        mCC.SetCoolDown(mCDown);
     }
-
 }

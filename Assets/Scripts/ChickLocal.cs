@@ -148,6 +148,12 @@ public class ChickLocal : ChickController
 
         //save the position at the end of the frame
         oldPos = transform.position;
+
+        if(Input.GetButtonDown("Ability") && mCooldown <= 0.0f)
+        {
+            ability.ActivateAbility();
+            // TODO: make it so the sever is told that the chicken activated an ability
+        }
     }
 
 

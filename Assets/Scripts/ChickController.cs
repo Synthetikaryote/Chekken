@@ -9,6 +9,8 @@ public class ChickController : MonoBehaviour
     protected float rotationSpeedMultipier = 3.0f;
     protected float radLerpValue = 6.0f;
 
+    protected AbilityBaseClass ability;
+
     //jumping
     protected float jumpHeight = 1500.0f;
     protected float doubJumpHeight = 500.0f;
@@ -47,6 +49,8 @@ public class ChickController : MonoBehaviour
     {
         myBody = gameObject.GetComponent<Rigidbody>();
         myRenderer = gameObject.GetComponent<Collider>();
+
+        ability = GetComponent<AbilityBaseClass>();
 
         #region InstatiateEffectsAndAudio
         //these should be done in a for loop in a vector. 

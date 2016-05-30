@@ -12,4 +12,8 @@ public class ChickDummy : ChickController
         //guess on rotation
     }
 
+    public void ActivateAbility()
+    {
+        ability.ActivateAbility();
+    }
 }

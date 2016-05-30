@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AbilityBaseClass : MonoBehaviour
+abstract public class AbilityBaseClass : MonoBehaviour
 {
-
     protected ChickController mCC;
-    public float mCDown;
+    protected float mCDown;
 
-
+    abstract public void Initialize();
+    abstract public void ActivateAbility();
 }
