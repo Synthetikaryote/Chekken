@@ -7,7 +7,6 @@ public class ChickDummy : ChickController
 
     public void UpdatePosition(Vector3 newPos)
     {
-        myBody.transform.position = newPos;
         positionLastUpdate = newPos;
         //guess on rotation
     }
@@ -15,5 +14,10 @@ public class ChickDummy : ChickController
     public void ActivateAbility()
     {
         ability.ActivateAbility();
+    }
+
+    void FixedUpdate()
+    {
+        transform.position = positionLastUpdate;
     }
 }

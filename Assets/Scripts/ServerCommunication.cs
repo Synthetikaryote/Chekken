@@ -125,8 +125,11 @@ public class ServerCommunication : MonoBehaviour {
                             float z = BitConverter.ToSingle(reply, 16);
                             var pos = new Vector3(x, y, z);
                             Player other = null;
+                            if (player.id == id)
+                                break;
                             if (otherPlayers.TryGetValue(id, out other)) {
                                 Debug.Log(other.name + " is now at position " + pos);
+                                other.pos = pos;
                                 if (onPlayerMoved != null)
                                     onPlayerMoved(other);
                             } else
