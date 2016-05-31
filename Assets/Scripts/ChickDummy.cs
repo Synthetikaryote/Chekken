@@ -5,6 +5,12 @@ public class ChickDummy : ChickController
 {
     Vector3 positionLastUpdate;
 
+    protected override void Start()
+    {
+        base.Start();
+        Destroy(myBody);
+    }
+
     public void UpdatePosition(Vector3 newPos)
     {
         positionLastUpdate = newPos;

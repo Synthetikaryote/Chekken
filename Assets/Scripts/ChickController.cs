@@ -121,9 +121,14 @@ public class ChickController : MonoBehaviour
 
     protected void OnCollisionEnter(Collision col)
     {
+        if (myBody == null)
+            return;
         if(col.gameObject.tag == "Player")
         {
             //Check if velocities are matching
+            var otherBody = col.gameObject.GetComponent<Rigidbody>();
+            if (otherBody == null)
+                return;
             if (myBody.velocity == col.gameObject.GetComponent<Rigidbody>().velocity)
             {
                 //Deflect each other
