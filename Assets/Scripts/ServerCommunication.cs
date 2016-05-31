@@ -12,6 +12,8 @@ public class ServerCommunication : MonoBehaviour {
         specDisconnect = 2,
         specAnnounceConnect = 3,
         specUpdatePosition = 4,
+        specHeartbeat = 5,
+        specHeartbeatResponse = 6,
         // client only
         specMessage = 502;
 
@@ -157,6 +159,11 @@ public class ServerCommunication : MonoBehaviour {
                                 Debug.Log("player" + id + ": " + message);
                             break;
                         }
+                    case specHeartbeat:
+                        {
+                            SendHeartbeatResponse();
+                            break;
+                        }
                 }
             }
 			if (w.lastError != null) {
@@ -225,6 +232,13 @@ public class ServerCommunication : MonoBehaviour {
         stream.Write(BitConverter.GetBytes(player.id), 0, 4);
         var messageBytes = Encoding.Unicode.GetBytes(message);
         stream.Write(messageBytes, 0, messageBytes.Length);
+        w.Send(stream.ToArray());
+    }
+
+    public void SendHeartbeatResponse() {
+        if (!Validate("SendHeartbeatResponse")) return;
+        var stream = new MemoryStream();
+        stream.Write(BitConverter.GetBytes(specHeartbeatResponse), 0, 4);
         w.Send(stream.ToArray());
     }
 }
