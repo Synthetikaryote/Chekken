@@ -7,10 +7,13 @@ public class AbilityTeleportScript : AbilityBaseClass
     private GameObject mMarker;
     private Vector3 mTeleportR;
     private Vector3 mTeleportL;
+    [SerializeField]
+    private Vector3 mDir;
 
     // Use this for initialization
     public override void Initialize()
     {
+        mDir = new Vector3(1, 0, 0);
         mTeleport = new Vector3(15.0f, 0.0f, 0.0f);
         mCC = GetComponent<ChickController>();
         mCDown = 5.0f;//90.0f;
@@ -25,9 +28,8 @@ public class AbilityTeleportScript : AbilityBaseClass
         switch (mCC.GetDir())
         {
             case 'R':
-                Vector3 right = new Vector3(1, 0, 0);
 
-                if (Physics.Raycast(transform.position, right, 15))
+                if (Physics.Raycast(transform.position, mDir, 15))
                 {
                     print("There is something in front of the object!");
                 }
@@ -39,9 +41,9 @@ public class AbilityTeleportScript : AbilityBaseClass
 
                 break;
             case 'L':
-                Vector3 left = new Vector3(-1, 0, 0);
+                mDir = mDir * -1.0f;
 
-                if (Physics.Raycast(transform.position, left, 15))
+                if (Physics.Raycast(transform.position, mDir, 15))
                 {
                     print("There is something in front of the object!");
                 }
