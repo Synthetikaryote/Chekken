@@ -41,5 +41,6 @@ public class AbilityTornadoScript : AbilityBaseClass
 
         this.transform.Rotate(spin * mDuration);
         mActive = true;
+        mCC.SetCoolDown(mCDown);
     }
 }
