@@ -86,6 +86,7 @@ public class ChickLocal : ChickController
             }
 
             newSpeed = Mathf.Min(maxSpeed, newSpeed + (accelFactor * Time.deltaTime));
+            damageSpeed = newSpeed;
             myBody.velocity = new Vector3(newSpeed * Input.GetAxisRaw("Horizontal"), myBody.velocity.y, 0.0f);
 
             //rotation
@@ -100,6 +101,7 @@ public class ChickLocal : ChickController
             myBody.velocity = new Vector3(0.0f, myBody.velocity.y, 0.0f);
             //this.transform.rotation = new Quaternion(0, 1, 0, radLerpValue);
             radLerpValue = 0.0f;
+            damageSpeed = 0f;
         }
             
 

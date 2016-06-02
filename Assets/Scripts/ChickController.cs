@@ -29,9 +29,12 @@ public class ChickController : MonoBehaviour
 
     //Attack
     public float damageRate;
+    protected float damageSpeed = 0f;
 
     //UI
     public ChickUI ui;
+
+    public uint serverID = uint.MaxValue;
 
     //Ability Cooldown
     protected float mCooldown;
@@ -126,10 +129,10 @@ public class ChickController : MonoBehaviour
     {
         if (myBody == null)
             return;
-        if(col.gameObject.tag == "Player")
+        if (GetComponent<ChickLocal>() != null && col.gameObject.GetComponent<HealthSystem>())
         {
             //Calculate damage based on velocity
-            float damage = Mathf.Abs(damageRate * myBody.velocity.x);
+            float damage = Mathf.Abs(damageRate * damageSpeed);
             //Apply damage to other chick
             col.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
         }
