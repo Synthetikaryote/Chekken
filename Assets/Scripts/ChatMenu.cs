@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ChatMenu : MonoBehaviour
+public class ChatMenu
 {
     bool isInitialized = false;
     int chatCount;
@@ -26,7 +26,7 @@ public class ChatMenu : MonoBehaviour
     public void Intialize(Text text, Image img, InputField input, GameObject mask, ServerCommunication sC)
     {
         serverCom = sC;
-        serverCom.onPlayerMessage += Test;
+        serverCom.onPlayerMessage += GetMessageFromServer;
         uIText = text;
         Debug.Assert(uIText != null, "[chat menu] failed to get text object");
         windowHeight = text.rectTransform.rect.height;
@@ -73,9 +73,13 @@ public class ChatMenu : MonoBehaviour
             int resizedWindowMultiplier = 1;
             int textLength = textData[chatCount].Length;
             Vector3 posPrev = uIText.transform.position;
+            /*
+             pseudo code:
+             get width and length of each line?
+             */
             if (textLength > limit)
             {
-                resizedWindowMultiplier = Mathf.FloorToInt(textLength / limit);
+                resizedWindowMultiplier = Mathf.CeilToInt(textLength / limit);
                 Vector2 sizeDelta = uIText.rectTransform.sizeDelta;
                 Debug.Log("<color=yellow>" + "size delta : " + sizeDelta + "</color>");
                 float height = uIText.rectTransform.rect.height;
@@ -89,8 +93,16 @@ public class ChatMenu : MonoBehaviour
             chatCount++;
         }
     }
-    void Test(ServerCommunication.Player play, string msg)
+    private void ResolveChatSize()
     {
-
+        int wordCount = 0;
+        foreach (string msg in textData)
+        {
+            wordCount += msg.Length;
+        }
+    }
+    void GetMessageFromServer(ServerCommunication.Player play, string msg)
+    {
+        //serverCom.onPlayerMessage();
     }
 }
