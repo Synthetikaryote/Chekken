@@ -23,7 +23,7 @@ public class AbilityForceField : AbilityBaseClass
     public override void ActivateAbility()
     {
         mShield = GameObject.Instantiate(mPrefab, this.transform.position, this.transform.rotation) as GameObject;
-        mShield.transform.parent = mPlayer.transform;
+        this.transform.position = mPlayer.transform.position;
         mCC.SetCoolDown(mCDown);
     }
 
