@@ -26,7 +26,7 @@ public class MultiplayerManager : MonoBehaviour {
         //Add our Player(s) to the game returns which number we are in the list. 
         //for(numLocalPlayers)
         //localPlayers.Add(Server.AddPlayer())
-        serverComms.EnterGame(name, chicken.transform.position);
+        serverComms.EnterGame(name, chicken.transform.position, 100f);
         
     }
 
@@ -53,6 +53,14 @@ public class MultiplayerManager : MonoBehaviour {
 
     void RemovePlayer(ServerCommunication.Player newPlayer)
     {
+        GameObject player = null;
+        if (chickenDic.TryGetValue(newPlayer.id, out player))
+        {
+            var chickController = player.GetComponent<ChickController>();
+            Destroy(chickController.ui.gameObject);
+            Destroy(player);
+        }
+        
         chickenDic.Remove(newPlayer.id);
     }
 

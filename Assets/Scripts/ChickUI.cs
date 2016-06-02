@@ -12,6 +12,7 @@ public class ChickUI : MonoBehaviour
         //This will ensure that the UI elements are spawned with the appropiate chick,
         //then unparented from the chick afterwards
         transform.parent = null;
+        target.GetComponent<ChickController>().ui = this;
     }
 	
 	// Update is called once per frame

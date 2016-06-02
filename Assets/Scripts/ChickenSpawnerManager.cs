@@ -86,6 +86,7 @@ public class ChickenSpawnerManager : MonoBehaviour
         GameObject spawnedChicken = (GameObject)Instantiate(chickenPrefabs[prefabID], transform.position, spawnRotation);
         NameManager.instance.AddPlayerName(playerName);
         spawnedChicken.AddComponent<ChickDummy>();
+        var ui = spawnedChicken.GetComponentInChildren<ChickUI>().GetComponentInChildren<TextMesh>().text = playerName;
 
         switch (skillID)
         {

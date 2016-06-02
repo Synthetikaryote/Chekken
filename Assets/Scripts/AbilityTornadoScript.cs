@@ -20,6 +20,8 @@ public class AbilityTornadoScript : AbilityBaseClass
         mAnimator = GetComponent<Animator>();
         mPlayRigidBody = GetComponent<Rigidbody>();
         mActive = false;
+        mDuration = 50.0f;
+        spin = new Vector3(0, 550, 0);
     }
 
     public void OnCollisionEnter(Collision collision)
