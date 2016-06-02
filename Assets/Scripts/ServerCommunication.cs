@@ -130,12 +130,12 @@ public class ServerCommunication : MonoBehaviour {
                             if (player.id == id)
                                 break;
                             if (otherPlayers.TryGetValue(id, out other)) {
-                                Debug.Log(other.name + " is now at position " + pos);
+                                //Debug.Log(other.name + " is now at position " + pos);
                                 other.pos = pos;
                                 if (onPlayerMoved != null)
                                     onPlayerMoved(other);
                             } else
-                                Debug.Log("player" + id + " is now at position " + pos);
+                                ;//Debug.Log("player" + id + " is now at position " + pos);
                             break;
                         }
                     case specMessage:

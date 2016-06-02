@@ -53,6 +53,14 @@ public class MultiplayerManager : MonoBehaviour {
 
     void RemovePlayer(ServerCommunication.Player newPlayer)
     {
+        GameObject player = null;
+        if (chickenDic.TryGetValue(newPlayer.id, out player))
+        {
+            var chickController = player.GetComponent<ChickController>();
+            Destroy(chickController.ui.gameObject);
+            Destroy(player);
+        }
+        
         chickenDic.Remove(newPlayer.id);
     }
 

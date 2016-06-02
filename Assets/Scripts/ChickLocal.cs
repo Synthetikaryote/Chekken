@@ -66,7 +66,6 @@ public class ChickLocal : ChickController
         //check if the position differs from frame before
         if (transform.position != oldPos)
         {
-            Debug.Log("Sending position: " + transform.position.ToString());
             serverComms.UpdatePosition(transform.position);
         }
 

@@ -30,6 +30,9 @@ public class ChickController : MonoBehaviour
     //Attack
     public float damageRate;
 
+    //UI
+    public ChickUI ui;
+
     //Ability Cooldown
     protected float mCooldown;
     public float GetCoolDown() { return mCooldown; }
