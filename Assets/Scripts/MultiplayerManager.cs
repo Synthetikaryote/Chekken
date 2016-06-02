@@ -18,6 +18,7 @@ public class MultiplayerManager : MonoBehaviour {
         serverComms.onPlayerDisconnected += RemovePlayer;
         serverComms.onGameInfoReceived += InitPlayers;
         serverComms.onPlayerMoved += PlayerMoved;
+        serverComms.onPlayerUpdateHealth += HealthUpdated;
     }
 
 
@@ -39,9 +40,11 @@ public class MultiplayerManager : MonoBehaviour {
         localPlayer = id;
     }
 
-    void DealDamage(int recievingPlayer)
+    void HealthUpdated(ServerCommunication.Player player, float health)
     {
-        //update the host game 
+        GameObject chick = null;
+        if (chickenDic.TryGetValue(player.id, out chick))
+            chick.GetComponent<HealthSystem>().SetHealth(health);
     }
 
     void AddNewPlayer(ServerCommunication.Player newPlayer)

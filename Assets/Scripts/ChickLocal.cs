@@ -19,13 +19,7 @@ public class ChickLocal : ChickController
     private bool hasAirJump;
 
     //server communications
-    private ServerCommunication serverComms;
     private Vector3 oldPos;
-
-    public void Awake()
-    {
-        serverComms = FindObjectOfType<ServerCommunication>();
-    }
 
     protected override void Start() 
     {
@@ -35,7 +29,7 @@ public class ChickLocal : ChickController
 
         oldPos = Vector3.zero;
 
-        if(!serverComms)
+        if(!serverCommunication)
         {
             Debug.LogError("[ChickLocal.cs] Cannot find the server communication script!");
         }
@@ -67,7 +61,7 @@ public class ChickLocal : ChickController
         if (transform.position != oldPos)
         {
             //Debug.Log("Sending position: " + transform.position.ToString());
-            serverComms.UpdatePosition(transform.position);
+            serverCommunication.UpdatePosition(transform.position);
         }
 
         //Horizontal Movement

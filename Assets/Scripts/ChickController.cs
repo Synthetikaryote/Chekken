@@ -34,6 +34,8 @@ public class ChickController : MonoBehaviour
     //UI
     public ChickUI ui;
 
+    //Server
+    public ServerCommunication serverCommunication;
     public uint serverID = uint.MaxValue;
 
     //Ability Cooldown
@@ -57,6 +59,8 @@ public class ChickController : MonoBehaviour
         myRenderer = gameObject.GetComponent<Collider>();
 
         ability = GetComponent<AbilityBaseClass>();
+
+        serverCommunication = FindObjectOfType<ServerCommunication>();
 
         #region InstatiateEffectsAndAudio
         //these should be done in a for loop in a vector. 
@@ -134,7 +138,13 @@ public class ChickController : MonoBehaviour
             //Calculate damage based on velocity
             float damage = Mathf.Abs(damageRate * damageSpeed);
             //Apply damage to other chick
-            col.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
+            var healthSystem = col.gameObject.GetComponent<HealthSystem>();
+            healthSystem.TakeDamage(damage);
+            if (damage != 0f)
+            {
+                var chickController = col.gameObject.GetComponent<ChickController>();
+                serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
+            }
         }
     }
 }
