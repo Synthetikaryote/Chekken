@@ -54,7 +54,9 @@ public class ServerCommunication : MonoBehaviour {
         yield return StartCoroutine(w.Connect());
         Debug.Log(w.isConnected ? "Connected!" : "Couldn't connect");
 		while (true) {
-			var reply = w.Recv();
+            if (w.lastError != null)
+                break;
+            var reply = w.Recv();
             if (reply != null) {
                 //var stringData = "[";
                 //for (var i = 0; i < reply.Length; ++i)
@@ -191,11 +193,9 @@ public class ServerCommunication : MonoBehaviour {
                             break;
                         }
                 }
+            } else {
+                yield return 0;
             }
-			if (w.lastError != null) {
-				break;
-			}
-			yield return 0;
 		}
 		w.Close();
 	}
