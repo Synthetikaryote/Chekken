@@ -26,7 +26,7 @@ public class MultiplayerManager : MonoBehaviour {
         //Add our Player(s) to the game returns which number we are in the list. 
         //for(numLocalPlayers)
         //localPlayers.Add(Server.AddPlayer())
-        serverComms.EnterGame(name, chicken.transform.position);
+        serverComms.EnterGame(name, chicken.transform.position, 100f);
         
     }
 

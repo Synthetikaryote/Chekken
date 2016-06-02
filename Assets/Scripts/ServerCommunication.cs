@@ -14,6 +14,7 @@ public class ServerCommunication : MonoBehaviour {
         specUpdatePosition = 4,
         specHeartbeat = 5,
         specHeartbeatResponse = 6,
+        specUpdateHealth = 7,
         // client only
         specMessage = 502;
 
@@ -22,6 +23,7 @@ public class ServerCommunication : MonoBehaviour {
         public uint id = uint.MaxValue;
         public string name = null;
         public Vector3 pos = Vector3.zero;
+        public float health = 0.0f;
     }
 
     public const int nameLength = 16;
@@ -39,6 +41,8 @@ public class ServerCommunication : MonoBehaviour {
     public PlayerMoved onPlayerMoved;
     public delegate void PlayerMessage(Player player, string message);
     public PlayerMessage onPlayerMessage;
+    public delegate void PlayerUpdateHealth(Player player, float health);
+    public PlayerUpdateHealth onPlayerUpdateHealth;
 
 
     // Use this for initialization
@@ -79,8 +83,9 @@ public class ServerCommunication : MonoBehaviour {
                                 float y = BitConverter.ToSingle(reply, byteIndex + nameLength + 8);
                                 float z = BitConverter.ToSingle(reply, byteIndex + nameLength + 12);
                                 other.pos = new Vector3(x, y, z);
+                                other.health = BitConverter.ToSingle(reply, byteIndex + nameLength + 16);
                                 otherPlayers[other.id] = other;
-                                byteIndex += 4 + nameLength + 12;
+                                byteIndex += 4 + nameLength + 16;
                             }
                             Debug.Log("Received ID: " + id + " and game start info.  There are " + otherPlayerCount + " other players.");
                             if (onGameInfoReceived != null)
@@ -117,6 +122,7 @@ public class ServerCommunication : MonoBehaviour {
                             Debug.Log(other.name + " has connected (id " + other.id + ", pos " + other.pos + ")");
                             if (onPlayerConnected != null)
                                 onPlayerConnected(other);
+                            UpdateHealth(id, 50.0f);
                             break;
                         }
                     case specUpdatePosition:
@@ -150,7 +156,7 @@ public class ServerCommunication : MonoBehaviour {
                                 if (otherPlayers.TryGetValue(id, out other)) {
                                     name = other.name;
                                     if (onPlayerMessage != null)
-                                        onPlayerMessage(player, message);
+                                        onPlayerMessage(other, message);
                                 }
                             }
                             if (name != null)
@@ -162,6 +168,26 @@ public class ServerCommunication : MonoBehaviour {
                     case specHeartbeat:
                         {
                             SendHeartbeatResponse();
+                            break;
+                        }
+                    case specUpdateHealth:
+                        {
+                            uint id = BitConverter.ToUInt32(reply, 4);
+                            float health = BitConverter.ToSingle(reply, 8);
+                            Player updatedPlayer = null;
+                            if (id == player.id) {
+                                updatedPlayer = player;
+                            } else {
+                                Player other = null;
+                                if (otherPlayers.TryGetValue(id, out other)) {
+                                    updatedPlayer = other;
+                                }
+                            }
+                            if (updatedPlayer != null) {
+                                updatedPlayer.health = health;
+                                if (onPlayerUpdateHealth != null)
+                                    onPlayerUpdateHealth(updatedPlayer, health);
+                            }
                             break;
                         }
                 }
@@ -197,9 +223,10 @@ public class ServerCommunication : MonoBehaviour {
         return true;
     }
 
-    public void EnterGame(string name, Vector3 position) {
+    public void EnterGame(string name, Vector3 position, float health) {
         player.name = name;
         player.pos = position;
+        player.health = health;
         if (!Validate("EnterGame")) return;
         var stream = new MemoryStream(16 + nameLength);
         stream.Write(BitConverter.GetBytes(specAnnounceConnect), 0, 4);
@@ -211,6 +238,7 @@ public class ServerCommunication : MonoBehaviour {
         stream.Write(BitConverter.GetBytes(player.pos.x), 0, 4);
         stream.Write(BitConverter.GetBytes(player.pos.y), 0, 4);
         stream.Write(BitConverter.GetBytes(player.pos.z), 0, 4);
+        stream.Write(BitConverter.GetBytes(player.health), 0, 4);
         w.Send(stream.ToArray());
     }
 
@@ -222,6 +250,25 @@ public class ServerCommunication : MonoBehaviour {
         stream.Write(BitConverter.GetBytes(pos.x), 0, 4);
         stream.Write(BitConverter.GetBytes(pos.y), 0, 4);
         stream.Write(BitConverter.GetBytes(pos.z), 0, 4);
+        w.Send(stream.ToArray());
+    }
+
+    public void UpdateHealth(uint playerID, float health) {
+        if (!Validate("UpdateHealth")) return;
+        var stream = new MemoryStream(16);
+        stream.Write(BitConverter.GetBytes(specUpdateHealth), 0, 4);
+        stream.Write(BitConverter.GetBytes(playerID), 0, 4);
+        stream.Write(BitConverter.GetBytes(health), 0, 4);
+        Player updatedPlayer = null;
+        if (playerID == player.id)
+            updatedPlayer = player;
+        else {
+            Player other = null;
+            if (otherPlayers.TryGetValue(playerID, out other))
+                updatedPlayer = other;
+        }
+        if (updatedPlayer != null)
+            updatedPlayer.health = health;
         w.Send(stream.ToArray());
     }
 
