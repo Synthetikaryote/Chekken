@@ -16,13 +16,14 @@ public class AbilityForceField : AbilityBaseClass
     {
         mCC = GetComponent<ChickController>();
         mCDown = 5.0f;//200.0f;
-        mShield = GameObject.Instantiate(mPrefab, this.transform.position, this.transform.rotation) as GameObject;
-        mShield.transform.parent = mPlayer.transform;
+        mPlayer = this.gameObject;
+        mPrefab = ChickenSpawnerManager.Instance.mShield;
     }
 
     public override void ActivateAbility()
     {
-
+        mShield = GameObject.Instantiate(mPrefab, this.transform.position, this.transform.rotation) as GameObject;
+        mShield.transform.parent = mPlayer.transform;
         mCC.SetCoolDown(mCDown);
     }
 

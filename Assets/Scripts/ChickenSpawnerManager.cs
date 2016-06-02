@@ -16,6 +16,7 @@ public class ChickenSpawnerManager : MonoBehaviour
     public GameObject AttackAudio;
     public GameObject DamageAudio;
     public GameObject mProjectile;
+    public GameObject mShield;
 
     Input input;
     //singleton stuff
@@ -72,6 +73,10 @@ public class ChickenSpawnerManager : MonoBehaviour
                 Debug.Log("AbilityTornadoScript attached");
                 spawnedChicken.AddComponent<AbilityTornadoScript>().Initialize();
                 break;
+            case 4:
+                Debug.Log("AbilityForceFieldScript attached");
+                spawnedChicken.AddComponent<AbilityForceField>().Initialize();
+                break;
             default:
                 Debug.LogError("Skill not found[id]: " + skillID);
                 break;
@@ -107,6 +112,10 @@ public class ChickenSpawnerManager : MonoBehaviour
             case 3:
                 Debug.Log("AbilityTornadoScript attached");
                 spawnedChicken.AddComponent<AbilityTornadoScript>().Initialize();
+                break;
+            case 4:
+                Debug.Log("AbilityForceFieldScript attached");
+                spawnedChicken.AddComponent<AbilityForceField>().Initialize();
                 break;
             default:
                 Debug.LogError("Skill not found[id]: " + skillID);
