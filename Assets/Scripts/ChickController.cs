@@ -128,8 +128,6 @@ public class ChickController : MonoBehaviour
             return;
         if(col.gameObject.tag == "Player")
         {
-            print("Colliding with " + col.gameObject.name);
-
             //Calculate damage based on velocity
             float damage = Mathf.Abs(damageRate * myBody.velocity.x);
             //Apply damage to other chick
