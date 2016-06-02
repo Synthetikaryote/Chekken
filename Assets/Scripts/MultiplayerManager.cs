@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class MultiplayerManager : MonoBehaviour {
 
     private ServerCommunication serverComms;
-    public uint localPlayer;
+    public uint localPlayerID;
+    public GameObject localPlayer = null;
     private Dictionary<uint, GameObject> chickenDic;
 
     void Awake()
@@ -27,7 +28,8 @@ public class MultiplayerManager : MonoBehaviour {
         //Add our Player(s) to the game returns which number we are in the list. 
         //for(numLocalPlayers)
         //localPlayers.Add(Server.AddPlayer())
-        serverComms.EnterGame(name, chicken.transform.position, 100f);
+        localPlayer = chicken;
+        serverComms.EnterGame(name, localPlayer.transform.position, 100f);
         
     }
 
@@ -37,12 +39,14 @@ public class MultiplayerManager : MonoBehaviour {
         {
             AddNewPlayer(entry.Value);
         }
-        localPlayer = id;
+        localPlayerID = id;
     }
 
     void HealthUpdated(ServerCommunication.Player player, float health)
     {
         GameObject chick = null;
+        if (player.id == localPlayerID)
+            localPlayer.GetComponent<HealthSystem>().SetHealth(health);
         if (chickenDic.TryGetValue(player.id, out chick))
             chick.GetComponent<HealthSystem>().SetHealth(health);
     }

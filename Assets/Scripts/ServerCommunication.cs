@@ -124,7 +124,6 @@ public class ServerCommunication : MonoBehaviour {
                             Debug.Log(other.name + " has connected (id " + other.id + ", pos " + other.pos + ")");
                             if (onPlayerConnected != null)
                                 onPlayerConnected(other);
-                            UpdateHealth(id, 50.0f);
                             break;
                         }
                     case specUpdatePosition:
