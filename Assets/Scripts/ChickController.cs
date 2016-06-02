@@ -128,14 +128,7 @@ public class ChickController : MonoBehaviour
             return;
         if(col.gameObject.tag == "Player")
         {
-            //Check if velocities are matching
-            var otherBody = col.gameObject.GetComponent<Rigidbody>();
-            if (otherBody == null)
-                return;
-            if (myBody.velocity == col.gameObject.GetComponent<Rigidbody>().velocity)
-            {
-                //Deflect each other
-            }
+            print("Colliding with " + col.gameObject.name);
 
             //Calculate damage based on velocity
             float damage = Mathf.Abs(damageRate * myBody.velocity.x);
