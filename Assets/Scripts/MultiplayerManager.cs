@@ -60,7 +60,7 @@ public class MultiplayerManager : MonoBehaviour {
         //fix issue with name not being set to the other players
         GameObject newChick = ChickenSpawnerManager.Instance.SpawnChickenAt(newPlayer.pos, 0, 0, newPlayer.name);
         newChick.GetComponent<ChickController>().serverID = newPlayer.id;
-        chickenDic.Add(newPlayer.id, newChick);
+        chickenDic[newPlayer.id] = newChick;
     }
 
     void RemovePlayer(ServerCommunication.Player newPlayer)
