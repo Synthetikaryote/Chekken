@@ -40,7 +40,8 @@ public class HealthSystem : MonoBehaviour
         // set position to a spawn point
         transform.position = ChickenSpawnerManager.Instance.GetRandomSpawnLocation();
         SetHealth(maxHealth);
-        m_ChickLocalcs.serverCommunication.UpdateHealth(m_ChickLocalcs.serverID, curHealth);
+        if (m_ChickLocalcs != null)
+            m_ChickLocalcs.serverCommunication.UpdateHealth(m_ChickLocalcs.serverID, curHealth);
         gameObject.SetActive(true);
         var controller = GetComponent<ChickController>();
         controller.ui.gameObject.SetActive(true);
