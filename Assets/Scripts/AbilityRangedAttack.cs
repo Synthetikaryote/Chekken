@@ -25,7 +25,7 @@ public class AbilityRangedAttack : AbilityBaseClass {
         
         mForce = 5000.0f;
         mForceVector = new Vector3(1.0f, 0.0f, 0.0f);
-        mCDown = 5.0f;//200.0f;
+        mCDown = 5.0f;
         mAnimator = GetComponent<Animator>();
 
         //set mProjectile

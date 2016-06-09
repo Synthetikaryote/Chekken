@@ -8,14 +8,15 @@ public class AbilityForceField : AbilityBaseClass
     public GameObject mPlayer;
     public float mForce;
     private Vector3 mForceVector;
-    
-    
+    private float lifetime;
+
     // Use this for initialization
 
     public override void Initialize()
     {
         mCC = GetComponent<ChickController>();
-        mCDown = 5.0f;//200.0f;
+        lifetime = 10.0f;
+        mCDown = 5.0f;
         mPlayer = this.gameObject;
         mPrefab = ChickenSpawnerManager.Instance.mShield;
     }
@@ -25,6 +26,8 @@ public class AbilityForceField : AbilityBaseClass
         mShield = GameObject.Instantiate(mPrefab, this.transform.position, this.transform.rotation) as GameObject;
         mShield.transform.parent = mPlayer.transform;
         mCC.SetCoolDown(mCDown);
+        Destroy(mShield, lifetime);
     }
 
 }
+

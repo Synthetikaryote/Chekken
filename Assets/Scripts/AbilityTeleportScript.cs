@@ -16,7 +16,7 @@ public class AbilityTeleportScript : AbilityBaseClass
         mDir = new Vector3(1, 0, 0);
         mTeleport = new Vector3(15.0f, 0.0f, 0.0f);
         mCC = GetComponent<ChickController>();
-        mCDown = 5.0f;//90.0f;
+        mCDown = 5.0f;
         mTeleportR = mTeleport;
         mTeleportL = -mTeleport;
     }
