@@ -55,15 +55,13 @@ public class ChickController : MonoBehaviour
         {
             
             transform.rotation = Quaternion.Euler   (0.0f, BitConverter.ToSingle(value, 0), 0.0f);
-            BitConverter.ToBoolean(value, 4);
+            mShield.SetActive(BitConverter.ToBoolean(value, 4));
         }
         get
         {
             var stream = new MemoryStream();
             stream.Write(BitConverter.GetBytes(transform.rotation.y), 0, 4);
-            var forceField = GetComponent<AbilityForceField>();
-            bool forceFieldActive = forceField != null && Time.time - forceField.lastActivated <= forceField.lifetime;
-            stream.Write(BitConverter.GetBytes(forceFieldActive), 0, 1);
+            stream.Write(BitConverter.GetBytes(mShield.activeSelf), 0, 1);
             return stream.ToArray();
         }
     }
