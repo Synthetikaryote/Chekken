@@ -20,6 +20,7 @@ public class ChickLocal : ChickController
 
     //server communications
     private Vector3 oldPos;
+    
 
     protected override void Start() 
     {

@@ -20,18 +20,19 @@ public class HealthSystem : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (curHealth <= 0.0f)
+        if (curHealth <= 0.0f) //Code for Chicken Death
         {
             Debug.Log("You Died.");
-            m_ChickLocalcs.ExplosionEffect.Play();
-            m_ChickLocalcs.ExplosionAudio.Play();
-            //IsAlive = true;
-            this.transform.FindChild("Chick").gameObject.SetActive(false);
-            this.GetComponent<BoxCollider>().enabled = false;
-            m_ChickLocalcs.ChickLive = false;
+            this.gameObject.SetActive(false);
+            
+            
+            
+            //m_ChickLocalcs.ChickLive = false; POSSIBLY DEFUNCT
             //AnimateCharacter("dead");
         }
     }
+
+    
 
     //Health funcs
     public void TakeDamage(float damage)
