@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.IO;
+using System.Text;
+
 
 public class ChickController : MonoBehaviour
 {
@@ -42,6 +46,20 @@ public class ChickController : MonoBehaviour
     protected float mCooldown;
     public float GetCoolDown() { return mCooldown; }
     public void SetCoolDown(float cooldown) { mCooldown = cooldown;  }
+
+    public byte[] state
+    {
+        set
+        {
+            transform.rotation = new Quaternion(BitConverter.ToSingle(value, 0), 1.0f, 0.0f, radLerpValue);
+        }
+        get
+        {
+            var stream = new MemoryStream();
+            stream.Write(BitConverter.GetBytes(transform.rotation.x), 0, 4);
+            return stream.ToArray();
+        }
+    }
 
     //Chicken Direction
     //Direction of the player, it is 'L' for Left, or 'R' for Right
