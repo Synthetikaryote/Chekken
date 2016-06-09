@@ -17,8 +17,7 @@ public class MenuManager : MonoBehaviour
     ChatMenu chatMenu;
 
     public Text UIText;
-    public GameObject UITextMask;
-    public Image UITextBackground;
+    public GameObject UIChatGO;
     public InputField UIInputField;
     void Awake()
     {
@@ -35,7 +34,7 @@ public class MenuManager : MonoBehaviour
         ResetVariable();
         chatMenuOn = false;
         servCom = gameObject.GetComponent<ServerCommunication>();
-        chatMenu.Intialize(UIText, UITextBackground, UIInputField, UITextMask, servCom);
+        chatMenu.Intialize(UIText, UIInputField, UIChatGO, servCom);
         chatMenu.MenuToggle(chatMenuOn);
     }
     void ResetVariable()
@@ -44,7 +43,6 @@ public class MenuManager : MonoBehaviour
         mySkillID = -1;
         playerNameTemp = "";
         inputMenu.text = "";
-        
     }
     public void StartGame()
     {

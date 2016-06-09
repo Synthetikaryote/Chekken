@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class ChatMenu
 {
-    bool isInitialized = false;
     int chatCount;
 
     //horizontal limit 24
@@ -16,26 +15,24 @@ public class ChatMenu
     private ServerCommunication serverCom;
     int limit = 25;
     private Text uIText;
-    private Image uITextBackground;
+    private GameObject uIParent;
     private InputField uIInputField;
-    private GameObject uIMask;
     float windowHeight;
+
     //for resetting later?
     private List<string> textData;
 
-    public void Intialize(Text text, Image img, InputField input, GameObject mask, ServerCommunication sC)
+    public void Intialize(Text text, InputField input, GameObject parent, ServerCommunication sC)
     {
         serverCom = sC;
         serverCom.onPlayerMessage += GetMessageFromServer;
         uIText = text;
         Debug.Assert(uIText != null, "[chat menu] failed to get text object");
         windowHeight = text.rectTransform.rect.height;
-        uIMask = mask;
-        uITextBackground = img;
-        Debug.Assert(uITextBackground != null, "[chat menu] failed to get Image object");
+        uIParent = parent;
+        Debug.Assert(uIParent != null, "[chat menu] failed to get parent");
         uIInputField = input;
         Debug.Assert(uIInputField != null, "[chat menu] failed to get input field object");
-        isInitialized = true;
         textData = new List<string>();
         chatCount = 0;
         uIText.text = "";
@@ -43,15 +40,17 @@ public class ChatMenu
 
     public void MenuToggle(bool active)
     {
-        uIText.gameObject.SetActive(active);
-        uITextBackground.gameObject.SetActive(active);
-        uIInputField.gameObject.SetActive(active);
-        uIMask.SetActive(active);
+        uIParent.SetActive(active);
     }
 
-    public void UpdateField(string name)
+    public void UpdateField(string name, string serverMsg = "", bool server = false)
     {
-        if (HasText())
+        if (server == true)
+        {
+            textData.Add(serverMsg);
+            UpdateTextDisplay();
+        }
+        else if (HasText())
         {
             string chatData = "<b>" + name + "</b>" + " : " + uIInputField.text + "\n";
             textData.Add(chatData);
@@ -103,6 +102,6 @@ public class ChatMenu
     }
     void GetMessageFromServer(ServerCommunication.Player play, string msg)
     {
-        //serverCom.onPlayerMessage();
+        UpdateField(play.name, msg, true);
     }
 }

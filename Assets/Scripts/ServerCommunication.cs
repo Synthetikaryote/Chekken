@@ -151,10 +151,10 @@ public class ServerCommunication : MonoBehaviour {
                             string message = Encoding.Unicode.GetString(reply, 8, reply.Length - 8);
                             string name = null;
                             if (id == player.id)
-                                name = player.name;
+                                break;
                             if (name == null) {
                                 Player other = null;
-                                if (otherPlayers.TryGetValue(id, out other)) {
+                                if (otherPlayers.TryGetValue(id, out other)){
                                     name = other.name;
                                     if (onPlayerMessage != null)
                                         onPlayerMessage(other, message);
@@ -287,4 +287,5 @@ public class ServerCommunication : MonoBehaviour {
         stream.Write(BitConverter.GetBytes(specHeartbeatResponse), 0, 4);
         w.Send(stream.ToArray());
     }
+
 }
