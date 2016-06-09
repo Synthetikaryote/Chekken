@@ -47,12 +47,14 @@ public class ChickController : MonoBehaviour
     public float GetCoolDown() { return mCooldown; }
     public void SetCoolDown(float cooldown) { mCooldown = cooldown;  }
 
+    public GameObject mShield = null;
+
     public byte[] state
     {
         set
         {
             
-            transform.rotation = Quaternion.Euler(0.0f, BitConverter.ToSingle(value, 0), 0.0f);
+            transform.rotation = Quaternion.Euler   (0.0f, BitConverter.ToSingle(value, 0), 0.0f);
             BitConverter.ToBoolean(value, 4);
         }
         get
@@ -84,6 +86,8 @@ public class ChickController : MonoBehaviour
         ability = GetComponent<AbilityBaseClass>();
 
         serverCommunication = FindObjectOfType<ServerCommunication>();
+
+        mShield = transform.FindChild("ForceShieldSpell").gameObject;
 
         #region InstatiateEffectsAndAudio
         //these should be done in a for loop in a vector. 
