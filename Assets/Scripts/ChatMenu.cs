@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class ChatMenu
 {
     int chatCount;
-
+    bool updateChat;
     //horizontal limit 24
     //vertical limit ? 18 + 7 = 25;
     /*
@@ -18,12 +18,17 @@ public class ChatMenu
     private GameObject uIParent;
     private InputField uIInputField;
     float windowHeight;
-
+    private Vector2 scrollPos;
+    private Vector2 uiSize;
     //for resetting later?
     private List<string> textData;
 
     public void Intialize(Text text, InputField input, GameObject parent, ServerCommunication sC)
     {
+        updateChat = false;
+        scrollPos = new Vector2();
+        uiSize = parent.GetComponent<RectTransform>().sizeDelta;
+        scrollPos = parent.transform.position;
         serverCom = sC;
         serverCom.onPlayerMessage += GetMessageFromServer;
         uIText = text;
@@ -48,14 +53,15 @@ public class ChatMenu
         if (server == true)
         {
             textData.Add(serverMsg);
+            //updateChat = true;
             UpdateTextDisplay();
         }
         else if (HasText())
         {
             string chatData = "<b>" + name + "</b>" + " : " + uIInputField.text + "\n";
             textData.Add(chatData);
-
             serverCom.SendChat(chatData);
+            //updateChat = true;
             UpdateTextDisplay();
             uIInputField.text = "";
         }
@@ -64,9 +70,23 @@ public class ChatMenu
     {
         return uIInputField.text.Length > 0;
     }
-
+    //void OnGUI()
+    //{
+    //    if (updateChat)
+    //    {
+    //        scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.Width(uiSize.x), GUILayout.Height(uiSize.y));
+    //        while (chatCount < textData.Count)
+    //        {
+    //            uIText.text += textData[chatCount];
+    //            chatCount++;
+    //        }
+    //        GUILayout.EndScrollView();
+    //        updateChat = false;
+    //    }
+    //}
     void UpdateTextDisplay()
     {
+        //scrollPos = GUILayout.BeginScrollView(scrollPos);
         while (chatCount < textData.Count)
         {
             int resizedWindowMultiplier = 1;
@@ -83,7 +103,7 @@ public class ChatMenu
                 Debug.Log("<color=yellow>" + "size delta : " + sizeDelta + "</color>");
                 float height = uIText.rectTransform.rect.height;
                 height += (windowHeight * resizedWindowMultiplier);
-                Debug.Log("<color=yellow>" + "new height : " + height + "</color>"); 
+                Debug.Log("<color=yellow>" + "new height : " + height + "</color>");
                 uIText.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, height);
                 uIText.transform.position = posPrev;
             }
@@ -91,6 +111,7 @@ public class ChatMenu
             uIText.text += textData[chatCount];
             chatCount++;
         }
+        //GUILayout.EndScrollView();
     }
     private void ResolveChatSize()
     {
