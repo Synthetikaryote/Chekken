@@ -89,7 +89,8 @@ public class MenuManager : MonoBehaviour
             chickenSelectMenu.SetActive(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) && !chickenSelectMenu.activeInHierarchy)
+        if (Input.GetKeyDown(KeyCode.Return) 
+            && !chickenSelectMenu.activeInHierarchy)
         {
             if (!chatMenu.HasText())
             {
