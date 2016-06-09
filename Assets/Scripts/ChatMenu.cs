@@ -96,6 +96,7 @@ public class ChatMenu
              pseudo code:
              get width and length of each line?
              */
+
             if (textLength > limit)
             {
                 resizedWindowMultiplier = Mathf.CeilToInt(textLength / limit);
@@ -107,7 +108,7 @@ public class ChatMenu
                 uIText.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, height);
                 uIText.transform.position = posPrev;
             }
-            Debug.Log("resize by : " + resizedWindowMultiplier);
+            //Debug.Log("resize by : " + resizedWindowMultiplier);
             uIText.text += textData[chatCount];
             chatCount++;
         }
