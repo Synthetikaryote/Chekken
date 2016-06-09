@@ -29,8 +29,6 @@ public class HealthSystem : MonoBehaviour
 
             if (m_ChickLocalcs != null)
                 Invoke("Respawn", 5f);
-            else
-                Invoke("RespawnOther", 5f);
             
             //m_ChickLocalcs.ChickLive = false; POSSIBLY DEFUNCT
             //AnimateCharacter("dead");
@@ -41,15 +39,6 @@ public class HealthSystem : MonoBehaviour
     {
         // set position to a spawn point
         transform.position = ChickenSpawnerManager.Instance.GetRandomSpawnLocation();
-        SetHealth(maxHealth);
-        gameObject.SetActive(true);
-        var controller = GetComponent<ChickController>();
-        controller.ui.gameObject.SetActive(true);
-    }
-
-    void RespawnOther()
-    {
-        // set position to a spawn point
         SetHealth(maxHealth);
         gameObject.SetActive(true);
         var controller = GetComponent<ChickController>();
@@ -69,6 +58,12 @@ public class HealthSystem : MonoBehaviour
     }
     public void SetHealth(float newHealth)
     {
+        if (newHealth > 0f && !gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+            var controller = GetComponent<ChickController>();
+            controller.ui.gameObject.SetActive(true);
+        }
         curHealth = newHealth;
     }
 }
