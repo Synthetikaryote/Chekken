@@ -4,7 +4,6 @@ using System.Collections;
 public class AbilityForceField : AbilityBaseClass
 {
     public GameObject mPrefab;
-    public GameObject mShield;
     public GameObject mPlayer;
     public float mForce;
     private Vector3 mForceVector;
@@ -23,11 +22,15 @@ public class AbilityForceField : AbilityBaseClass
 
     public override void ActivateAbility()
     {
-        mShield = GameObject.Instantiate(mPrefab, this.transform.position, this.transform.rotation) as GameObject;
-        mShield.transform.parent = mPlayer.transform;
+        mCC.mShield.SetActive(true);
         lastActivated = Time.time;
         mCC.SetCoolDown(mCDown);
-        Destroy(mShield, lifetime);
+        Invoke("DisableShield", lifetime);
+    }
+
+    void DisableShield()
+    {
+        mCC.mShield.SetActive(false);
     }
 
 }
