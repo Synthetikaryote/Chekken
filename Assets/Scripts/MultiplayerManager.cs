@@ -52,15 +52,7 @@ public class MultiplayerManager : MonoBehaviour {
         if (player.id == localPlayerID)
             localPlayer.GetComponent<HealthSystem>().SetHealth(health);
         if (chickenDic.TryGetValue(player.id, out chick))
-        {
-            if (health > 0f && !chick.activeSelf)
-            {
-                gameObject.SetActive(true);
-                var controller = GetComponent<ChickController>();
-                controller.ui.gameObject.SetActive(true);
-            }
             chick.GetComponent<HealthSystem>().SetHealth(health);
-        }
     }
 
     void AddNewPlayer(ServerCommunication.Player newPlayer)
