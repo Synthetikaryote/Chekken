@@ -23,13 +23,26 @@ public class HealthSystem : MonoBehaviour
         if (curHealth <= 0.0f) //Code for Chicken Death
         {
             Debug.Log("You Died.");
-            this.gameObject.SetActive(false);
-            
+            var controller = GetComponent<ChickController>();
+            controller.ui.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+
+            Invoke("Respawn", 5f);
             
             
             //m_ChickLocalcs.ChickLive = false; POSSIBLY DEFUNCT
             //AnimateCharacter("dead");
         }
+    }
+
+    void Respawn()
+    {
+        // set position to a spawn point
+        transform.position = ChickenSpawnerManager.Instance.GetRandomSpawnLocation();
+        SetHealth(maxHealth);
+        gameObject.SetActive(true);
+        var controller = GetComponent<ChickController>();
+        controller.ui.gameObject.SetActive(true);
     }
 
     

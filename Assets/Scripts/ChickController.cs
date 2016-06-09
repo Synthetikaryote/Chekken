@@ -51,7 +51,8 @@ public class ChickController : MonoBehaviour
     {
         set
         {
-            transform.rotation = new Quaternion(1.0f, BitConverter.ToSingle(value, 0), 0.0f, radLerpValue);
+            
+            transform.rotation = Quaternion.Euler(0.0f, BitConverter.ToSingle(value, 0), 0.0f);
             BitConverter.ToBoolean(value, 4);
         }
         get

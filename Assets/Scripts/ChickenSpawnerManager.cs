@@ -33,6 +33,11 @@ public class ChickenSpawnerManager : MonoBehaviour
         Assert.IsFalse(chickenPrefabs.Length == 0, "[Chicken Spawner] no chicken prefab attached");
         chickenSpawners = new List<ChickenSpawner>();
     }
+    public Vector3 GetRandomSpawnLocation()
+    {
+        var spawnerId = GetRandomChickenSpawner(new List<ChickenSpawner>(chickenSpawners));
+        return chickenSpawners[spawnerId].transform.position;
+    }
     public GameObject SpawnChicken(int prefabID, int skillID, string playerName)
     {
         Assert.IsFalse(prefabID >= chickenPrefabs.Length || prefabID < 0, "[Chicken Spawner] id out of bound");
