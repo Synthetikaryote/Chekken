@@ -9,13 +9,14 @@ public class DeathEffects : MonoBehaviour
     public ParticleSystem ExplosionEffect;
     public AudioSource ExplosionAudio;
     private ChickenSpawnerManager m_ChickenSpawnerManager;
-    private AudioClip m_Death;
+    public AudioClip m_Death;
 
     // Use this for initialization
     void Start () {
         m_ChickenSpawnerManager = GetComponent<ChickenSpawnerManager>();
 
-        //these should be done in a for loop in a vector. 
+        //m_Death = GetComponent<AudioClip>();
+        Instantiate(m_Death, this.transform.position, this.transform.rotation);
 
         GameObject ExplosionEffectGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.ExplosionEffect, gameObject.transform.position, transform.rotation);
         ExplosionEffectGO.transform.parent = transform;
@@ -26,13 +27,15 @@ public class DeathEffects : MonoBehaviour
         ExplosionAudio = ExplosionAudioGO.GetComponent<AudioSource>();
         ExplosionAudio.PlayOneShot(m_Death);
 
+        
         ExplosionEffect.Play();
-        Destroy(this, m_Death.length);
+        ExplosionAudio.Play();
+        
 
     }
 
     // Update is called once per frame
     void Update () {
-	
-	}
+        Destroy(this.gameObject, 15.0f);
+    }
 }

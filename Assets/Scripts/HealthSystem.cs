@@ -5,7 +5,7 @@ public class HealthSystem : MonoBehaviour
 {
     //Public members
     public float maxHealth;
-
+    public GameObject m_DeathEffect;
     //Private members
     private float curHealth;
     [SerializeField]
@@ -15,6 +15,7 @@ public class HealthSystem : MonoBehaviour
     {
         curHealth = maxHealth;
         m_ChickLocalcs = GetComponent<ChickLocal>();
+        
     }
 	
 	// Update is called once per frame
@@ -23,6 +24,7 @@ public class HealthSystem : MonoBehaviour
         if (curHealth <= 0.0f) //Code for Chicken Death
         {
             Debug.Log("You Died.");
+            Instantiate();
             var controller = GetComponent<ChickController>();
             controller.ui.gameObject.SetActive(false);
             gameObject.SetActive(false);
