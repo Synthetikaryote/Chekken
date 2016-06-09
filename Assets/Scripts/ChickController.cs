@@ -54,7 +54,7 @@ public class ChickController : MonoBehaviour
         set
         {
             
-            transform.rotation = Quaternion.Euler   (0.0f, BitConverter.ToSingle(value, 0), 0.0f);
+            transform.rotation = Quaternion.Euler   (0.0f, BitConverter.ToSingle(value, 0) + 180f, 0.0f);
             if (mShield != null)
                 mShield.SetActive(BitConverter.ToBoolean(value, 4));
         }

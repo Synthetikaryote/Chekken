@@ -27,8 +27,8 @@ public class HealthSystem : MonoBehaviour
             controller.ui.gameObject.SetActive(false);
             gameObject.SetActive(false);
 
-            Invoke("Respawn", 5f);
-            
+            if (m_ChickLocalcs != null)
+                Invoke("Respawn", 5f);
             
             //m_ChickLocalcs.ChickLive = false; POSSIBLY DEFUNCT
             //AnimateCharacter("dead");
