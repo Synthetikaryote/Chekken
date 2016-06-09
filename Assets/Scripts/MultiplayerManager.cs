@@ -20,6 +20,10 @@ public class MultiplayerManager : MonoBehaviour {
         serverComms.onGameInfoReceived += InitPlayers;
         serverComms.onPlayerMoved += PlayerMoved;
         serverComms.onPlayerUpdateHealth += HealthUpdated;
+        serverComms.onPlayerUpdateState += (other, state) => {
+            if (other.id != serverComms.player.id)
+                chickenDic[other.id].GetComponent<ChickController>().state = state;
+        };
     }
 
 
