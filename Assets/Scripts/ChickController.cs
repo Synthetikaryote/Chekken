@@ -110,7 +110,7 @@ public class ChickController : MonoBehaviour
         }
         //Debug.Log(mCooldown);
         #endregion
-
+        serverCommunication.UpdateState(state);
     }
 
     protected void KillChicken()
