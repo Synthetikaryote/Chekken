@@ -15,7 +15,7 @@ public class HealthSystem : MonoBehaviour
     {
         curHealth = maxHealth;
         m_ChickLocalcs = GetComponent<ChickLocal>();
-        
+        m_DeathEffect = GameObject.Find("DeathEffects");
     }
 	
 	// Update is called once per frame
@@ -24,10 +24,11 @@ public class HealthSystem : MonoBehaviour
         if (curHealth <= 0.0f) //Code for Chicken Death
         {
             Debug.Log("You Died.");
-            Instantiate();
-            var controller = GetComponent<ChickController>();
-            controller.ui.gameObject.SetActive(false);
-            gameObject.SetActive(false);
+            //m_ChickLocalcs.ExplosionAudio.Play();
+            //m_ChickLocalcs.ExplosionEffect.Play();
+            Instantiate(m_DeathEffect);
+            m_DeathEffect.transform.position = m_ChickLocalcs.transform.position;
+            Invoke("Death", 0.1f);
 
             //if (m_ChickLocalcs != null)
             Invoke("Respawn", 5f);
@@ -49,7 +50,12 @@ public class HealthSystem : MonoBehaviour
         controller.ui.gameObject.SetActive(true);
     }
 
-
+    public void Death()
+    {
+        var controller = GetComponent<ChickController>();
+        controller.ui.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
 
     //Health funcs
     public void TakeDamage(float damage)

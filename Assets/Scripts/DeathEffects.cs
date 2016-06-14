@@ -36,6 +36,6 @@ public class DeathEffects : MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-        Destroy(this.gameObject, 15.0f);
+        Destroy(this.gameObject, 30.0f);
     }
 }
