@@ -17,6 +17,7 @@ public class ChickenSpawnerManager : MonoBehaviour
     public GameObject DamageAudio;
     public GameObject mProjectile;
     public GameObject mShield;
+    public GameObject mDeathPrefab;
 
     Input input;
     //singleton stuff
@@ -54,7 +55,7 @@ public class ChickenSpawnerManager : MonoBehaviour
 
         GameObject spawnedChicken = chickenSpawners[spawnerId].SpawnChicken(chickenPrefabs[prefabID], skillID, playerName);
         spawnedChicken.AddComponent<ChickLocal>().damageRate = damageRateMultiplier;
-
+        spawnedChicken.GetComponent<HealthSystem>().m_DeathEffect = mDeathPrefab;
 
         switch (skillID)
         {

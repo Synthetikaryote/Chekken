@@ -7,35 +7,25 @@ using System.Text;
 public class DeathEffects : MonoBehaviour
 {
     public ParticleSystem ExplosionEffect;
-    public AudioSource ExplosionAudio;
+    public AudioSource DeathAudio;
     private ChickenSpawnerManager m_ChickenSpawnerManager;
-    public AudioClip m_Death;
 
     // Use this for initialization
     void Start () {
         m_ChickenSpawnerManager = GetComponent<ChickenSpawnerManager>();
-
-        //m_Death = GetComponent<AudioClip>();
-        Instantiate(m_Death, this.transform.position, this.transform.rotation);
-
+        DeathAudio = this.GetComponent<AudioSource>();
         GameObject ExplosionEffectGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.ExplosionEffect, gameObject.transform.position, transform.rotation);
         ExplosionEffectGO.transform.parent = transform;
         ExplosionEffect = ExplosionEffectGO.GetComponent<ParticleSystem>();
-        
-        GameObject ExplosionAudioGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.ExplosionAudio, gameObject.transform.position, transform.rotation);
-        ExplosionAudioGO.transform.parent = transform;
-        ExplosionAudio = ExplosionAudioGO.GetComponent<AudioSource>();
-        ExplosionAudio.PlayOneShot(m_Death);
 
         
         ExplosionEffect.Play();
-        ExplosionAudio.Play();
-        
+        DeathAudio.Play();
 
     }
 
     // Update is called once per frame
     void Update () {
-        Destroy(this.gameObject, 30.0f);
+        Destroy(this.gameObject, 10.0f);
     }
 }
