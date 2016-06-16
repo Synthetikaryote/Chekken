@@ -25,6 +25,7 @@ public class AbilityTeleportScript : AbilityBaseClass
 
     public override void ActivateAbility()
     {
+        mCC.ExplosionEffect.Play();
         switch (mCC.GetDir())
         {
             case 'R':
