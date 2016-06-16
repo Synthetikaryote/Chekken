@@ -28,6 +28,7 @@ public class ChickController : MonoBehaviour
     //public GameObject FeaterExplosion;
     public ParticleSystem JumpEffect;
     public ParticleSystem ExplosionEffect;
+    public ParticleSystem TeleportEffect;
 
     //Audio
     public AudioSource JumpAudio;
@@ -107,6 +108,11 @@ public class ChickController : MonoBehaviour
         GameObject ExplosionAudioGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.ExplosionAudio, gameObject.transform.position, transform.rotation);
         ExplosionAudioGO.transform.parent = transform;
         ExplosionAudio = ExplosionAudioGO.GetComponent<AudioSource>();
+
+        GameObject TeleportEffectGO = (GameObject)Instantiate(ChickenSpawnerManager.Instance.mTeleportEffect, gameObject.transform.position, transform.rotation);
+        TeleportEffectGO.transform.parent = transform;
+        TeleportEffect = TeleportEffectGO.GetComponent<ParticleSystem>();
+
         #endregion
     }
 
@@ -159,7 +165,7 @@ public class ChickController : MonoBehaviour
 
     protected void OnCollisionEnter(Collision col)
     {
-        if (myBody == null && col.gameObject.tag != "Egg")
+        if (myBody == null)
             return;
         if (mForceField == false)
         {
@@ -181,7 +187,7 @@ public class ChickController : MonoBehaviour
                 }
 
 
-            } else if (col.gameObject.tag == "Egg") //Damage from Egg
+            } else if (col.gameObject.tag == "Egg" && this.gameObject.GetComponent<ChickController>().mForceField == false) //Damage from Egg
             {
                 float damage = 10.0f;
                 this.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
