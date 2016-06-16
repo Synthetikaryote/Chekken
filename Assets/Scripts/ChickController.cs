@@ -159,30 +159,25 @@ public class ChickController : MonoBehaviour
     {
         if (myBody == null)
             return;
-        if (GetComponent<ChickLocal>() != null && col.gameObject.GetComponent<HealthSystem>() && GetComponent<AbilityForceField>().mActive == false)
-        {
-            //Calculate damage based on velocity
-            float damage = Mathf.Abs(damageRate * damageSpeed);
-            //Apply damage to other chick
-            var healthSystem = col.gameObject.GetComponent<HealthSystem>();
-            healthSystem.TakeDamage(damage);
-            if (damage != 0f)
-            {
-                var chickController = col.gameObject.GetComponent<ChickController>();
-                serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
-            }
-        }
-        else if(GetComponent<AbilityRangedAttack>() != null || GetComponent<AbilityTornadoScript>() != null && GetComponent<AbilityForceField>().mActive == false)
-        {
-            float damage = Mathf.Abs(damageRate * damageSpeed);
-            //Apply damage to other chick
-            var healthSystem = col.gameObject.GetComponent<HealthSystem>();
-            healthSystem.TakeDamage(damage);
-            if (damage != 0f)
-            {
-                var chickController = col.gameObject.GetComponent<ChickController>();
-                serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
-            }
-        }
+        //Calculate damage based on velocity
+        float damage = Mathf.Abs(damageRate * damageSpeed);
+        if (damage == 0)
+            return;
+
+        //Apply damage to other chick
+        var healthSystem = col.gameObject.GetComponent<HealthSystem>();
+        if (healthSystem == null)
+            return;
+
+        var forcefield = col.gameObject.GetComponent<AbilityForceField>();
+        if (forcefield != null && forcefield.mActive)
+            return;
+
+        healthSystem.TakeDamage(damage);
+
+        var chickController = col.gameObject.GetComponent<ChickController>();
+        if (chickController == null)
+            return;
+        serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
     }
 }

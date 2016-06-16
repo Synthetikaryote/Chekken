@@ -26,8 +26,8 @@ public class HealthSystem : MonoBehaviour
             Debug.Log("You Died.");
             //m_ChickLocalcs.ExplosionAudio.Play();
             //m_ChickLocalcs.ExplosionEffect.Play();
-            Instantiate(m_DeathEffect);
-            m_DeathEffect.transform.position = m_ChickLocalcs.transform.position;
+            var effect = Instantiate(m_DeathEffect);
+            effect.transform.position = transform.position;
             //Invoke("Death", 0.1f);
             var controller = GetComponent<ChickController>();
             controller.ui.gameObject.SetActive(false);
