@@ -161,36 +161,14 @@ public class ChickController : MonoBehaviour
     {
         if (myBody == null)
             return;
-<<<<<<< HEAD
-        //Calculate damage based on velocity
-        float damage = Mathf.Abs(damageRate * damageSpeed);
-        if (damage == 0)
-            return;
-
-        //Apply damage to other chick
-        var healthSystem = col.gameObject.GetComponent<HealthSystem>();
-        if (healthSystem == null)
-            return;
-
-        var forcefield = col.gameObject.GetComponent<AbilityForceField>();
-        if (forcefield != null && forcefield.mActive)
-            return;
-
-        healthSystem.TakeDamage(damage);
-
-        var chickController = col.gameObject.GetComponent<ChickController>();
-        if (chickController == null)
-            return;
-        serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
-=======
-        if(mForceField == false)
+        if (mForceField == false)
         {
             if (GetComponent<ChickLocal>() != null && col.gameObject.GetComponent<HealthSystem>()) //Damage from other Chicks
             {
                 //Calculate damage based on velocity
                 float damage = Mathf.Abs(damageRate * damageSpeed);
                 //Apply damage to other chick
-                if(col.gameObject.GetComponent<ChickController>().mForceField == false)
+                if (col.gameObject.GetComponent<ChickController>().mForceField == false)
                 {
                     var healthSystem = col.gameObject.GetComponent<HealthSystem>();
                     healthSystem.TakeDamage(damage);
@@ -201,10 +179,9 @@ public class ChickController : MonoBehaviour
                         serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
                     }
                 }
-                
-                
-            }
-            else if (col.gameObject.tag == "Egg" && this.gameObject.GetComponent<ChickController>().mForceField == false) //Damage from Egg
+
+
+            } else if (col.gameObject.tag == "Egg" && this.gameObject.GetComponent<ChickController>().mForceField == false) //Damage from Egg
             {
                 float damage = 10.0f;
                 this.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
@@ -214,7 +191,5 @@ public class ChickController : MonoBehaviour
                 }
             }
         }
-        
->>>>>>> origin/master
     }
 }
