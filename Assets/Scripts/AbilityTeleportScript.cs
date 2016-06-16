@@ -41,9 +41,8 @@ public class AbilityTeleportScript : AbilityBaseClass
 
                 break;
             case 'L':
-                mDir = mDir * -1.0f;
 
-                if (Physics.Raycast(transform.position, mDir, 15))
+                if (Physics.Raycast(transform.position, mDir * -1.0f, 15))
                 {
                     print("There is something in front of the object!");
                 }
