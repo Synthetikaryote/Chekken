@@ -9,6 +9,7 @@ public class AbilityForceField : AbilityBaseClass
     private Vector3 mForceVector;
     public float lifetime = 10f;
     public float lastActivated = 0f;
+    public bool mActive;
 
     // Use this for initialization
 
@@ -18,10 +19,12 @@ public class AbilityForceField : AbilityBaseClass
         mCDown = 5.0f;
         mPlayer = this.gameObject;
         mPrefab = ChickenSpawnerManager.Instance.mShield;
+        mActive = false;
     }
 
     public override void ActivateAbility()
     {
+        mActive = true;
         mCC.mShield.SetActive(true);
         lastActivated = Time.time;
         mCC.SetCoolDown(mCDown);
@@ -31,6 +34,7 @@ public class AbilityForceField : AbilityBaseClass
     void DisableShield()
     {
         mCC.mShield.SetActive(false);
+        mActive = false;
     }
 
 }
