@@ -159,7 +159,7 @@ public class ChickController : MonoBehaviour
 
     protected void OnCollisionEnter(Collision col)
     {
-        if (myBody == null)
+        if (myBody == null && col.gameObject.tag != "Egg")
             return;
         if (mForceField == false)
         {
@@ -181,7 +181,7 @@ public class ChickController : MonoBehaviour
                 }
 
 
-            } else if (col.gameObject.tag == "Egg" && this.gameObject.GetComponent<ChickController>().mForceField == false) //Damage from Egg
+            } else if (col.gameObject.tag == "Egg") //Damage from Egg
             {
                 float damage = 10.0f;
                 this.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
