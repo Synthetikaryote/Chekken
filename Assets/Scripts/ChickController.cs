@@ -8,7 +8,9 @@ using System.Text;
 public class ChickController : MonoBehaviour
 {
 
+
     protected bool IsAlive = false;
+    public bool mForceField = false;
 
     protected float rotationSpeedMultipier = 3.0f;
     protected float radLerpValue = 6.0f;
@@ -159,6 +161,7 @@ public class ChickController : MonoBehaviour
     {
         if (myBody == null)
             return;
+<<<<<<< HEAD
         //Calculate damage based on velocity
         float damage = Mathf.Abs(damageRate * damageSpeed);
         if (damage == 0)
@@ -179,5 +182,39 @@ public class ChickController : MonoBehaviour
         if (chickController == null)
             return;
         serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
+=======
+        if(mForceField == false)
+        {
+            if (GetComponent<ChickLocal>() != null && col.gameObject.GetComponent<HealthSystem>()) //Damage from other Chicks
+            {
+                //Calculate damage based on velocity
+                float damage = Mathf.Abs(damageRate * damageSpeed);
+                //Apply damage to other chick
+                if(col.gameObject.GetComponent<ChickController>().mForceField == false)
+                {
+                    var healthSystem = col.gameObject.GetComponent<HealthSystem>();
+                    healthSystem.TakeDamage(damage);
+
+                    if (damage != 0f)
+                    {
+                        var chickController = col.gameObject.GetComponent<ChickController>();
+                        serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
+                    }
+                }
+                
+                
+            }
+            else if (col.gameObject.tag == "Egg" && this.gameObject.GetComponent<ChickController>().mForceField == false) //Damage from Egg
+            {
+                float damage = 10.0f;
+                this.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
+                if (damage != 0f)
+                {
+                    serverCommunication.UpdateHealth(this.gameObject.GetComponent<ChickController>().serverID, this.gameObject.GetComponent<HealthSystem>().GetCurHealth());
+                }
+            }
+        }
+        
+>>>>>>> origin/master
     }
 }

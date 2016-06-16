@@ -6,6 +6,9 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; protected set; }
 
+    public bool isMultipleSpawn;
+    private bool isSpawned;
+
     public GameObject chickenSelectMenu;
     public InputField inputMenu;
     public string playerNameTemp;
@@ -33,6 +36,8 @@ public class MenuManager : MonoBehaviour
     {
         ResetVariable();
         chatMenuOn = false;
+        isMultipleSpawn = false;
+        isSpawned = false;
         servCom = gameObject.GetComponent<ServerCommunication>();
         chatMenu.Intialize(UIText, UIInputField, UIChatGO, servCom);
         chatMenu.MenuToggle(chatMenuOn);
@@ -76,6 +81,10 @@ public class MenuManager : MonoBehaviour
                 chickenSelectMenu.SetActive(false);
                 GetComponent<MultiplayerManager>().GameStart(chicken, playerNameTemp);
                 ResetVariable();
+                if (isMultipleSpawn == false)
+                {
+                    isSpawned = true;
+                }
             }
 
 
@@ -84,8 +93,10 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R)             ///Can Spawn other Chickens during gameplay
-            && chickenSelectMenu.activeSelf == false)
+            && chickenSelectMenu.activeSelf == false
+            && isSpawned == false)
         {
+            
             chickenSelectMenu.SetActive(true);
         }
 
