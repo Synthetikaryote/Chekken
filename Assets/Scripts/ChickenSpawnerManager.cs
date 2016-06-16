@@ -18,6 +18,7 @@ public class ChickenSpawnerManager : MonoBehaviour
     public GameObject mProjectile;
     public GameObject mShield;
     public GameObject mDeathPrefab;
+    public GameObject mEggEffect;
 
     Input input;
     //singleton stuff
