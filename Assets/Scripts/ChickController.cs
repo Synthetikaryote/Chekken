@@ -168,15 +168,21 @@ public class ChickController : MonoBehaviour
                 //Calculate damage based on velocity
                 float damage = Mathf.Abs(damageRate * damageSpeed);
                 //Apply damage to other chick
-                var healthSystem = col.gameObject.GetComponent<HealthSystem>();
-                healthSystem.TakeDamage(damage);
-                if (damage != 0f)
+                if(col.gameObject.GetComponent<ChickController>().mForceField == false)
                 {
-                    var chickController = col.gameObject.GetComponent<ChickController>();
-                    serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
+                    var healthSystem = col.gameObject.GetComponent<HealthSystem>();
+                    healthSystem.TakeDamage(damage);
+
+                    if (damage != 0f)
+                    {
+                        var chickController = col.gameObject.GetComponent<ChickController>();
+                        serverCommunication.UpdateHealth(chickController.serverID, healthSystem.GetCurHealth());
+                    }
                 }
+                
+                
             }
-            else if (col.gameObject.tag == "Egg") //Damage from Egg
+            else if (col.gameObject.tag == "Egg" && this.gameObject.GetComponent<ChickController>().mForceField == false) //Damage from Egg
             {
                 float damage = 10.0f;
                 this.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
