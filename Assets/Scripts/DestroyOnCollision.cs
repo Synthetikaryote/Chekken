@@ -3,18 +3,9 @@ using System.Collections;
 
 public class DestroyOnCollision : MonoBehaviour
 {
-    
 
-    //void Start()
-    //{ 
-    //    public GameObject mEggEffect = (GameObject)Instantiate(ChickenSpawnerManager.Instance.JumpEffect, gameObject.transform.position, transform.rotation);
-    //}
-    //
-    //public void OnCollisionEnter(Collision collision)
-    //{
-    //    this.GetComponent<SphereCollider>().enabled = false;
-    //    this.GetComponent<MeshRenderer>().enabled = false;
-    //}
-
-
+    public void OnCollisionEnter(Collision collision)
+    {
+        Destroy(this.gameObject);
+    }
 }
